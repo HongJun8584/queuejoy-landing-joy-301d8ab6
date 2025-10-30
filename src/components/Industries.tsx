@@ -54,8 +54,8 @@ const Industries = () => {
             return (
               <div 
                 key={index}
-                className="p-6 rounded-xl bg-background shadow-card hover:shadow-primary transition-all duration-300 hover:-translate-y-1 animate-fade-up"
-                style={{ animationDelay: `${index * 80}ms` }}
+                className="p-6 rounded-xl bg-background shadow-card scroll-reveal hover-lift"
+                style={{ transitionDelay: `${index * 80}ms` }}
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">

@@ -27,7 +27,7 @@ const Pricing = () => {
         
         {/* Pricing card */}
         <div className="max-w-lg mx-auto">
-          <div className="relative p-8 lg:p-12 rounded-2xl bg-background shadow-primary border-2 border-primary/20 animate-fade-up">
+          <div className="relative p-8 lg:p-12 rounded-2xl bg-background shadow-primary border-2 border-primary/20 scroll-reveal hover-lift">
             {/* Badge */}
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-accent text-white text-sm font-bold shadow-glow">
               Most Popular

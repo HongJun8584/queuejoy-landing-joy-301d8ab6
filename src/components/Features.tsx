@@ -61,8 +61,8 @@ const Features = () => {
             return (
               <Card 
                 key={index}
-                className="animate-fade-up"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="scroll-reveal hover-lift"
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <CardHeader>
                   <div className="w-14 h-14 rounded-lg gradient-primary flex items-center justify-center mb-4 shadow-glow">

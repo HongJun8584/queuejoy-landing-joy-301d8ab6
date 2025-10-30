@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Github, FileText, Mail } from "lucide-react";
 import { useState } from "react";
+import Confetti from "./Confetti";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
@@ -14,6 +15,7 @@ const Contact = () => {
     message: "",
     honeypot: "" // spam protection
   });
+  const [showConfetti, setShowConfetti] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,18 +54,31 @@ const Contact = () => {
     );
     window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
     
+    // Show confetti
+    setShowConfetti(true);
+    
+    // Reset form
+    setFormData({
+      name: "",
+      business: "",
+      email: "",
+      message: "",
+      honeypot: ""
+    });
+    
     toast({
-      title: "Opening email client",
+      title: "Message sent!",
       description: "Your message has been prepared. Please send it from your email client.",
     });
   };
 
   return (
     <section className="py-24 bg-background">
+      {showConfetti && <Confetti onComplete={() => setShowConfetti(false)} />}
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left side - Form */}
-          <div className="animate-fade-up">
+          <div className="scroll-reveal">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               Get in <span className="text-gradient">touch</span>
             </h2>
@@ -81,6 +96,7 @@ const Contact = () => {
                   placeholder="Your name"
                   required
                   maxLength={100}
+                  className="transition-all focus:scale-[1.02]"
                 />
               </div>
               
@@ -92,6 +108,7 @@ const Contact = () => {
                   onChange={(e) => setFormData({...formData, business: e.target.value})}
                   placeholder="Your business name"
                   maxLength={100}
+                  className="transition-all focus:scale-[1.02]"
                 />
               </div>
               
@@ -105,6 +122,7 @@ const Contact = () => {
                   placeholder="your@email.com"
                   required
                   maxLength={255}
+                  className="transition-all focus:scale-[1.02]"
                 />
               </div>
               
@@ -118,6 +136,7 @@ const Contact = () => {
                   required
                   rows={5}
                   maxLength={1000}
+                  className="transition-all focus:scale-[1.02]"
                 />
               </div>
               
@@ -132,15 +151,15 @@ const Contact = () => {
                 autoComplete="off"
               />
               
-              <Button type="submit" variant="hero" size="lg" className="w-full">
+              <Button type="submit" variant="hero" size="lg" className="w-full hover-glow">
                 Send Message
               </Button>
             </form>
           </div>
           
           {/* Right side - Links & Info */}
-          <div className="space-y-8 animate-fade-up delay-200">
-            <div className="p-8 rounded-2xl bg-muted/50 shadow-card">
+          <div className="space-y-8 scroll-reveal" style={{ transitionDelay: "200ms" }}>
+            <div className="p-8 rounded-2xl bg-muted/50 shadow-card hover-lift">
               <h3 className="text-2xl font-bold mb-6">Resources</h3>
               
               <div className="space-y-4">
@@ -183,7 +202,7 @@ const Contact = () => {
               </div>
             </div>
             
-            <div className="p-6 rounded-xl gradient-accent text-white">
+            <div className="p-6 rounded-xl gradient-accent text-white animate-shimmer">
               <h4 className="font-bold text-lg mb-2">Trusted & Secure</h4>
               <p className="text-white/90 text-sm">
                 Uses secure Firebase backend. All secrets are kept server-side. Your data is protected.

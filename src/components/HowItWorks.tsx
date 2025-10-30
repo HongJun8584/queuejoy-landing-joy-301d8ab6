@@ -42,8 +42,8 @@ const HowItWorks = () => {
             return (
               <div 
                 key={index}
-                className="relative animate-fade-up"
-                style={{ animationDelay: `${index * 150}ms` }}
+                className="relative scroll-reveal"
+                style={{ transitionDelay: `${index * 150}ms` }}
               >
                 {/* Connector line */}
                 {index < steps.length - 1 && (
@@ -57,8 +57,8 @@ const HowItWorks = () => {
                   </div>
                   
                   {/* Icon */}
-                  <div className="w-20 h-20 rounded-full gradient-accent flex items-center justify-center mx-auto mb-6 shadow-glow relative z-10">
-                    <Icon className="w-10 h-10 text-white" />
+                  <div className="w-20 h-20 rounded-full gradient-accent flex items-center justify-center mx-auto mb-6 shadow-glow relative z-10 hover-lift">
+                    <Icon className="w-10 h-10 text-white animate-bounce-subtle" />
                   </div>
                   
                   {/* Title & Description */}

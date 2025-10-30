@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Hero from "@/components/Hero";
 import QuickBenefits from "@/components/QuickBenefits";
 import Features from "@/components/Features";
@@ -8,10 +9,13 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Index = () => {
+  useScrollReveal();
+
   return (
-    <div className="min-h-screen">
+    <main className="min-h-screen">
       <Hero />
       <QuickBenefits />
       <Features />
@@ -24,7 +28,7 @@ const Index = () => {
         <Contact />
       </div>
       <Footer />
-    </div>
+    </main>
   );
 };
 

@@ -41,8 +41,8 @@ const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index}
-              className="animate-fade-up"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="scroll-reveal hover-lift"
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <CardContent className="pt-6">
                 <Quote className="w-10 h-10 text-accent/30 mb-4" />
