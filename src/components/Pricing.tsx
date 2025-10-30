@@ -1,0 +1,75 @@
+import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
+
+const features = [
+  "Telegram alerts",
+  "Multi-counter support",
+  "Ads panel",
+  "Memory game",
+  "Real-time sync",
+  "Audio notifications",
+  "Regular updates"
+];
+
+const Pricing = () => {
+  return (
+    <section className="py-24 bg-muted/30">
+      <div className="container mx-auto px-4">
+        {/* Section header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Simple, <span className="text-gradient">transparent pricing</span>
+          </h2>
+          <p className="text-xl text-muted-foreground">
+            Everything you need, nothing you don't
+          </p>
+        </div>
+        
+        {/* Pricing card */}
+        <div className="max-w-lg mx-auto">
+          <div className="relative p-8 lg:p-12 rounded-2xl bg-background shadow-primary border-2 border-primary/20 animate-fade-up">
+            {/* Badge */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-accent text-white text-sm font-bold shadow-glow">
+              Most Popular
+            </div>
+            
+            {/* Price */}
+            <div className="text-center mb-8">
+              <div className="text-6xl font-bold text-gradient mb-2">RM10</div>
+              <div className="text-muted-foreground text-lg">per month</div>
+            </div>
+            
+            {/* Features */}
+            <ul className="space-y-4 mb-8">
+              {features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center">
+                    <Check className="w-4 h-4 text-accent" />
+                  </div>
+                  <span className="text-lg">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            
+            {/* CTA */}
+            <Button 
+              variant="hero" 
+              size="lg"
+              className="w-full"
+              onClick={() => window.open('YOUR_NETLIFY_INDEX_URL', '_blank', 'noopener,noreferrer')}
+            >
+              Start Free Demo
+            </Button>
+            
+            {/* Legal note */}
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              No credit card needed for demo. Cancel anytime.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Pricing;
