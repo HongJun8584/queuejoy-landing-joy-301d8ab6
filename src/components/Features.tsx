@@ -3,40 +3,34 @@ import { RefreshCw, Users, Lock, Megaphone, Gamepad2, Wifi } from "lucide-react"
 
 const features = [
   {
-    icon: RefreshCw,
-    title: "Real-time queue sync",
-    description: "Multi-screen support",
-    bullets: ["Instant updates on all devices", "Zero refresh needed"]
-  },
-  {
-    icon: Users,
-    title: "Multi-counter support",
-    description: "Flexible operations",
-    bullets: ["Multiple counters, single dashboard", "Scale as you grow"]
-  },
-  {
-    icon: Lock,
-    title: "Secure staff PIN",
-    description: "Access control",
-    bullets: ["Controls for staff, not customers", "Protect sensitive actions"]
-  },
-  {
-    icon: Megaphone,
-    title: "Ads & promotions panel",
-    description: "Engage while they wait",
-    bullets: ["Monetize wait time", "Inform customers"]
-  },
-  {
-    icon: Gamepad2,
-    title: "Games & entertainment",
-    description: "Keep customers happy",
-    bullets: ["Simple memory game", "Reduce perceived wait time"]
-  },
-  {
     icon: Wifi,
     title: "Telegram notifications",
     description: "Stay connected",
     bullets: ["Instant 'It's your turn' alerts", "No app install required"]
+  },
+  {
+    icon: RefreshCw,
+    title: "Real-time sync & multi-counter",
+    description: "Flexible operations",
+    bullets: ["Instant updates on all devices", "Multiple counters, single dashboard"]
+  },
+  {
+    icon: Lock,
+    title: "Secure staff controls",
+    description: "Access control",
+    bullets: ["Staff PIN for sensitive actions", "Customer-facing displays stay simple"]
+  },
+  {
+    icon: Megaphone,
+    title: "Ads & engagement",
+    description: "Monetize wait time",
+    bullets: ["Display promotions while customers wait", "Memory games reduce perceived wait"]
+  },
+  {
+    icon: Gamepad2,
+    title: "Audio callouts",
+    description: "Keep everyone informed",
+    bullets: ["Automatic voice announcements", "Works alongside Telegram alerts"]
   }
 ];
 

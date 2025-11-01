@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { VideoButton } from "./VideoModal";
+import { useState } from "react";
+import { VideoModal } from "./VideoModal";
 
 const features = [
   "Telegram alerts",
@@ -12,6 +14,8 @@ const features = [
 ];
 
 const Pricing = () => {
+  const [showVideo, setShowVideo] = useState(false);
+
   return (
     <section className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -52,14 +56,9 @@ const Pricing = () => {
             </ul>
             
             {/* CTA */}
-            <Button 
-              variant="hero" 
-              size="lg"
-              className="w-full"
-              onClick={() => window.open('https://queuejoy.netlify.app/', '_blank', 'noopener,noreferrer')}
-            >
-              Start Free Demo
-            </Button>
+            <div className="w-full">
+              <VideoButton onClick={() => setShowVideo(true)} />
+            </div>
             
             {/* Legal note */}
             <p className="text-center text-sm text-muted-foreground mt-4">
@@ -68,6 +67,12 @@ const Pricing = () => {
           </div>
         </div>
       </div>
+      
+      <VideoModal 
+        isOpen={showVideo} 
+        onClose={() => setShowVideo(false)} 
+        videoSrc="/demo/queuejoy-demo.mp4"
+      />
     </section>
   );
 };

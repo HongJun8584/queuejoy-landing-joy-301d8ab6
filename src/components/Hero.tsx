@@ -3,9 +3,11 @@ import { ArrowRight, Zap } from "lucide-react";
 import { useState } from "react";
 import heroMockup from "@/assets/hero-mockup.png";
 import Toast from "./Toast";
+import { VideoButton, VideoModal } from "./VideoModal";
 
 const Hero = () => {
   const [showToast, setShowToast] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   const handleDemoClick = () => {
     window.open('https://queuejoy.netlify.app/', '_blank', 'noopener,noreferrer');
@@ -47,22 +49,15 @@ const Hero = () => {
             
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 animate-scale-in" style={{ animationDelay: "0.3s" }}>
-              <Button 
-                variant="hero" 
-                size="lg"
-                onClick={handleDemoClick}
-                className="group hover-glow"
-              >
-                Try Demo
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <VideoButton onClick={() => setShowVideo(true)} />
               <Button 
                 variant="outline" 
                 size="lg"
-                onClick={() => window.location.href = '/index.html'}
+                onClick={handleDemoClick}
                 className="hover:scale-105 transition-transform"
               >
                 Open App
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
             
@@ -89,6 +84,12 @@ const Hero = () => {
           </div>
         </div>
       </div>
+      
+      <VideoModal 
+        isOpen={showVideo} 
+        onClose={() => setShowVideo(false)} 
+        videoSrc="/demo/queuejoy-demo.mp4"
+      />
     </section>
   );
 };

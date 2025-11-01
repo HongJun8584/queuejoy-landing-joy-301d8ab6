@@ -1,15 +1,15 @@
 import { GraduationCap, Stethoscope, UtensilsCrossed, Coffee, Building2, Ticket } from "lucide-react";
 
-const industries = [
+const topIndustries = [
   {
     icon: GraduationCap,
     title: "Schools",
-    benefit: "Manage lines at registration, canteen, library"
+    benefit: "Registration, canteen, library"
   },
   {
     icon: Stethoscope,
     title: "Clinics",
-    benefit: "Reduce crowding, show wait times — protect patients"
+    benefit: "Reduce crowding — protect patients"
   },
   {
     icon: UtensilsCrossed,
@@ -19,17 +19,7 @@ const industries = [
   {
     icon: Coffee,
     title: "Cafés",
-    benefit: "Notify customers when orders are ready"
-  },
-  {
-    icon: Building2,
-    title: "Government offices",
-    benefit: "Control queues for counters"
-  },
-  {
-    icon: Ticket,
-    title: "Events",
-    benefit: "Ticket lines and access control"
+    benefit: "Notify when orders are ready"
   }
 ];
 
@@ -48,8 +38,8 @@ const Industries = () => {
         </div>
         
         {/* Industry cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {industries.map((industry, index) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {topIndustries.map((industry, index) => {
             const Icon = industry.icon;
             return (
               <div 
