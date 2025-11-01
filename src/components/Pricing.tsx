@@ -39,7 +39,7 @@ const Pricing = () => {
             
             {/* Price */}
             <div className="text-center mb-8">
-              <div className="text-6xl font-bold text-gradient mb-2">RM10</div>
+              <div className="text-6xl font-bold text-foreground mb-2">RM10</div>
               <div className="text-muted-foreground text-lg">per month</div>
             </div>
             
