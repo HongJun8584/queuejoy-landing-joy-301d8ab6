@@ -9,6 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import AboutDialog from "@/components/AboutDialog";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
         <Contact />
       </div>
       <Footer />
+      <AboutDialog />
     </main>
   );
 };

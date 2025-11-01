@@ -56,7 +56,7 @@ const Pricing = () => {
               variant="hero" 
               size="lg"
               className="w-full"
-              onClick={() => window.open('YOUR_NETLIFY_INDEX_URL', '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open('https://queuejoy.netlify.app/', '_blank', 'noopener,noreferrer')}
             >
               Start Free Demo
             </Button>

@@ -8,7 +8,7 @@ const Hero = () => {
   const [showToast, setShowToast] = useState(false);
 
   const handleDemoClick = () => {
-    window.open('YOUR_NETLIFY_INDEX_URL', '_blank', 'noopener,noreferrer');
+    window.open('https://queuejoy.netlify.app/', '_blank', 'noopener,noreferrer');
     setShowToast(true);
   };
 
