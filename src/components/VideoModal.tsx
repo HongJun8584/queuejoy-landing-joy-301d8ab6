@@ -78,7 +78,7 @@ export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
             controls
             playsInline
             preload="metadata"
-            poster="/assets/hero-mockup.png"
+            poster="/demo/queuejoy-poster.jpg"
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.

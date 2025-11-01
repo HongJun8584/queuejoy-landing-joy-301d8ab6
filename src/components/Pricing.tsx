@@ -17,7 +17,7 @@ const Pricing = () => {
   const [showVideo, setShowVideo] = useState(false);
 
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-24 bg-gradient-to-br from-primary/5 via-accent/5 to-background">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
@@ -31,16 +31,18 @@ const Pricing = () => {
         
         {/* Pricing card */}
         <div className="max-w-lg mx-auto">
-          <div className="relative p-8 lg:p-12 rounded-2xl bg-background shadow-primary border-2 border-primary/20 scroll-reveal hover-lift">
+          <div className="relative p-8 lg:p-12 rounded-2xl bg-card shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-primary/30 scroll-reveal hover-lift">
             {/* Badge */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-accent text-white text-sm font-bold shadow-glow">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full gradient-accent text-white text-sm font-bold shadow-glow">
               Most Popular
             </div>
             
             {/* Price */}
             <div className="text-center mb-8">
-              <div className="text-6xl font-bold text-foreground mb-2">RM10</div>
-              <div className="text-muted-foreground text-lg">per month</div>
+              <div className="text-7xl font-black mb-2">
+                <span className="text-gradient">RM10</span>
+              </div>
+              <div className="text-muted-foreground text-lg font-medium">per month</div>
             </div>
             
             {/* Features */}
