@@ -4,6 +4,7 @@ import { useState } from "react";
 import heroMockup from "@/assets/hero-mockup.png";
 import Toast from "./Toast";
 import { VideoButton, VideoModal } from "./VideoModal";
+import { StripeCheckoutButton } from "./StripeCheckoutButton";
 
 const Hero = () => {
   const [showToast, setShowToast] = useState(false);
@@ -50,15 +51,14 @@ const Hero = () => {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 animate-scale-in" style={{ animationDelay: "0.3s" }}>
               <VideoButton onClick={() => setShowVideo(true)} />
-              <Button 
+              <StripeCheckoutButton 
                 variant="outline" 
                 size="lg"
-                onClick={handleDemoClick}
                 className="hover:scale-105 transition-transform"
               >
-                Open App
+                Buy Now - RM10/month
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </StripeCheckoutButton>
             </div>
             
             {/* Microtrust note */}

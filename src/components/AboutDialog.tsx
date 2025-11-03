@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
+import { StripeCheckoutButton } from "./StripeCheckoutButton";
 
 const AboutDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,10 +36,13 @@ const AboutDialog = () => {
               handle queues smoothly and save time.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-end pt-2">
-            <Button onClick={() => setIsOpen(false)} variant="default">
+          <div className="flex gap-3 justify-end pt-4">
+            <Button onClick={() => setIsOpen(false)} variant="outline">
               Got it
             </Button>
+            <StripeCheckoutButton size="default">
+              Buy Now - RM10/month
+            </StripeCheckoutButton>
           </div>
         </DialogContent>
       </Dialog>
