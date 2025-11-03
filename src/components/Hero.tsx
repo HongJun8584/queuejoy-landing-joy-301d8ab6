@@ -45,6 +45,10 @@ const Hero = () => {
             
             {/* Subheadline */}
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
+              QueueJoy transforms traditional slow queues into a modern, fast, and easy system—no expensive hardware or complicated setup needed. Staff can focus on service, not crowd control.
+            </p>
+            
+            <p className="text-lg text-muted-foreground/80 animate-fade-up" style={{ animationDelay: "0.25s" }}>
               Cut waiting time. Calm the crowd. Notify customers instantly via Telegram. RM10/month — no setup fuss.
             </p>
             
