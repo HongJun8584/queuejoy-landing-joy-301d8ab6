@@ -11,7 +11,9 @@ interface StripeCheckoutButtonProps {
   children?: React.ReactNode;
 }
 
-const STRIPE_PRICE_ID = "price_1234567890"; // Replace with actual price ID from Stripe
+// TODO: Replace this with your actual Stripe Price ID from Stripe Dashboard → Products
+// Example: "price_1QR2S3T4U5V6W7X8Y9Z0"
+const STRIPE_PRICE_ID = "price_1234567890";
 
 export const StripeCheckoutButton = ({ 
   variant = "hero", 
