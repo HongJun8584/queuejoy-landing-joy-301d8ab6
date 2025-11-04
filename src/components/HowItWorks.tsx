@@ -1,37 +1,37 @@
-import { QrCode, MonitorPlay, Bell } from "lucide-react";
+import { Hash, Smartphone, Bell } from "lucide-react";
 
 const steps = [
   {
-    icon: QrCode,
+    icon: Hash,
     number: "01",
     title: "Take a number",
     description: "QR / kiosk / staff"
   },
   {
-    icon: MonitorPlay,
+    icon: Smartphone,
     number: "02",
-    title: "Watch status on any screen",
-    description: "Real-time updates"
+    title: "Watch status",
+    description: "Phone or screen"
   },
   {
     icon: Bell,
     number: "03",
     title: "Get notified",
-    description: "Telegram / audio callout"
+    description: "Telegram DM or audio callout"
   }
 ];
 
 const HowItWorks = () => {
   return (
-    <section className="py-24 bg-background">
+    <section className="py-20">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            How it <span className="text-gradient">works</span>
+            How It <span className="text-gradient">Works</span>
           </h2>
           <p className="text-xl text-muted-foreground">
-            Three simple steps to better queue management
+            Simple 3-step flow — setup in under 10 minutes
           </p>
         </div>
         

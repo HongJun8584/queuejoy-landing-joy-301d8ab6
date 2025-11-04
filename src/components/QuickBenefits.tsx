@@ -1,53 +1,65 @@
-import { Zap, Shield, Bell } from "lucide-react";
-import AnimatedCounter from "./AnimatedCounter";
+import { Send, Users, Megaphone, DollarSign, Volume2, Shield } from "lucide-react";
 
-const benefits = [
+const features = [
   {
-    icon: Zap,
-    title: "Faster service",
-    description: "Reduce perceived wait"
+    icon: Send,
+    title: "Customer Notifications",
+    description: "Instant 'It's your turn' DM — relax, keep your spot. No app install."
+  },
+  {
+    icon: Users,
+    title: "Staff Alerts",
+    description: "Staff get notified when a new customer joins — faster prep."
+  },
+  {
+    icon: Megaphone,
+    title: "Announcements",
+    description: "Broadcast promos to past customers in your store."
+  },
+  {
+    icon: DollarSign,
+    title: "Ads & Engagement",
+    description: "Monetize wait time with an ad panel and simple memory game."
+  },
+  {
+    icon: Volume2,
+    title: "Audio Callouts",
+    description: "Optional voice announcements for loud spaces."
   },
   {
     icon: Shield,
-    title: "Safer & organized",
-    description: "Fewer crowds, better flow"
-  },
-  {
-    icon: Bell,
-    title: "Automated alerts",
-    description: "Telegram + audio callouts"
+    title: "Secure Controls",
+    description: "Staff-only actions protected by PIN."
   }
 ];
 
 const QuickBenefits = () => {
   return (
-    <section className="py-16 bg-muted/50">
+    <section className="py-20">
       <div className="container mx-auto px-4">
-        {/* Trust subheadline */}
-        <div className="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
-          <p className="text-lg md:text-xl text-muted-foreground">
-            Trusted by clinics, cafés, schools and restaurants to reduce crowding and speed service. 
-            <span className="text-gradient font-semibold"> Insanely simple — powerful results.</span>
-          </p>
-          <p className="mt-4 text-2xl font-bold">
-            Reduce wait by <AnimatedCounter end={40} suffix="%" />
+        <div className="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Everything you need to manage queues
+          </h2>
+          <p className="text-xl text-muted-foreground">
+            Insanely simple — powerful results. No expensive hardware or complicated setup.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
             return (
               <div 
                 key={index}
-                className="text-center scroll-reveal"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="text-center p-6 rounded-2xl bg-card border border-border hover:shadow-card transition-all scroll-reveal hover-lift"
+                style={{ transitionDelay: `${index * 50}ms` }}
               >
-                <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4 shadow-glow hover-lift">
-                  <Icon className="w-8 h-8 text-white animate-bounce-subtle" />
+                <div className="w-14 h-14 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4 shadow-glow">
+                  <Icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                <p className="text-muted-foreground">{benefit.description}</p>
+                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
               </div>
             );
           })}

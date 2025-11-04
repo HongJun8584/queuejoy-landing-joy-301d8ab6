@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap } from "lucide-react";
+import { Play } from "lucide-react";
 import { useState } from "react";
-import heroMockup from "@/assets/hero-mockup.png";
+import heroImage from "@/assets/hero-queue-telegram.png";
 import Toast from "./Toast";
-import { VideoButton, VideoModal } from "./VideoModal";
+import { VideoModal } from "./VideoModal";
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
 
 const Hero = () => {
@@ -23,6 +23,7 @@ const Hero = () => {
           onClose={() => setShowToast(false)}
         />
       )}
+      
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
@@ -32,43 +33,49 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
           <div className="space-y-8 animate-slide-up">
-            {/* Trust badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full text-sm font-medium shadow-card animate-shimmer">
-              <Zap className="w-4 h-4 text-accent animate-bounce-subtle" />
-              <span>No keys. No setup. RM10 / month</span>
-            </div>
-            
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-up">
               Queue Joy <span className="text-gradient">—</span> Smart queue, zero headaches
             </h1>
             
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed animate-fade-up" style={{ animationDelay: "0.1s" }}>
               QueueJoy transforms traditional slow queues into a modern, fast, and easy system—no expensive hardware or complicated setup needed. Staff can focus on service, not crowd control.
             </p>
             
-            <p className="text-lg text-muted-foreground/80 animate-fade-up" style={{ animationDelay: "0.25s" }}>
-              Cut waiting time. Calm the crowd. Notify customers instantly via Telegram. RM10/month — no setup fuss.
+            <p className="text-lg text-muted-foreground/80 animate-fade-up" style={{ animationDelay: "0.15s" }}>
+              Cut waiting time. Calm the crowd. Notify customers instantly via Telegram. <span className="font-semibold text-foreground">RM10/month — no setup fuss.</span>
             </p>
             
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 animate-scale-in" style={{ animationDelay: "0.3s" }}>
-              <VideoButton onClick={() => setShowVideo(true)} />
+            <div className="flex flex-col sm:flex-row gap-4 animate-scale-in" style={{ animationDelay: "0.2s" }}>
+              <Button 
+                variant="hero"
+                size="lg"
+                onClick={() => setShowVideo(true)}
+                className="hover:scale-105 transition-transform group"
+              >
+                <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                Watch Demo
+              </Button>
               <StripeCheckoutButton 
                 variant="outline" 
                 size="lg"
                 className="hover:scale-105 transition-transform"
               >
-                Buy Now - RM10/month
-                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                Buy Now — RM10/month
               </StripeCheckoutButton>
             </div>
             
-            {/* Microtrust note */}
-            <p className="text-sm text-muted-foreground animate-fade-up" style={{ animationDelay: "0.4s" }}>
+            {/* Trust note */}
+            <p className="text-sm text-muted-foreground animate-fade-up" style={{ animationDelay: "0.25s" }}>
               No credit card needed for demo. Cancel anytime.
             </p>
+            
+            {/* Social proof */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground animate-fade-up" style={{ animationDelay: "0.3s" }}>
+              <span className="font-semibold">Trusted by clinics, cafés, schools & restaurants</span>
+            </div>
           </div>
           
           {/* Right mockup */}
@@ -78,9 +85,9 @@ const Hero = () => {
               onClick={handleDemoClick}
             >
               <img 
-                src={heroMockup} 
-                alt="Queue Joy app interface showing queue number A023" 
-                className="w-full max-w-md lg:max-w-lg drop-shadow-2xl"
+                src={heroImage} 
+                alt="Queue management system with Telegram notifications" 
+                className="w-full max-w-md lg:max-w-lg drop-shadow-2xl rounded-2xl"
                 loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-3xl blur-2xl -z-10 animate-pulse" />
