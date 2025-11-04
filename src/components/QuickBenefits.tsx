@@ -1,4 +1,4 @@
-import { Send, Users, Megaphone, DollarSign, Volume2, Shield } from "lucide-react";
+import { Send, Users, DollarSign, Volume2, Shield } from "lucide-react";
 
 const features = [
   {
@@ -10,11 +10,6 @@ const features = [
     icon: Users,
     title: "Staff Alerts",
     description: "Staff get notified when a new customer joins — faster prep."
-  },
-  {
-    icon: Megaphone,
-    title: "Announcements",
-    description: "Broadcast promos to past customers in your store."
   },
   {
     icon: DollarSign,

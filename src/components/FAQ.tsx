@@ -3,7 +3,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 const faqs = [
   {
     question: "Do I need to install anything?",
-    answer: "No. Demo runs immediately in your browser. For production use, we handle the minimal setup for you — just contact our team."
+    answer: "No setup or sign-up needed. We handle everything for you — but you still have full control. Customize your logo, colors, and text anytime to match your brand."
   },
   {
     question: "How do Telegram notifications work?",

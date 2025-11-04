@@ -72,10 +72,6 @@ const Hero = () => {
               No credit card needed for demo. Cancel anytime.
             </p>
             
-            {/* Social proof */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground animate-fade-up" style={{ animationDelay: "0.3s" }}>
-              <span className="font-semibold">Trusted by clinics, cafés, schools & restaurants</span>
-            </div>
           </div>
           
           {/* Right mockup */}
