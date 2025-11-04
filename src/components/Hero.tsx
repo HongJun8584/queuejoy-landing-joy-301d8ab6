@@ -66,12 +66,6 @@ const Hero = () => {
                 Buy Now — RM10/month
               </StripeCheckoutButton>
             </div>
-            
-            {/* Trust note */}
-            <p className="text-sm text-muted-foreground animate-fade-up" style={{ animationDelay: "0.25s" }}>
-              No credit card needed for demo. Cancel anytime.
-            </p>
-            
           </div>
           
           {/* Right mockup */}
