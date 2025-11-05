@@ -16,7 +16,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-muted/30 to-background">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-muted/30 to-background">
       {showToast && (
         <Toast
           message="Demo opened in a new tab — try the live app!"
@@ -29,22 +29,22 @@ const Hero = () => {
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000" />
       
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+      <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
-          <div className="space-y-5 animate-slide-up">
+          <div className="space-y-8 animate-slide-up">
             {/* Headline */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight animate-fade-up">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight animate-fade-up">
               Queue Joy <span className="text-gradient">—</span> Smart queue, zero headaches
             </h1>
             
             {/* Subheadline */}
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              QueueJoy transforms traditional slow queues into a modern, fast, and easy system—no expensive hardware or complicated setup needed.
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed animate-fade-up" style={{ animationDelay: "0.1s" }}>
+              QueueJoy transforms traditional slow queues into a modern, fast, and easy system—no expensive hardware or complicated setup needed. Staff can focus on service, not crowd control.
             </p>
             
-            <p className="text-sm text-muted-foreground/80 animate-fade-up" style={{ animationDelay: "0.15s" }}>
-              Turn your queue into a smart way to reach customers — <span className="font-semibold text-foreground">only RM10/month, no setup, no hassle.</span>
+            <p className="text-lg text-muted-foreground/80 animate-fade-up" style={{ animationDelay: "0.15s" }}>
+              Turn your queue into a smart way to reach customers and keep them coming back — <span className="font-semibold text-foreground">only RM10/month, no setup, no hassle.</span>
             </p>
             
             {/* CTAs */}

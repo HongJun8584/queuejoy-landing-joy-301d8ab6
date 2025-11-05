@@ -24,9 +24,9 @@ const stats = [
 
 const ValueStats = () => {
   return (
-    <section className="py-8 bg-muted/30">
+    <section className="py-12 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -35,13 +35,13 @@ const ValueStats = () => {
                 className="text-center scroll-reveal"
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center mx-auto mb-3 shadow-glow">
-                  <Icon className="w-5 h-5 text-white" />
+                <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4 shadow-glow">
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
-                <div className="text-2xl font-bold mb-1">
+                <div className="text-3xl font-bold mb-2">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </div>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="text-muted-foreground">{stat.label}</p>
               </div>
             );
           })}

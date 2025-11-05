@@ -24,36 +24,36 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-12 bg-background">
+    <section className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="text-center max-w-2xl mx-auto mb-10 animate-fade-up">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Trusted by <span className="text-gradient">businesses</span>
           </h2>
-          <p className="text-base text-muted-foreground">
+          <p className="text-xl text-muted-foreground">
             See what our customers are saying
           </p>
         </div>
         
         {/* Testimonial cards */}
-        <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index}
               className="scroll-reveal hover-lift"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <CardContent className="p-4">
-                <Quote className="w-8 h-8 text-accent/30 mb-3" />
-                <p className="text-sm mb-4 leading-relaxed">{testimonial.quote}</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-full gradient-accent flex items-center justify-center text-white text-xs font-bold">
+              <CardContent className="pt-6">
+                <Quote className="w-10 h-10 text-accent/30 mb-4" />
+                <p className="text-lg mb-6 leading-relaxed">{testimonial.quote}</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full gradient-accent flex items-center justify-center text-white font-bold">
                     {testimonial.avatar}
                   </div>
                   <div>
-                    <div className="font-bold text-sm">{testimonial.author}</div>
-                    <div className="text-xs text-muted-foreground">{testimonial.role}</div>
+                    <div className="font-bold">{testimonial.author}</div>
+                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
                   </div>
                 </div>
               </CardContent>
