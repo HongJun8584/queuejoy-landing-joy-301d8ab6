@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.claim-session]
 verify_jwt = false
+
+[functions.setup-tenant]
+verify_jwt = false

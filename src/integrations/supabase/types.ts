@@ -20,6 +20,8 @@ export type Database = {
           created_at: string | null
           id: string
           session_id: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           tenant_slug: string | null
         }
         Insert: {
@@ -27,6 +29,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           session_id: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           tenant_slug?: string | null
         }
         Update: {
@@ -34,17 +38,11 @@ export type Database = {
           created_at?: string | null
           id?: string
           session_id?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           tenant_slug?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "sessions_map_tenant_slug_fkey"
-            columns: ["tenant_slug"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["slug"]
-          },
-        ]
+        Relationships: []
       }
       tenants: {
         Row: {

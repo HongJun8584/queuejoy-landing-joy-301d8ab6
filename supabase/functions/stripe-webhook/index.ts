@@ -36,51 +36,13 @@ serve(async (req) => {
       
       console.log('Processing checkout session:', session.id);
 
-      // Generate unique slug
-      const randomBytes = new Uint8Array(6);
-      crypto.getRandomValues(randomBytes);
-      const slug = `tenant-${Array.from(randomBytes).map(b => b.toString(16).padStart(2, '0')).join('')}`;
-
-      // Generate secure admin token
-      const tokenBytes = new Uint8Array(32);
-      crypto.getRandomValues(tokenBytes);
-      const adminToken = Array.from(tokenBytes).map(b => b.toString(16).padStart(2, '0')).join('');
-
-      // Hash the token
-      const encoder = new TextEncoder();
-      const data = encoder.encode(adminToken);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const tokenHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-      // Create tenant
-      const { data: tenant, error: tenantError } = await supabase
-        .from('tenants')
-        .insert({
-          slug,
-          admin_token_hash: tokenHash,
-          stripe_customer_id: session.customer as string,
-          stripe_subscription_id: session.subscription as string,
-          plan: 'monthly_myr_10',
-          active: true,
-        })
-        .select()
-        .single();
-
-      if (tenantError) {
-        console.error('Error creating tenant:', tenantError);
-        throw tenantError;
-      }
-
-      console.log('Tenant created:', slug);
-
-      // Store session mapping
+      // Store pending session - tenant will be created when user completes setup
       const { error: mappingError } = await supabase
         .from('sessions_map')
         .insert({
           session_id: session.id,
-          tenant_slug: slug,
-          admin_token: adminToken,
+          stripe_customer_id: session.customer as string,
+          stripe_subscription_id: session.subscription as string,
         });
 
       if (mappingError) {
@@ -88,7 +50,7 @@ serve(async (req) => {
         throw mappingError;
       }
 
-      console.log('Session mapping created for:', session.id);
+      console.log('Pending session created for:', session.id);
     }
 
     if (event.type === 'customer.subscription.deleted' || 

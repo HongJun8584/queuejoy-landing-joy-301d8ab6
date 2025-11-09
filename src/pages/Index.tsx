@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Hero from "@/components/Hero";
 import ValueStats from "@/components/ValueStats";
-import QuickBenefits from "@/components/QuickBenefits";
 import AdsEngagement from "@/components/AdsEngagement";
 import Features from "@/components/Features";
 import Industries from "@/components/Industries";
@@ -21,7 +20,6 @@ const Index = () => {
     <main className="min-h-screen">
       <Hero />
       <ValueStats />
-      <QuickBenefits />
       <AdsEngagement />
       <Industries />
       <HowItWorks />
