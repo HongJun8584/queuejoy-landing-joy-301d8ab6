@@ -11,6 +11,7 @@ import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AboutDialog from "@/components/AboutDialog";
+import StickyBuyButton from "@/components/StickyBuyButton";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Index = () => {
@@ -32,6 +33,7 @@ const Index = () => {
       </div>
       <Footer />
       <AboutDialog />
+      <StickyBuyButton />
     </main>
   );
 };

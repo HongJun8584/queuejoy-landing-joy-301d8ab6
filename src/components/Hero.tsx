@@ -96,17 +96,31 @@ const Hero = () => {
           </div>
           
           <div className="max-w-4xl mx-auto">
-            <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-black">
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-black group">
               <video
-                className="w-full h-full"
+                className="w-full h-full transition-transform duration-300 group-hover:scale-105"
                 controls
                 playsInline
                 preload="metadata"
                 poster="/demo/queuejoy-poster.jpg"
+                onMouseEnter={(e) => {
+                  const video = e.currentTarget;
+                  if (video.paused) {
+                    video.play().catch(() => {});
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const video = e.currentTarget;
+                  if (!video.paused && video.currentTime < 3) {
+                    video.pause();
+                    video.currentTime = 0;
+                  }
+                }}
               >
                 <source src="/demo/queuejoy-demo.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </div>
         </div>

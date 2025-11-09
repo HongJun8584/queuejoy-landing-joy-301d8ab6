@@ -1,36 +1,31 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { RefreshCw, Users, Lock, Megaphone, Gamepad2, Wifi } from "lucide-react";
+import { Send, Shield, Users, MessageSquare, DollarSign } from "lucide-react";
 
 const features = [
   {
-    icon: Wifi,
-    title: "Telegram notifications",
-    description: "Stay connected",
-    bullets: ["Instant 'It's your turn' alerts", "No app install required"]
+    icon: Send,
+    title: "Announcement Board",
+    description: "Send DMs to your customers anytime. Share updates, promotions, or special offers — all through Telegram. It's like your own personal notice board.",
   },
   {
-    icon: RefreshCw,
-    title: "Real-time sync & multi-counter",
-    description: "Flexible operations",
-    bullets: ["Instant updates on all devices", "Multiple counters, single dashboard"]
+    icon: Shield,
+    title: "Fully Customizable System",
+    description: "Make it truly yours. Change your logo, welcome text, and ads anytime. Your brand, your style — no coding needed.",
   },
   {
-    icon: Lock,
-    title: "Secure staff controls",
-    description: "Access control",
-    bullets: ["Staff PIN for sensitive actions", "Customer-facing displays stay simple"]
+    icon: Users,
+    title: "Smart Queue System",
+    description: "No more broken or expensive queue machines. Everything runs online — faster, cleaner, cheaper. Perfect for cafés, clinics, or any busy place.",
   },
   {
-    icon: Megaphone,
-    title: "Ads & engagement",
-    description: "Monetize wait time",
-    bullets: ["Display promotions while customers wait", "Memory games reduce perceived wait"]
+    icon: MessageSquare,
+    title: "Telegram Notifications",
+    description: "Never miss your turn again. Your customers get instant Telegram messages — no apps, no hassle. It just works.",
   },
   {
-    icon: Gamepad2,
-    title: "Audio callouts",
-    description: "Keep everyone informed",
-    bullets: ["Automatic voice announcements", "Works alongside Telegram alerts"]
+    icon: DollarSign,
+    title: "Ads & Promotions",
+    description: "Turn waiting time into profit. Show your ads or special deals while customers wait. Engage them instead of letting time go to waste.",
   }
 ];
 
@@ -62,19 +57,9 @@ const Features = () => {
                   <div className="w-14 h-14 rounded-lg gradient-primary flex items-center justify-center mb-4 shadow-glow">
                     <Icon className="w-7 h-7 text-white" />
                   </div>
-                  <CardTitle>{feature.title}</CardTitle>
-                  <CardDescription className="text-base">{feature.description}</CardDescription>
+                  <CardTitle className="mb-3">{feature.title}</CardTitle>
+                  <CardDescription className="text-base leading-relaxed">{feature.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {feature.bullets.map((bullet, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <span className="text-accent mt-1">•</span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
               </Card>
             );
           })}
