@@ -52,7 +52,7 @@ const Contact = () => {
     const body = encodeURIComponent(
       `Name: ${formData.name}\nBusiness: ${formData.business}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     );
-    window.location.href = `mailto:your-email@example.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:jun877731@gmail.com?subject=${subject}&body=${body}`;
     
     // Show confetti
     setShowConfetti(true);
@@ -190,13 +190,13 @@ const Contact = () => {
                 </a>
                 
                 <button 
-                  onClick={() => window.location.href = 'mailto:your-email@example.com'}
+                  onClick={() => window.location.href = 'mailto:jun877731@gmail.com'}
                   className="w-full flex items-center gap-3 p-4 rounded-lg bg-background hover:shadow-primary transition-all duration-300 group"
                 >
                   <Mail className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
                   <div className="text-left">
                     <div className="font-semibold">Contact Sales</div>
-                    <div className="text-sm text-muted-foreground">your-email@example.com</div>
+                    <div className="text-sm text-muted-foreground">jun877731@gmail.com</div>
                   </div>
                 </button>
               </div>
