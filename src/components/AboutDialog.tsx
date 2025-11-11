@@ -31,7 +31,7 @@ const AboutDialog = () => {
           <DialogHeader>
             <DialogTitle className="text-2xl">About QueueJoy</DialogTitle>
             <DialogDescription className="text-base pt-4 leading-relaxed">
-              Hi! I'm Hong Jun, 14, and I created QueueJoy to help local stores manage queues effortlessly. QueueJoy transforms slow, traditional lines into a modern, fast, and easy system—no expensive hardware or complicated setup needed. Staff can focus on service, not crowd control, while customers enjoy a smoother experience. IF YOU BUY MY SYSTEM, I CAN HELP TO PROMOTE YOUR COMPANY IN MY INSTAGRAM!
+              Hi! I'm Hong Jun, 14, and I created QueueJoy to help local stores manage queues effortlessly. QueueJoy turns slow, traditional lines into a fast, modern, and easy-to-use system—no expensive hardware or complicated setup required. Staff can focus on serving customers, while everyone enjoys a smoother experience. Plus, if you adopt my system, I can help promote your business on my Instagram!
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 justify-end pt-4">
