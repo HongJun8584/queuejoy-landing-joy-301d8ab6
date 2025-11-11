@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,16 +7,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Upload } from "lucide-react";
+import DOMPurify from 'dompurify';
 
 const TenantAdmin = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const token = searchParams.get('token');
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [tenantData, setTenantData] = useState<any>(null);
   const [settings, setSettings] = useState<{
     business_name: string;
     welcome_text: string;
@@ -35,54 +38,64 @@ const TenantAdmin = () => {
         return;
       }
 
+      // Remove token from URL immediately for security
+      if (token) {
+        sessionStorage.setItem(`admin_token_${slug}`, token);
+        navigate(`/admin/${slug}`, { replace: true });
+      }
+
+      const storedToken = sessionStorage.getItem(`admin_token_${slug}`) || token;
+      if (!storedToken) {
+        setLoading(false);
+        return;
+      }
+
       try {
-        // Hash the provided token
-        const encoder = new TextEncoder();
-        const data = encoder.encode(token);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const tokenHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        // Server-side authentication
+        const { data, error } = await supabase.functions.invoke('verify-admin', {
+          body: { slug, token: storedToken },
+        });
 
-        // Verify token matches tenant
-        const { data: tenant, error } = await supabase
-          .from('tenants')
-          .select('*')
-          .eq('slug', slug)
-          .eq('admin_token_hash', tokenHash)
-          .single();
-
-        if (error || !tenant) {
+        if (error || !data?.authenticated) {
           toast({
             title: "Authentication Failed",
             description: "Invalid access token",
             variant: "destructive",
           });
+          sessionStorage.removeItem(`admin_token_${slug}`);
           setLoading(false);
           return;
         }
 
         setAuthenticated(true);
-        if (tenant.settings && typeof tenant.settings === 'object') {
+        setTenantData(data.tenant);
+        if (data.tenant.settings && typeof data.tenant.settings === 'object') {
           setSettings({
-            business_name: (tenant.settings as any).business_name || '',
-            welcome_text: (tenant.settings as any).welcome_text || '',
-            ads_html: (tenant.settings as any).ads_html || '',
+            business_name: data.tenant.settings.business_name || '',
+            welcome_text: data.tenant.settings.welcome_text || '',
+            ads_html: data.tenant.settings.ads_html || '',
           });
         }
         setLoading(false);
       } catch (error) {
         console.error('Token verification error:', error);
+        sessionStorage.removeItem(`admin_token_${slug}`);
         setLoading(false);
       }
     };
 
     verifyToken();
-  }, [slug, token, toast]);
+  }, [slug, token, toast, navigate]);
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      let logoUrl = null;
+      const storedToken = sessionStorage.getItem(`admin_token_${slug}`);
+      if (!storedToken) {
+        throw new Error('Authentication token not found');
+      }
+
+      let logoUrl = tenantData?.logo_url;
 
       // Upload logo if selected
       if (logoFile) {
@@ -101,16 +114,28 @@ const TenantAdmin = () => {
         logoUrl = publicUrl;
       }
 
-      // Update tenant settings
-      const updateData: any = { settings };
-      if (logoUrl) updateData.logo_url = logoUrl;
+      // Client-side sanitization preview (server will also sanitize)
+      const sanitizedSettings = {
+        ...settings,
+        ads_html: DOMPurify.sanitize(settings.ads_html, {
+          ALLOWED_TAGS: ['p', 'br', 'b', 'i', 'u', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3'],
+          ALLOWED_ATTR: ['href', 'class']
+        })
+      };
 
-      const { error } = await supabase
-        .from('tenants')
-        .update(updateData)
-        .eq('slug', slug);
+      // Server-side update with authentication
+      const { data, error } = await supabase.functions.invoke('update-tenant', {
+        body: { 
+          slug, 
+          token: storedToken,
+          settings: sanitizedSettings,
+          logo_url: logoUrl
+        },
+      });
 
-      if (error) throw error;
+      if (error || !data?.success) {
+        throw error || new Error('Failed to save settings');
+      }
 
       toast({
         title: "Success",
@@ -120,7 +145,7 @@ const TenantAdmin = () => {
       console.error('Save error:', error);
       toast({
         title: "Error",
-        description: "Failed to save settings",
+        description: error instanceof Error ? error.message : "Failed to save settings",
         variant: "destructive",
       });
     } finally {
@@ -188,6 +213,9 @@ const TenantAdmin = () => {
                 className="mt-2 font-mono text-sm"
                 rows={5}
               />
+              <p className="text-sm text-muted-foreground mt-1">
+                HTML will be sanitized for security. Allowed tags: p, br, b, i, u, strong, em, a, ul, ol, li, h1-h3
+              </p>
             </div>
 
             <div>

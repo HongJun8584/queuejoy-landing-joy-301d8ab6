@@ -17,6 +17,7 @@ export type Database = {
       sessions_map: {
         Row: {
           admin_token: string | null
+          claimed_at: string | null
           created_at: string | null
           id: string
           session_id: string
@@ -26,6 +27,7 @@ export type Database = {
         }
         Insert: {
           admin_token?: string | null
+          claimed_at?: string | null
           created_at?: string | null
           id?: string
           session_id: string
@@ -35,6 +37,7 @@ export type Database = {
         }
         Update: {
           admin_token?: string | null
+          claimed_at?: string | null
           created_at?: string | null
           id?: string
           session_id?: string
