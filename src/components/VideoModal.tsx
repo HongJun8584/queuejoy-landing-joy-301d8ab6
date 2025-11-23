@@ -23,7 +23,11 @@ export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
   useEffect(() => {
     if (!videoElement) return;
 
-    const handlePlay = () => setIsPlaying(true);
+    const handlePlay = () => {
+      setIsPlaying(true);
+      setShowCta(false);
+    };
+    
     const handlePause = () => setIsPlaying(false);
     
     const handleEnded = () => {
@@ -67,7 +71,7 @@ export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-5xl p-0 bg-black">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle className="text-2xl text-white">QueueJoy Demo</DialogTitle>
+          <DialogTitle className="text-2xl text-white">Watch How QueueJoy Works</DialogTitle>
         </DialogHeader>
         
         <div className="relative">
@@ -83,28 +87,29 @@ export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
             Your browser does not support the video tag.
           </video>
 
-          {/* Fixed CTA bar during playback */}
+          {/* Fixed CTA bar during playback - ONLY IN MIDDLE */}
           {isPlaying && !showCta && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden lg:block">
-              <div className="bg-background/95 backdrop-blur-sm p-6 rounded-xl shadow-2xl border-2 border-primary/30 max-w-xs">
-                <p className="text-sm font-semibold mb-3 text-center">
-                  Ideas matter. Action matters more.
-                </p>
-                <StripeCheckoutButton size="default" className="w-full" />
+            <>
+              {/* Desktop - Right side */}
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden lg:block animate-fade-in">
+                <div className="bg-background/95 backdrop-blur-sm p-6 rounded-xl shadow-glow border-2 border-primary/30 max-w-xs">
+                  <p className="text-sm font-semibold mb-3 text-center">
+                    Ideas matter. Action matters more.
+                  </p>
+                  <StripeCheckoutButton size="default" className="w-full" />
+                </div>
               </div>
-            </div>
-          )}
 
-          {/* Mobile: Bottom CTA bar during playback */}
-          {isPlaying && !showCta && (
-            <div className="absolute bottom-16 left-0 right-0 lg:hidden">
-              <div className="bg-background/95 backdrop-blur-sm p-4 mx-4 rounded-xl shadow-2xl border-2 border-primary/30">
-                <p className="text-xs font-semibold mb-2 text-center">
-                  Ideas matter. Action matters more.
-                </p>
-                <StripeCheckoutButton size="sm" className="w-full" />
+              {/* Mobile - Bottom */}
+              <div className="absolute bottom-20 left-0 right-0 lg:hidden animate-fade-in">
+                <div className="bg-background/95 backdrop-blur-sm p-4 mx-4 rounded-xl shadow-glow border-2 border-primary/30">
+                  <p className="text-xs font-semibold mb-2 text-center">
+                    Ideas matter. Action matters more.
+                  </p>
+                  <StripeCheckoutButton size="sm" className="w-full" />
+                </div>
               </div>
-            </div>
+            </>
           )}
 
           {/* End CTA Overlay */}
