@@ -56,6 +56,73 @@ const translations: Record<Language, Record<string, string>> = {
     "feature4.bullet2": "Custom welcome messages.",
     "feature4.bullet3": "Audio callouts for busy venues.",
     "feature4.cta": "Preview Experience Tools",
+    
+    // Comparison Section
+    "comparison.title": "Stop losing customers to long lines",
+    "comparison.subtitle": "See the difference QueueJoy makes across industries",
+    "comparison.hospital.title": "Hospitals & Clinics",
+    "comparison.hospital.old": "Long waits to see a doctor. Staff manage lines manually.",
+    "comparison.hospital.new": "Patients join via Telegram or kiosk. See position & wait time. Less stress and crowding.",
+    "comparison.bank.title": "Banks & Service Counters",
+    "comparison.bank.old": "Long lines, slow service, confusing for staff.",
+    "comparison.bank.new": "One-tap 'Call Next.' Staff see last customer. Service is faster and easier.",
+    "comparison.food.title": "Fast Food & Coffee Shops",
+    "comparison.food.old": "Busy mornings and lunches slow orders. Customers frustrated.",
+    "comparison.food.new": "Customers join virtually. Staff manage counters smoothly. Orders move faster.",
+    "comparison.transport.title": "Public Transport & Events",
+    "comparison.transport.old": "Crowded entrances, delays, safety risks.",
+    "comparison.transport.new": "QueueJoy handles large crowds. Notifications and alerts keep flow safe and organized.",
+    "comparison.old": "Old Way 👎",
+    "comparison.new": "QueueJoy Way 👍",
+    
+    // Testimonials
+    "testimonials.title": "Trusted by 100+ businesses",
+    "testimonials.subtitle": "See what our customers say",
+    "testimonials.1.quote": "Wait times dropped by 40%. Customers love the Telegram notifications!",
+    "testimonials.1.name": "Sarah Chen",
+    "testimonials.1.role": "Café Owner",
+    "testimonials.2.quote": "No more crowding at registration. Patients feel safer and more informed.",
+    "testimonials.2.name": "Dr. Ahmad",
+    "testimonials.2.role": "Clinic Director",
+    "testimonials.3.quote": "Setup took 8 minutes. Now we handle lunch rush smoothly every day.",
+    "testimonials.3.name": "John Tan",
+    "testimonials.3.role": "Restaurant Manager",
+    
+    // How It Works
+    "howitworks.title": "Setup in 10 minutes",
+    "howitworks.subtitle": "Start managing queues smarter today",
+    "howitworks.step1.title": "1. Subscribe",
+    "howitworks.step1.desc": "Choose your plan and complete payment",
+    "howitworks.step2.title": "2. Setup Site",
+    "howitworks.step2.desc": "Create your business slug and customize settings",
+    "howitworks.step3.title": "3. Go Live",
+    "howitworks.step3.desc": "Share the link with customers and start managing queues",
+    
+    // FAQ
+    "faq.title": "Frequently Asked Questions",
+    "faq.q1": "Do customers need to install an app?",
+    "faq.a1": "No! QueueJoy works through Telegram, which most people already have. No downloads needed.",
+    "faq.q2": "How quickly can I set this up?",
+    "faq.a2": "Most businesses are live within 10 minutes. Just subscribe, create your site, and start.",
+    "faq.q3": "Can I cancel anytime?",
+    "faq.a3": "Yes! Cancel anytime, no long-term contracts. 30-day money-back guarantee.",
+    "faq.q4": "What if I need multiple counters?",
+    "faq.a4": "QueueJoy supports unlimited counters, all synced in real-time.",
+    
+    // Contact
+    "contact.title": "Get in touch",
+    "contact.subtitle": "Have questions? We're here to help",
+    "contact.name": "Your name",
+    "contact.email": "Your email",
+    "contact.message": "Your message",
+    "contact.send": "Send Message",
+    
+    // Footer
+    "footer.tagline": "Smart queue management for modern businesses",
+    "footer.links": "Quick Links",
+    "footer.legal": "Legal",
+    "footer.terms": "Terms of Service",
+    "footer.privacy": "Privacy Policy",
   },
   ms: {
     // Nav
@@ -104,6 +171,73 @@ const translations: Record<Language, Record<string, string>> = {
     "feature4.bullet2": "Mesej alu-aluan tersuai.",
     "feature4.bullet3": "Panggilan audio untuk tempat yang sibuk.",
     "feature4.cta": "Pratonton Alat Pengalaman",
+    
+    // Comparison Section
+    "comparison.title": "Hentikan kehilangan pelanggan akibat giliran panjang",
+    "comparison.subtitle": "Lihat perbezaan yang QueueJoy buat merentasi industri",
+    "comparison.hospital.title": "Hospital & Klinik",
+    "comparison.hospital.old": "Menunggu lama untuk berjumpa doktor. Kakitangan uruskan giliran secara manual.",
+    "comparison.hospital.new": "Pesakit sertai melalui Telegram atau kiosk. Lihat kedudukan & masa menunggu. Kurang tekanan dan kesesakan.",
+    "comparison.bank.title": "Bank & Kaunter Perkhidmatan",
+    "comparison.bank.old": "Giliran panjang, perkhidmatan lambat, mengelirukan kakitangan.",
+    "comparison.bank.new": "Satu ketukan 'Panggil Seterusnya.' Kakitangan lihat pelanggan terakhir. Perkhidmatan lebih cepat dan mudah.",
+    "comparison.food.title": "Makanan Segera & Kedai Kopi",
+    "comparison.food.old": "Pagi dan tengah hari sibuk perlahan pesanan. Pelanggan kecewa.",
+    "comparison.food.new": "Pelanggan sertai secara maya. Kakitangan urus kaunter dengan lancar. Pesanan bergerak lebih cepat.",
+    "comparison.transport.title": "Pengangkutan Awam & Acara",
+    "comparison.transport.old": "Pintu masuk sesak, kelewatan, risiko keselamatan.",
+    "comparison.transport.new": "QueueJoy kendalikan orang ramai. Pemberitahuan dan makluman menjaga aliran selamat dan teratur.",
+    "comparison.old": "Cara Lama 👎",
+    "comparison.new": "Cara QueueJoy 👍",
+    
+    // Testimonials
+    "testimonials.title": "Dipercayai oleh 100+ perniagaan",
+    "testimonials.subtitle": "Lihat apa kata pelanggan kami",
+    "testimonials.1.quote": "Masa menunggu turun 40%. Pelanggan suka pemberitahuan Telegram!",
+    "testimonials.1.name": "Sarah Chen",
+    "testimonials.1.role": "Pemilik Kafe",
+    "testimonials.2.quote": "Tiada lagi kesesakan di pendaftaran. Pesakit rasa lebih selamat dan bermaklumat.",
+    "testimonials.2.name": "Dr. Ahmad",
+    "testimonials.2.role": "Pengarah Klinik",
+    "testimonials.3.quote": "Persediaan ambil 8 minit. Kini kami kendalikan rush tengah hari dengan lancar setiap hari.",
+    "testimonials.3.name": "John Tan",
+    "testimonials.3.role": "Pengurus Restoran",
+    
+    // How It Works
+    "howitworks.title": "Persediaan dalam 10 minit",
+    "howitworks.subtitle": "Mula urus giliran dengan lebih bijak hari ini",
+    "howitworks.step1.title": "1. Langgan",
+    "howitworks.step1.desc": "Pilih pelan anda dan lengkapkan pembayaran",
+    "howitworks.step2.title": "2. Sediakan Laman",
+    "howitworks.step2.desc": "Cipta slug perniagaan anda dan sesuaikan tetapan",
+    "howitworks.step3.title": "3. Mulakan",
+    "howitworks.step3.desc": "Kongsi pautan dengan pelanggan dan mula urus giliran",
+    
+    // FAQ
+    "faq.title": "Soalan Lazim",
+    "faq.q1": "Adakah pelanggan perlu memasang aplikasi?",
+    "faq.a1": "Tidak! QueueJoy berfungsi melalui Telegram, yang kebanyakan orang sudah ada. Tiada muat turun diperlukan.",
+    "faq.q2": "Berapa cepat saya boleh sediakan ini?",
+    "faq.a2": "Kebanyakan perniagaan hidup dalam 10 minit. Hanya langgan, cipta laman anda, dan mulakan.",
+    "faq.q3": "Bolehkah saya batal bila-bila masa?",
+    "faq.a3": "Ya! Batal bila-bila masa, tiada kontrak jangka panjang. Jaminan wang kembali 30 hari.",
+    "faq.q4": "Bagaimana jika saya perlukan beberapa kaunter?",
+    "faq.a4": "QueueJoy menyokong kaunter tanpa had, semua disegerakkan masa nyata.",
+    
+    // Contact
+    "contact.title": "Hubungi kami",
+    "contact.subtitle": "Ada soalan? Kami di sini untuk membantu",
+    "contact.name": "Nama anda",
+    "contact.email": "E-mel anda",
+    "contact.message": "Mesej anda",
+    "contact.send": "Hantar Mesej",
+    
+    // Footer
+    "footer.tagline": "Pengurusan giliran pintar untuk perniagaan moden",
+    "footer.links": "Pautan Pantas",
+    "footer.legal": "Undang-undang",
+    "footer.terms": "Terma Perkhidmatan",
+    "footer.privacy": "Dasar Privasi",
   },
   zh: {
     // Nav
@@ -152,6 +286,73 @@ const translations: Record<Language, Record<string, string>> = {
     "feature4.bullet2": "自定义欢迎消息。",
     "feature4.bullet3": "为繁忙场所提供音频呼叫。",
     "feature4.cta": "预览体验工具",
+    
+    // Comparison Section
+    "comparison.title": "停止因长队而失去客户",
+    "comparison.subtitle": "看看QueueJoy在各行业中的不同",
+    "comparison.hospital.title": "医院和诊所",
+    "comparison.hospital.old": "长时间等待看医生。员工手动管理队伍。",
+    "comparison.hospital.new": "患者通过Telegram或自助终端加入。查看位置和等待时间。减少压力和拥挤。",
+    "comparison.bank.title": "银行和服务柜台",
+    "comparison.bank.old": "长队，服务慢，员工困惑。",
+    "comparison.bank.new": "一键'呼叫下一个'。员工看到最后一位客户。服务更快更容易。",
+    "comparison.food.title": "快餐和咖啡店",
+    "comparison.food.old": "早上和午餐忙碌减慢订单。客户沮丧。",
+    "comparison.food.new": "客户虚拟加入。员工顺利管理柜台。订单移动更快。",
+    "comparison.transport.title": "公共交通和活动",
+    "comparison.transport.old": "拥挤的入口，延误，安全风险。",
+    "comparison.transport.new": "QueueJoy处理大量人群。通知和警报保持流动安全有序。",
+    "comparison.old": "旧方法 👎",
+    "comparison.new": "QueueJoy方式 👍",
+    
+    // Testimonials
+    "testimonials.title": "受100+企业信赖",
+    "testimonials.subtitle": "看看我们的客户怎么说",
+    "testimonials.1.quote": "等待时间减少40%。客户喜欢Telegram通知！",
+    "testimonials.1.name": "Sarah Chen",
+    "testimonials.1.role": "咖啡馆老板",
+    "testimonials.2.quote": "注册处不再拥挤。患者感到更安全和知情。",
+    "testimonials.2.name": "Dr. Ahmad",
+    "testimonials.2.role": "诊所主任",
+    "testimonials.3.quote": "设置只需8分钟。现在我们每天顺利处理午餐高峰。",
+    "testimonials.3.name": "John Tan",
+    "testimonials.3.role": "餐厅经理",
+    
+    // How It Works
+    "howitworks.title": "10分钟内设置",
+    "howitworks.subtitle": "今天开始更智能地管理队列",
+    "howitworks.step1.title": "1. 订阅",
+    "howitworks.step1.desc": "选择您的计划并完成付款",
+    "howitworks.step2.title": "2. 设置网站",
+    "howitworks.step2.desc": "创建您的业务slug并自定义设置",
+    "howitworks.step3.title": "3. 上线",
+    "howitworks.step3.desc": "与客户分享链接并开始管理队列",
+    
+    // FAQ
+    "faq.title": "常见问题",
+    "faq.q1": "客户需要安装应用程序吗？",
+    "faq.a1": "不需要！QueueJoy通过Telegram工作，大多数人已经拥有。无需下载。",
+    "faq.q2": "我能多快设置这个？",
+    "faq.a2": "大多数企业在10分钟内上线。只需订阅，创建您的网站，然后开始。",
+    "faq.q3": "我可以随时取消吗？",
+    "faq.a3": "是的！随时取消，无长期合同。30天退款保证。",
+    "faq.q4": "如果我需要多个柜台怎么办？",
+    "faq.a4": "QueueJoy支持无限柜台，全部实时同步。",
+    
+    // Contact
+    "contact.title": "联系我们",
+    "contact.subtitle": "有问题吗？我们在这里帮助",
+    "contact.name": "您的姓名",
+    "contact.email": "您的电子邮件",
+    "contact.message": "您的留言",
+    "contact.send": "发送消息",
+    
+    // Footer
+    "footer.tagline": "现代企业的智能队列管理",
+    "footer.links": "快速链接",
+    "footer.legal": "法律",
+    "footer.terms": "服务条款",
+    "footer.privacy": "隐私政策",
   },
 };
 

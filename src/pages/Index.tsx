@@ -1,6 +1,5 @@
 import Hero from "@/components/Hero";
 import { ComparisonSection } from "@/components/ComparisonSection";
-import Features from "@/components/Features";
 import HowItWorks from "@/components/HowItWorks";
 import { DemoVideoSection } from "@/components/DemoVideoSection";
 import ValueStats from "@/components/ValueStats";
@@ -46,7 +45,6 @@ const Index = () => {
           <HowItWorks />
         </div>
         <FeatureSections />
-        <Features />
         <ValueStats />
         <div id="testimonials">
           <TestimonialsSection />

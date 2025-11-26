@@ -1,0 +1,177 @@
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+interface FeatureDetailDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  featureId: string;
+  title: string;
+  description: string;
+  videoSrc?: string;
+}
+
+export const FeatureDetailDialog = ({
+  isOpen,
+  onClose,
+  featureId,
+  title,
+  description,
+  videoSrc,
+}: FeatureDetailDialogProps) => {
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-3xl font-bold">
+            <span className="text-gradient">{title}</span>
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-6">
+          <p className="text-lg text-muted-foreground">{description}</p>
+
+          {videoSrc && (
+            <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30">
+              <video
+                src={videoSrc}
+                controls
+                autoPlay
+                className="w-full h-auto"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
+
+          {/* Feature-specific content */}
+          {featureId === "feature1" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">How Telegram Alerts Work</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Customers scan QR code or click link to join queue via Telegram
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Real-time notifications sent as their turn approaches
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Final alert when it's time to proceed to counter
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature2" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Live Status Features</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Display current serving number and customer's number
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Show estimated wait time and people ahead
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Works on any device - phone, tablet, or TV display
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature3" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Announcement Capabilities</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Send direct messages to all customers in queue
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Support for text, images, videos, and links
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Schedule announcements or send immediately
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature4" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Enhanced Experience Options</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Mini-games to keep customers entertained while waiting
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Custom welcome messages and branding
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Audio callouts for noisy or busy environments
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

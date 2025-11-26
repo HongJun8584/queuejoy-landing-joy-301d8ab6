@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import notificationImage from "@/assets/hero-queue-telegram.png";
-import queueCrowd from "@/assets/queue-crowd.png";
-import memoryGame from "@/assets/memory-game.png";
-import adsEngagement from "@/assets/ads-engagement.png";
+import { FeatureDetailDialog } from "./FeatureDetailDialog";
+import notificationImage from "@/assets/notification-mockup.png";
+import queueStatusImage from "@/assets/queue-status-mockup.png";
+import announcementImage from "@/assets/announcement-mockup.png";
+import engagementImage from "@/assets/engagement-mockup.png";
 
 export const FeatureSections = () => {
   const { t } = useLanguage();
+  const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
 
   const features = [
     {
@@ -17,19 +20,19 @@ export const FeatureSections = () => {
     },
     {
       id: "feature2",
-      image: queueCrowd,
+      image: queueStatusImage,
       imageAlt: "Live queue status screen",
       reverse: true,
     },
     {
       id: "feature3",
-      image: adsEngagement,
+      image: announcementImage,
       imageAlt: "Announcement board",
       reverse: false,
     },
     {
       id: "feature4",
-      image: memoryGame,
+      image: engagementImage,
       imageAlt: "Customer engagement features",
       reverse: true,
     },
@@ -82,7 +85,12 @@ export const FeatureSections = () => {
               </ul>
 
               <div className="pt-4">
-                <Button size="lg" variant="outline" className="text-lg">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-lg"
+                  onClick={() => setSelectedFeature(feature.id)}
+                >
                   {t(`${feature.id}.cta`)}
                 </Button>
               </div>
@@ -90,6 +98,17 @@ export const FeatureSections = () => {
           </div>
         </section>
       ))}
+
+      {selectedFeature && (
+        <FeatureDetailDialog
+          isOpen={!!selectedFeature}
+          onClose={() => setSelectedFeature(null)}
+          featureId={selectedFeature}
+          title={t(`${selectedFeature}.title`)}
+          description={t(`${selectedFeature}.subtitle`)}
+          videoSrc="/demo/queuejoy-demo.mp4"
+        />
+      )}
     </div>
   );
 };
