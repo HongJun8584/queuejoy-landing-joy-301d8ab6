@@ -5,6 +5,7 @@ import { Label } from "./ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "./ui/card";
 import { Loader2, ExternalLink } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PostPaymentFormProps {
   sessionId: string;
@@ -30,14 +31,8 @@ export const PostPaymentForm = ({ sessionId }: PostPaymentFormProps) => {
     try {
       const slug = formData.slug.toLowerCase().replace(/[^a-z0-9-]/g, '-');
       
-      // Call Supabase edge function to create business in Firebase
-      // This edge function will call your Firebase Realtime Database
-      const response = await fetch('/api/create-business', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('create-business', {
+        body: {
           slug,
           name: formData.businessName,
           contactEmail: formData.contactEmail,
@@ -45,27 +40,26 @@ export const PostPaymentForm = ({ sessionId }: PostPaymentFormProps) => {
           sessionId,
           defaults: {
             introText: `Welcome to ${formData.businessName}!`,
-            name: formData.businessName,
-            chatId: ''
           }
-        })
+        },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to create business');
+      if (error) throw error;
+
+      if (data?.ok) {
+        const generatedUrl = data.siteUrl || `https://queuejoy.app/${slug}`;
+        setBusinessUrl(generatedUrl);
+        setSubmitted(true);
+
+        toast({
+          title: "Success!",
+          description: "Your QueueJoy site is ready!",
+        });
+      } else {
+        throw new Error(data?.error || 'Failed to create business');
       }
-
-      const data = await response.json();
-      const generatedUrl = `https://queuejoy.app/${slug}`;
-      
-      setBusinessUrl(generatedUrl);
-      setSubmitted(true);
-
-      toast({
-        title: "Success!",
-        description: "Your QueueJoy site is ready!",
-      });
     } catch (error) {
+      console.error('Error creating business:', error);
       toast({
         title: "Error",
         description: "Failed to create your site. Please contact support.",

@@ -23,10 +23,24 @@ export const DemoVideoSection = () => {
             <div 
               className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 cursor-pointer group hover-lift"
               onClick={() => setShowVideo(true)}
+              onMouseEnter={(e) => {
+                const video = e.currentTarget.querySelector('video');
+                if (video) video.play();
+              }}
+              onMouseLeave={(e) => {
+                const video = e.currentTarget.querySelector('video');
+                if (video) {
+                  video.pause();
+                  video.currentTime = 0;
+                }
+              }}
             >
-              <img 
-                src="/demo/queuejoy-poster.jpg"
-                alt="QueueJoy Demo Video"
+              <video 
+                src="/demo/queuejoy-demo.mp4"
+                poster="/demo/queuejoy-poster.jpg"
+                muted
+                loop
+                playsInline
                 className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
               />
               

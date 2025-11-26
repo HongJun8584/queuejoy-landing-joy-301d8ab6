@@ -57,13 +57,15 @@ export const TopNav = ({ onSectionClick }: TopNavProps) => {
             ))}
             
             {/* Language Selector */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <Globe className="w-4 h-4" />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Globe className="h-4 w-4" />
+                <span className="hidden md:inline">
                   {languages.find(l => l.code === language)?.name}
-                </Button>
-              </DropdownMenuTrigger>
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {languages.map((lang) => (
                   <DropdownMenuItem
