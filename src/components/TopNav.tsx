@@ -56,16 +56,14 @@ export const TopNav = ({ onSectionClick }: TopNavProps) => {
               </button>
             ))}
             
-            {/* Language Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Globe className="h-4 w-4" />
-                <span className="hidden md:inline">
-                  {languages.find(l => l.code === language)?.name}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
+            {/* Language Selector - Desktop */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Globe className="h-4 w-4" />
+                  <span>{languages.find(l => l.code === language)?.name}</span>
+                </Button>
+              </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {languages.map((lang) => (
                   <DropdownMenuItem
@@ -79,13 +77,32 @@ export const TopNav = ({ onSectionClick }: TopNavProps) => {
             </DropdownMenu>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
+          {/* Mobile - Language + Menu */}
+          <div className="md:hidden flex items-center gap-2">
+            {/* Language Selector - Mobile (outside menu) */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code as "en" | "ms" | "zh")}
+                  >
+                    {lang.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Mobile Menu Button */}
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -103,26 +120,6 @@ export const TopNav = ({ onSectionClick }: TopNavProps) => {
                 {item.label}
               </button>
             ))}
-            <div className="px-4 py-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="w-full gap-2">
-                    <Globe className="w-4 h-4" />
-                    {languages.find(l => l.code === language)?.name}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      onClick={() => setLanguage(lang.code as "en" | "ms" | "zh")}
-                    >
-                      {lang.name}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </div>
         )}
       </div>

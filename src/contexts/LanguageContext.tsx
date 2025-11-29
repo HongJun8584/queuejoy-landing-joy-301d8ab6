@@ -19,14 +19,28 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.contact": "Contact",
     
     // Hero
-    "hero.headline": "Enhance Experience. Build Loyalty.",
-    "hero.subhead": "No app. Works with Telegram. Setup in 10 minutes. RM10/month.",
-    "hero.cta.buy": "Buy Now — RM10/month",
-    "hero.cta.demo": "Watch Demo",
-    "hero.trust": "30-day money-back · 100+ businesses · Cancel anytime",
-    "hero.benefit1": "Reduce perceived wait by up to 40%",
-    "hero.benefit2": "100+ businesses trust QueueJoy",
-    "hero.benefit3": "No app needed — Telegram works",
+    "hero.headline": "Cut queues. Keep customers.",
+    "hero.subhead": "No app — works on Telegram. Setup in under 10 minutes.",
+    "hero.cta.buy": "Start RM10/month",
+    "hero.cta.demo": "Watch 2-min demo",
+    "hero.trust": "RM10/month · 30-day money-back · 100+ businesses · Cancel anytime",
+    "hero.benefit1": "No app install — instant Telegram DMs",
+    "hero.benefit2": "One-tap service — less confusion",
+    "hero.benefit3": "Real-time position — 40% less wait",
+    
+    // About Dialog
+    "about.button": "About QueueJoy",
+    "about.title": "About QueueJoy",
+    "about.description": "Hi! I'm Hong Jun, 14, and I built QueueJoy to make waiting in line a thing of the past.\n\nQueueJoy transforms slow, traditional queues into a fast, modern, and effortless system — no expensive hardware, no complicated setup. Staff can focus on serving customers, and everyone enjoys a smoother, stress-free experience.\n\nAs a bonus, if you adopt QueueJoy, I'll help promote your business on my Instagram, giving your store extra visibility while you streamline service.",
+    "about.cta.ok": "Got it",
+    "about.cta.buy": "Buy Now - RM10/month",
+    
+    // Quick Benefits (2-function section)
+    "quickbenefits.title": "Effortless Service. Instant Insights.",
+    "quickbenefits.staff.title": "Fast Staff Counter",
+    "quickbenefits.staff.desc": "Call the next customer with a single tap and send automatic Telegram alerts—speed up service, delight your customers.",
+    "quickbenefits.admin.title": "Admin Dashboard",
+    "quickbenefits.admin.desc": "See daily queues, average wait times, and peak hours in real time—turn data into smarter decisions.",
     
     // Features
     "feature1.title": "Instant Telegram Alerts",
@@ -58,22 +72,22 @@ const translations: Record<Language, Record<string, string>> = {
     "feature4.cta": "Preview Experience Tools",
     
     // Comparison Section
-    "comparison.title": "Stop losing customers to long lines",
-    "comparison.subtitle": "See the difference QueueJoy makes across industries",
+    "comparison.title": "Industries — real results, fast wins",
+    "comparison.subtitle": "Turn waiting from a liability into an advantage",
     "comparison.hospital.title": "Hospitals & Clinics",
-    "comparison.hospital.old": "Long waits to see a doctor. Staff manage lines manually.",
-    "comparison.hospital.new": "Patients join via Telegram or kiosk. See position & wait time. Less stress and crowding.",
-    "comparison.bank.title": "Banks & Service Counters",
-    "comparison.bank.old": "Long lines, slow service, confusing for staff.",
-    "comparison.bank.new": "One-tap 'Call Next.' Staff see last customer. Service is faster and easier.",
-    "comparison.food.title": "Fast Food & Coffee Shops",
-    "comparison.food.old": "Busy mornings and lunches slow orders. Customers frustrated.",
-    "comparison.food.new": "Customers join virtually. Staff manage counters smoothly. Orders move faster.",
-    "comparison.transport.title": "Public Transport & Events",
-    "comparison.transport.old": "Crowded entrances, delays, safety risks.",
-    "comparison.transport.new": "QueueJoy handles large crowds. Notifications and alerts keep flow safe and organized.",
-    "comparison.old": "Old Way 👎",
-    "comparison.new": "QueueJoy Way 👍",
+    "comparison.hospital.old": "Manual lists, crowded lobbies, stressed staff.",
+    "comparison.hospital.new": "Patients join via QR or kiosk, see position + ETA on phone, get Telegram alerts — calmer waiting rooms, fewer no-shows.",
+    "comparison.bank.title": "Banks & Government Counters",
+    "comparison.bank.old": "Long lines, lost tokens, frustrated queues.",
+    "comparison.bank.new": "Staff tap 'Next'; customers arrive when called — service flow doubles, complaints drop.",
+    "comparison.food.title": "Cafés & Fast Food",
+    "comparison.food.old": "Morning chaos, orders delayed.",
+    "comparison.food.new": "Virtual queue + counter management = steady throughput and happier repeat customers.",
+    "comparison.transport.title": "Events & Transport Hubs",
+    "comparison.transport.old": "Bottlenecks, safety risks, long entrance queues.",
+    "comparison.transport.new": "Controlled entry with broadcast alerts and staff callouts — safer, smoother crowds.",
+    "comparison.old": "Old Way",
+    "comparison.new": "QueueJoy Way",
     
     // Testimonials
     "testimonials.title": "Trusted by 100+ businesses",
@@ -89,14 +103,14 @@ const translations: Record<Language, Record<string, string>> = {
     "testimonials.3.role": "Restaurant Manager",
     
     // How It Works
-    "howitworks.title": "Setup in 10 minutes",
-    "howitworks.subtitle": "Start managing queues smarter today",
-    "howitworks.step1.title": "1. Subscribe",
-    "howitworks.step1.desc": "Choose your plan and complete payment",
-    "howitworks.step2.title": "2. Setup Site",
-    "howitworks.step2.desc": "Create your business slug and customize settings",
-    "howitworks.step3.title": "3. Go Live",
-    "howitworks.step3.desc": "Share the link with customers and start managing queues",
+    "howitworks.title": "How it works — 3 steps (setup < 10 minutes)",
+    "howitworks.subtitle": "Deploy a professional virtual queue in minutes",
+    "howitworks.step1.title": "1. Take a number",
+    "howitworks.step1.desc": "QR, kiosk, or staff-issued ticket",
+    "howitworks.step2.title": "2. Watch status",
+    "howitworks.step2.desc": "Customers see live position on phone or on-screen",
+    "howitworks.step3.title": "3. Get called",
+    "howitworks.step3.desc": "Telegram DM + optional audio callout when it's their turn",
     
     // FAQ
     "faq.title": "Frequently Asked Questions",
@@ -134,14 +148,28 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.contact": "Hubungi",
     
     // Hero
-    "hero.headline": "Tingkatkan Pengalaman. Bina Kesetiaan.",
-    "hero.subhead": "Tanpa aplikasi. Berfungsi dengan Telegram. Persediaan 10 minit. RM10/bulan.",
-    "hero.cta.buy": "Beli Sekarang — RM10/bulan",
-    "hero.cta.demo": "Tonton Demo",
-    "hero.trust": "Jaminan wang kembali 30 hari · 100+ perniagaan · Batal bila-bila masa",
-    "hero.benefit1": "Kurangkan masa menunggu sehingga 40%",
-    "hero.benefit2": "100+ perniagaan mempercayai QueueJoy",
-    "hero.benefit3": "Tiada aplikasi diperlukan — Telegram berfungsi",
+    "hero.headline": "Potong giliran. Kekalkan pelanggan.",
+    "hero.subhead": "Tiada aplikasi — berfungsi dengan Telegram. Persediaan kurang dari 10 minit.",
+    "hero.cta.buy": "Mula RM10/bulan",
+    "hero.cta.demo": "Tonton demo 2 minit",
+    "hero.trust": "RM10/bulan · Jaminan wang kembali 30 hari · 100+ perniagaan · Batal bila-bila masa",
+    "hero.benefit1": "Tiada aplikasi — DM Telegram segera",
+    "hero.benefit2": "Perkhidmatan satu-ketukan — kurang keliru",
+    "hero.benefit3": "Kedudukan masa nyata — 40% kurang tunggu",
+    
+    // About Dialog
+    "about.button": "Tentang QueueJoy",
+    "about.title": "Tentang QueueJoy",
+    "about.description": "Hai! Saya Hong Jun, 14 tahun, dan saya membina QueueJoy untuk menjadikan beratur sebagai perkara lepas.\n\nQueueJoy mengubah giliran tradisional yang lambat menjadi sistem moden yang pantas dan mudah — tanpa perkakasan mahal, tanpa persediaan rumit. Kakitangan boleh fokus pada perkhidmatan pelanggan, dan semua orang menikmati pengalaman yang lebih lancar dan bebas tekanan.\n\nSebagai bonus, jika anda menggunakan QueueJoy, saya akan membantu mempromosikan perniagaan anda di Instagram saya, memberikan kedai anda keterlihatan tambahan sambil anda menyelaraskan perkhidmatan.",
+    "about.cta.ok": "Faham",
+    "about.cta.buy": "Beli Sekarang - RM10/bulan",
+    
+    // Quick Benefits
+    "quickbenefits.title": "Perkhidmatan Mudah. Wawasan Segera.",
+    "quickbenefits.staff.title": "Kaunter Kakitangan Pantas",
+    "quickbenefits.staff.desc": "Panggil pelanggan seterusnya dengan satu ketukan dan hantar makluman Telegram automatik—cepatkan perkhidmatan,gembirakan pelanggan anda.",
+    "quickbenefits.admin.title": "Papan Pemuka Pentadbir",
+    "quickbenefits.admin.desc": "Lihat giliran harian, masa menunggu purata, dan waktu puncak dalam masa nyata—tukar data kepada keputusan yang lebih bijak.",
     
     // Features
     "feature1.title": "Makluman Telegram Segera",
@@ -249,14 +277,28 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.contact": "联系",
     
     // Hero
-    "hero.headline": "提升体验。建立忠诚度。",
-    "hero.subhead": "无需应用。通过Telegram运行。10分钟设置。RM10/月。",
-    "hero.cta.buy": "立即购买 — RM10/月",
-    "hero.cta.demo": "观看演示",
-    "hero.trust": "30天退款保证 · 100+企业 · 随时取消",
-    "hero.benefit1": "减少等待时间达40%",
-    "hero.benefit2": "100+企业信赖QueueJoy",
-    "hero.benefit3": "无需应用 — Telegram即可使用",
+    "hero.headline": "缩短队列。留住客户。",
+    "hero.subhead": "无需应用 — 通过Telegram运行。不到10分钟设置。",
+    "hero.cta.buy": "开始 RM10/月",
+    "hero.cta.demo": "观看2分钟演示",
+    "hero.trust": "RM10/月 · 30天退款保证 · 100+企业 · 随时取消",
+    "hero.benefit1": "无需应用 — 即时Telegram消息",
+    "hero.benefit2": "一键服务 — 更少混乱",
+    "hero.benefit3": "实时位置 — 减少40%等待",
+    
+    // About Dialog
+    "about.button": "关于QueueJoy",
+    "about.title": "关于QueueJoy",
+    "about.description": "嗨！我是Hong Jun，14岁，我构建了QueueJoy，让排队成为过去。\n\nQueueJoy将缓慢的传统队列转变为快速、现代、轻松的系统——无需昂贵的硬件，无需复杂的设置。员工可以专注于服务客户，每个人都享受更顺畅、无压力的体验。\n\n作为奖励，如果您采用QueueJoy，我将帮助在我的Instagram上推广您的业务，在您简化服务的同时为您的商店提供额外的曝光。",
+    "about.cta.ok": "明白了",
+    "about.cta.buy": "立即购买 - RM10/月",
+    
+    // Quick Benefits
+    "quickbenefits.title": "轻松服务。即时洞察。",
+    "quickbenefits.staff.title": "快速员工柜台",
+    "quickbenefits.staff.desc": "一键呼叫下一位客户并发送自动Telegram提醒——加快服务，取悦您的客户。",
+    "quickbenefits.admin.title": "管理仪表板",
+    "quickbenefits.admin.desc": "实时查看每日队列、平均等待时间和高峰时段——将数据转化为更明智的决策。",
     
     // Features
     "feature1.title": "即时Telegram提醒",

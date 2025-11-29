@@ -30,7 +30,7 @@ export const FeatureDetailDialog = ({
           <p className="text-lg text-muted-foreground">{description}</p>
 
           {videoSrc && (
-            <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-glow">
               <video
                 src={videoSrc}
                 controls
