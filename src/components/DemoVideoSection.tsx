@@ -1,71 +1,59 @@
-import { useState } from "react";
-import { Play } from "lucide-react";
-import { VideoModal } from "./VideoModal";
+import { useRef } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "./ui/button";
 
 export const DemoVideoSection = () => {
-  const [showVideo, setShowVideo] = useState(false);
+  const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
 
   return (
-    <>
-      <section id="demo" className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12 animate-fade-up">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="text-gradient">Watch How QueueJoy Works</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              See the magic in action — 2 minutes that'll change how you think about queues
-            </p>
-          </div>
+    <section id="demo" className="py-24 bg-gradient-to-b from-background via-muted/10 to-background">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto text-center space-y-10 scroll-reveal">
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="text-gradient">{t("demo.title")}</span>
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            {t("demo.subtitle")}
+          </p>
 
-          {/* Video Thumbnail */}
-          <div className="max-w-4xl mx-auto scroll-reveal">
-            <div 
-              className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 cursor-pointer group transition-all duration-500 hover:shadow-glow hover:scale-[1.02] hover:border-primary/50"
-              onClick={() => setShowVideo(true)}
-              onMouseEnter={(e) => {
-                const video = e.currentTarget.querySelector('video');
-                if (video) video.play();
-              }}
-              onMouseLeave={(e) => {
-                const video = e.currentTarget.querySelector('video');
-                if (video) {
-                  video.pause();
-                  video.currentTime = 0;
-                }
-              }}
+          <div 
+            className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 group cursor-pointer hover:shadow-[0_25px_70px_rgba(var(--primary-rgb),0.5)] transition-all duration-700 hover:border-primary/60"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none" />
+            <video
+              ref={videoRef}
+              className="w-full transition-all duration-700 group-hover:scale-[1.02]"
+              src="/demo/queuejoy-streamline.mp4"
+              controls
             >
-              <video 
-                src="/demo/queuejoy-streamline.mp4"
-                muted
-                loop
-                playsInline
-                className="w-full h-auto transition-transform duration-700 group-hover:scale-105"
-              />
-              
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/50 transition-colors">
-                <div className="w-24 h-24 rounded-full bg-primary/90 backdrop-blur-sm flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform">
-                  <Play className="w-12 h-12 text-white fill-white ml-1" />
-                </div>
-              </div>
-
-              {/* Hover Text */}
-              <div className="absolute bottom-8 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <p className="text-white text-lg font-bold drop-shadow-lg">
-                  Click to watch demo
-                </p>
-              </div>
-            </div>
+              Your browser does not support the video tag.
+            </video>
           </div>
+          
+          <Button 
+            size="lg"
+            className="text-lg bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-[0_10px_40px_rgba(var(--primary-rgb),0.5)] transition-all duration-300 hover:scale-105"
+          >
+            {t("demo.cta")}
+          </Button>
         </div>
-      </section>
-
-      <VideoModal 
-        isOpen={showVideo} 
-        onClose={() => setShowVideo(false)} 
-        videoSrc="/demo/queuejoy-streamline.mp4"
-      />
-    </>
+      </div>
+    </section>
   );
 };
