@@ -1,7 +1,6 @@
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
 import { Button } from "./ui/button";
 import { Play } from "lucide-react";
-import phoneMockupStarbucks from "@/assets/phone-mockup-starbucks.png";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
@@ -18,72 +17,81 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-accent/10">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
-            {/* Left: Copy + CTAs */}
-            <div className="text-center lg:text-left space-y-8 animate-fade-up">
-              <div className="space-y-4">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight">
-                  <span className="text-gradient">{t("hero.headline")}</span>
-                </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-                  {t("hero.subhead")}
-                </p>
-              </div>
+    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-accent/10 py-20">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto text-center space-y-8 animate-fade-in">
+          {/* Main Headline */}
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+            <span className="text-gradient block">
+              {t("hero.headline")}
+            </span>
+          </h1>
 
-              {/* Two CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <StripeCheckoutButton 
-                  variant="hero" 
-                  size="lg"
-                  className="text-lg px-8 py-6 shadow-glow"
-                />
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={scrollToDemo}
-                  className="text-lg px-8 py-6 border-2 group"
+          {/* Subheadline */}
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            {t("hero.subhead")}
+          </p>
+          
+          {/* Trust Strip */}
+          <p className="text-sm md:text-base text-muted-foreground/80">
+            {t("hero.trust")}
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <StripeCheckoutButton 
+              variant="hero" 
+              size="lg"
+              className="text-lg px-8 py-6 shadow-glow hover:shadow-[0_15px_50px_rgba(var(--primary-rgb),0.6)] transition-all duration-300"
+            />
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={scrollToDemo}
+              className="text-lg px-8 py-6 border-2 group hover:border-primary/60"
+            >
+              <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+              {t("hero.cta.demo")}
+            </Button>
+          </div>
+
+          {/* Why QueueJoy Section */}
+          <div className="pt-16 max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("hero.whyTitle")}</h2>
+            <p className="text-xl md:text-2xl text-primary font-semibold mb-3">
+              {t("hero.whySubtitle")}
+            </p>
+            <p className="text-base md:text-lg text-muted-foreground mb-8">
+              {t("hero.whyDescription")}
+            </p>
+            
+            <div className="space-y-4 text-left">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div 
+                  key={i}
+                  className="group p-5 rounded-xl bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-lg hover:translate-x-3 animate-fade-up"
+                  style={{ animationDelay: `${i * 100}ms` }}
                 >
-                  <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-                  {t("hero.cta.demo")}
-                </Button>
-              </div>
-
-              {/* Trust line */}
-              <p className="text-sm text-muted-foreground">
-                {t("hero.trust")}
-              </p>
-
-              {/* Micro-proof bullets */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span className="text-sm">{t("hero.benefit1")}</span>
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
+                      {t(`hero.benefit${i}`)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span className="text-sm">{t("hero.benefit2")}</span>
-                </div>
-                <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <div className="w-2 h-2 rounded-full bg-accent"></div>
-                  <span className="text-sm">{t("hero.benefit3")}</span>
-                </div>
-              </div>
+              ))}
             </div>
-
-            {/* Right: Hero mockup */}
-            <div className="relative animate-fade-up" style={{ animationDelay: "0.2s" }}>
-              <div className="relative mx-auto max-w-md lg:max-w-lg">
-                <img
-                  src={phoneMockupStarbucks}
-                  alt="QueueJoy Smart Queueing - Customer using Telegram interface"
-                  className="w-full h-auto drop-shadow-2xl hover-lift"
-                />
-              </div>
-            </div>
+            
+            <p className="text-xl md:text-2xl font-bold text-gradient mt-10">
+              {t("hero.tagline")}
+            </p>
           </div>
         </div>
+      </div>
     </section>
   );
 };
