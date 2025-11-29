@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import { ComparisonSection } from "@/components/ComparisonSection";
 import HowItWorks from "@/components/HowItWorks";
 import { DemoVideoSection } from "@/components/DemoVideoSection";
-import ValueStats from "@/components/ValueStats";
+import QuickBenefits from "@/components/QuickBenefits";
 import { FeatureSections } from "@/components/FeatureSections";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import FAQ from "@/components/FAQ";
@@ -44,8 +44,8 @@ const Index = () => {
         <div id="about">
           <HowItWorks />
         </div>
+        <QuickBenefits />
         <FeatureSections />
-        <ValueStats />
         <div id="testimonials">
           <TestimonialsSection />
         </div>

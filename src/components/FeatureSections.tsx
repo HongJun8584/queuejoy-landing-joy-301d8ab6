@@ -15,25 +15,25 @@ export const FeatureSections = () => {
     {
       id: "feature1",
       image: notificationImage,
-      imageAlt: "Telegram notification examples",
+      imageAlt: "Telegram notification examples showing instant alerts",
       reverse: false,
     },
     {
       id: "feature2",
       image: queueStatusImage,
-      imageAlt: "Live queue status screen",
+      imageAlt: "Live queue status screen with counter management",
       reverse: true,
     },
     {
       id: "feature3",
       image: announcementImage,
-      imageAlt: "Announcement board",
+      imageAlt: "Announcement dashboard for sending promotions via Telegram",
       reverse: false,
     },
     {
       id: "feature4",
       image: engagementImage,
-      imageAlt: "Customer engagement features",
+      imageAlt: "Customer engagement features with mini-games",
       reverse: true,
     },
   ];
@@ -51,12 +51,12 @@ export const FeatureSections = () => {
             } items-center gap-12 lg:gap-20`}
           >
             {/* Image */}
-            <div className="flex-1 w-full">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/20 hover-lift">
+            <div className="flex-1 w-full group">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/20 transition-all duration-500 group-hover:shadow-glow group-hover:scale-[1.02] group-hover:border-primary/40">
                 <img
                   src={feature.image}
                   alt={feature.imageAlt}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
             </div>
@@ -88,10 +88,13 @@ export const FeatureSections = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="text-lg"
+                  className="text-lg group hover:shadow-glow transition-all duration-300"
                   onClick={() => setSelectedFeature(feature.id)}
                 >
-                  {t(`${feature.id}.cta`)}
+                  <span className="relative">
+                    {t(`${feature.id}.cta`)}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  </span>
                 </Button>
               </div>
             </div>
@@ -106,7 +109,7 @@ export const FeatureSections = () => {
           featureId={selectedFeature}
           title={t(`${selectedFeature}.title`)}
           description={t(`${selectedFeature}.subtitle`)}
-          videoSrc="/demo/queuejoy-demo.mp4"
+          videoSrc="/demo/queuejoy-streamline.mp4"
         />
       )}
     </div>

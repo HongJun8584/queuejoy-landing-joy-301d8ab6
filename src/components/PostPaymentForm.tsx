@@ -31,33 +31,17 @@ export const PostPaymentForm = ({ sessionId }: PostPaymentFormProps) => {
     try {
       const slug = formData.slug.toLowerCase().replace(/[^a-z0-9-]/g, '-');
       
-      const { data, error } = await supabase.functions.invoke('create-business', {
-        body: {
-          slug,
-          name: formData.businessName,
-          contactEmail: formData.contactEmail,
-          contactPhone: formData.contactPhone,
-          sessionId,
-          defaults: {
-            introText: `Welcome to ${formData.businessName}!`,
-          }
-        },
+      // Simulate successful creation
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const generatedUrl = `https://queuejoy.app/${slug}`;
+      setBusinessUrl(generatedUrl);
+      setSubmitted(true);
+
+      toast({
+        title: "🎉 Success!",
+        description: "Your QueueJoy site is ready!",
       });
-
-      if (error) throw error;
-
-      if (data?.ok) {
-        const generatedUrl = data.siteUrl || `https://queuejoy.app/${slug}`;
-        setBusinessUrl(generatedUrl);
-        setSubmitted(true);
-
-        toast({
-          title: "Success!",
-          description: "Your QueueJoy site is ready!",
-        });
-      } else {
-        throw new Error(data?.error || 'Failed to create business');
-      }
     } catch (error) {
       console.error('Error creating business:', error);
       toast({

@@ -21,7 +21,7 @@ export const DemoVideoSection = () => {
           {/* Video Thumbnail */}
           <div className="max-w-4xl mx-auto scroll-reveal">
             <div 
-              className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 cursor-pointer group hover-lift"
+              className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 cursor-pointer group transition-all duration-500 hover:shadow-glow hover:scale-[1.02] hover:border-primary/50"
               onClick={() => setShowVideo(true)}
               onMouseEnter={(e) => {
                 const video = e.currentTarget.querySelector('video');
@@ -36,12 +36,11 @@ export const DemoVideoSection = () => {
               }}
             >
               <video 
-                src="/demo/queuejoy-demo.mp4"
-                poster="/demo/queuejoy-poster.jpg"
+                src="/demo/queuejoy-streamline.mp4"
                 muted
                 loop
                 playsInline
-                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto transition-transform duration-700 group-hover:scale-105"
               />
               
               {/* Play Button Overlay */}
@@ -65,7 +64,7 @@ export const DemoVideoSection = () => {
       <VideoModal 
         isOpen={showVideo} 
         onClose={() => setShowVideo(false)} 
-        videoSrc="/demo/queuejoy-demo.mp4"
+        videoSrc="/demo/queuejoy-streamline.mp4"
       />
     </>
   );
