@@ -1,5 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface FeatureDetailDialogProps {
   isOpen: boolean;
@@ -18,60 +17,159 @@ export const FeatureDetailDialog = ({
   description,
   videoSrc,
 }: FeatureDetailDialogProps) => {
-  const { t } = useLanguage();
-  
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-background via-background to-primary/5">
-        <DialogHeader className="space-y-4 pb-6">
-          <DialogTitle className="text-4xl font-bold">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-              {title}
-            </span>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-3xl font-bold">
+            <span className="text-gradient">{title}</span>
           </DialogTitle>
-          <DialogDescription className="text-xl text-muted-foreground leading-relaxed">
-            {description}
-          </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-8">
-          {/* Video Section */}
+        <div className="space-y-6">
+          <p className="text-lg text-muted-foreground">{description}</p>
+
           {videoSrc && (
-            <div className="group relative rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/30 hover:border-primary/60 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(var(--primary-rgb),0.4)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
+            <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-primary/20 transition-all duration-300 hover:border-primary/40 hover:shadow-glow">
               <video
                 src={videoSrc}
                 controls
                 autoPlay
-                className="w-full transition-transform duration-500 group-hover:scale-[1.02]"
+                className="w-full h-auto"
               >
                 Your browser does not support the video tag.
               </video>
             </div>
           )}
 
-          {/* Feature Details */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-gradient">{t(`${featureId}.title`)}</h3>
-            <ul className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <li 
-                  key={i} 
-                  className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-r from-card/80 to-card/40 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:translate-x-2 group animate-fade-up"
-                  style={{ animationDelay: `${i * 100}ms` }}
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+          {/* Feature-specific content */}
+          {featureId === "feature1" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">How Telegram Alerts Work</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
                   </div>
-                  <p className="text-base md:text-lg text-foreground/90 leading-relaxed">
-                    {t(`${featureId}.bullet${i}`)}
+                  <p className="text-foreground/90">
+                    Customers scan QR code or click link to join queue via Telegram
                   </p>
                 </li>
-              ))}
-            </ul>
-          </div>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Real-time notifications sent as their turn approaches
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Final alert when it's time to proceed to counter
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature2" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Live Status Features</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Display current serving number and customer's number
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Show estimated wait time and people ahead
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Works on any device - phone, tablet, or TV display
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature3" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Announcement Capabilities</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Send direct messages to all customers in queue
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Support for text, images, videos, and links
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Schedule announcements or send immediately
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "feature4" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Enhanced Experience Options</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Mini-games to keep customers entertained while waiting
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Custom welcome messages and branding
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    Audio callouts for noisy or busy environments
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
