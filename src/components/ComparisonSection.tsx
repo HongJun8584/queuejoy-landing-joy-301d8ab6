@@ -1,38 +1,45 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const comparisons = [
   {
-    scenario: "Hospitals & Clinics",
-    oldWay: "Long waits to see a doctor. Staff manage lines manually.",
-    queuejoyWay: "Patients join via Telegram or kiosk. See position & wait time. Less stress and crowding."
+    id: "hospital",
+    scenario: "comparison.hospital.title",
+    oldWay: "comparison.hospital.old",
+    queuejoyWay: "comparison.hospital.new"
   },
   {
-    scenario: "Banks & Service Counters",
-    oldWay: "Long lines, slow service, confusing for staff.",
-    queuejoyWay: "One-tap 'Call Next.' Staff see last customer. Service is faster and easier."
+    id: "bank",
+    scenario: "comparison.bank.title",
+    oldWay: "comparison.bank.old",
+    queuejoyWay: "comparison.bank.new"
   },
   {
-    scenario: "Fast Food & Coffee Shops",
-    oldWay: "Busy mornings and lunches slow orders. Customers frustrated.",
-    queuejoyWay: "Customers join virtually. Staff manage counters smoothly. Orders move faster."
+    id: "food",
+    scenario: "comparison.food.title",
+    oldWay: "comparison.food.old",
+    queuejoyWay: "comparison.food.new"
   },
   {
-    scenario: "Public Transport & Events",
-    oldWay: "Crowded entrances, delays, safety risks.",
-    queuejoyWay: "QueueJoy handles large crowds. Notifications and alerts keep flow safe and organized."
+    id: "transport",
+    scenario: "comparison.transport.title",
+    oldWay: "comparison.transport.old",
+    queuejoyWay: "comparison.transport.new"
   }
 ];
 
 export const ComparisonSection = () => {
+  const { t } = useLanguage();
+  
   return (
-    <section id="comparison" className="py-24 bg-muted/30">
+    <section className="py-24 bg-muted/30 scroll-reveal">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Stop losing customers to <span className="text-gradient">long lines</span>
+            {t("comparison.title")} <span className="text-gradient">{t("comparison.subtitle")}</span>
           </h2>
           <p className="text-xl text-muted-foreground">
-            See the difference QueueJoy makes across industries
+            {t("comparison.description")}
           </p>
         </div>
 
@@ -45,7 +52,7 @@ export const ComparisonSection = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="bg-primary/10 p-4 border-b border-border">
-                <h3 className="text-xl font-bold text-center">{item.scenario}</h3>
+                <h3 className="text-xl font-bold text-center">{t(item.scenario)}</h3>
               </div>
               
               <div className="grid md:grid-cols-2 gap-6 p-6">
@@ -53,18 +60,18 @@ export const ComparisonSection = () => {
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-destructive">
                     <ThumbsDown className="w-5 h-5" />
-                    <h4 className="font-bold text-lg">Old Way</h4>
+                    <h4 className="font-bold text-lg">{t("comparison.old")}</h4>
                   </div>
-                  <p className="text-muted-foreground">{item.oldWay}</p>
+                  <p className="text-muted-foreground">{t(item.oldWay)}</p>
                 </div>
 
                 {/* QueueJoy Way */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-accent">
                     <ThumbsUp className="w-5 h-5" />
-                    <h4 className="font-bold text-lg">QueueJoy Way</h4>
+                    <h4 className="font-bold text-lg">{t("comparison.new")}</h4>
                   </div>
-                  <p className="text-foreground">{item.queuejoyWay}</p>
+                  <p className="text-foreground">{t(item.queuejoyWay)}</p>
                 </div>
               </div>
             </div>

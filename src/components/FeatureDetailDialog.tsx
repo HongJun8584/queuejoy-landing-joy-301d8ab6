@@ -35,6 +35,7 @@ export const FeatureDetailDialog = ({
                 src={videoSrc}
                 controls
                 autoPlay
+                loop
                 className="w-full h-auto"
               >
                 Your browser does not support the video tag.
@@ -42,7 +43,79 @@ export const FeatureDetailDialog = ({
             </div>
           )}
 
+          {/* General demo information */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold">Why This Matters</h3>
+            <p className="text-foreground/90">
+              Watch how QueueJoy transforms the waiting experience. This feature demonstrates real-world usage and shows how businesses and customers benefit from our smart queue management system.
+            </p>
+          </div>
+
           {/* Feature-specific content */}
+          {featureId === "staffcounter" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Staff Counter Deep Dive</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>One-Tap Calling:</strong> Staff press "Next" and the system automatically notifies the customer via Telegram
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>Real-Time Sync:</strong> All displays and customer devices update instantly when numbers are called
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>Service History:</strong> Track last served customer, average service time, and throughput
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {featureId === "admindashboard" && (
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Dashboard Analytics</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>Live Metrics:</strong> Monitor queue length, wait times, and service speed in real-time
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>Peak Hour Analysis:</strong> Identify busy periods and optimize staff allocation
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                  </div>
+                  <p className="text-foreground/90">
+                    <strong>Export Reports:</strong> Download daily, weekly, or monthly reports for business insights
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
           {featureId === "feature1" && (
             <div className="space-y-4">
               <h3 className="text-xl font-semibold">How Telegram Alerts Work</h3>

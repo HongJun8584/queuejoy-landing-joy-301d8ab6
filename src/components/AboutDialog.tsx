@@ -21,26 +21,26 @@ const AboutDialog = () => {
         onClick={() => setIsOpen(true)}
         variant="hero"
         className="fixed bottom-6 right-6 z-50 rounded-full px-6 py-3 shadow-glow hover-lift text-base font-semibold animate-fade-up"
-        aria-label={t("about.button")}
+        aria-label={t("clickme.button")}
       >
-        {t("about.button")}
+        {t("clickme.button")}
       </Button>
 
       {/* Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-2xl">{t("about.title")}</DialogTitle>
+            <DialogTitle className="text-2xl">{t("clickme.title")}</DialogTitle>
             <DialogDescription className="text-base pt-4 leading-relaxed whitespace-pre-line">
-              {t("about.description")}
+              {t("clickme.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 justify-end pt-4">
             <Button onClick={() => setIsOpen(false)} variant="outline">
-              {t("about.cta.ok")}
+              {t("clickme.cta.ok")}
             </Button>
             <StripeCheckoutButton size="default">
-              {t("about.cta.buy")}
+              {t("clickme.cta.buy")}
             </StripeCheckoutButton>
           </div>
         </DialogContent>
