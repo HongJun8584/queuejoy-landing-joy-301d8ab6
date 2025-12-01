@@ -109,7 +109,7 @@ export const FeatureSections = () => {
           featureId={selectedFeature}
           title={t(`${selectedFeature}.title`)}
           description={t(`${selectedFeature}.subtitle`)}
-          videoSrc="/demo/queuejoy-streamline.mp4"
+          videoSrc="/demo/feature-demo.mp4"
         />
       )}
     </div>

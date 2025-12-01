@@ -28,12 +28,28 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.benefit2": "One-tap service — less confusion",
     "hero.benefit3": "Real-time position — 40% less wait",
     
-    // About Dialog
-    "about.button": "About QueueJoy",
-    "about.title": "About QueueJoy",
-    "about.description": "Hi! I'm Hong Jun, 14, and I built QueueJoy to make waiting in line a thing of the past.\n\nQueueJoy transforms slow, traditional queues into a fast, modern, and effortless system — no expensive hardware, no complicated setup. Staff can focus on serving customers, and everyone enjoys a smoother, stress-free experience.\n\nAs a bonus, if you adopt QueueJoy, I'll help promote your business on my Instagram, giving your store extra visibility while you streamline service.",
-    "about.cta.ok": "Got it",
-    "about.cta.buy": "Buy Now - RM10/month",
+    // Click Me Dialog (About QueueJoy)
+    "clickme.button": "Click Me!",
+    "clickme.title": "About QueueJoy",
+    "clickme.description": "Hi! I'm Hong Jun, 14, and I built QueueJoy to make waiting in line a thing of the past.\n\nQueueJoy transforms slow, traditional queues into a fast, modern, and effortless system — no expensive hardware, no complicated setup. Staff can focus on serving customers, and everyone enjoys a smoother, stress-free experience.\n\nAs a bonus, if you adopt QueueJoy, I'll help promote your business on my Instagram, giving your store extra visibility while you streamline service.",
+    "clickme.cta.ok": "Got it",
+    "clickme.cta.buy": "Buy Now - RM10/month",
+    
+    // Staff Counter Section
+    "staffcounter.badge": "Lightning Fast",
+    "staffcounter.title": "Fast Staff Counter",
+    "staffcounter.subtitle": "One-tap 'Next Customer' • Sends automatic Telegram alerts",
+    "staffcounter.bullet1": "Call next customer with a single tap",
+    "staffcounter.bullet2": "Automatic Telegram notifications sent instantly",
+    "staffcounter.cta": "See Counter Demo",
+    
+    // Admin Dashboard Section
+    "admindashboard.badge": "Data-Driven",
+    "admindashboard.title": "Admin Dashboard",
+    "admindashboard.subtitle": "Track queues, wait times & peak hours • Make smarter decisions instantly",
+    "admindashboard.bullet1": "Real-time analytics and queue metrics",
+    "admindashboard.bullet2": "Identify peak hours and optimize staffing",
+    "admindashboard.cta": "View Dashboard Demo",
     
     // Quick Benefits (2-function section)
     "quickbenefits.title": "Effortless Service. Instant Insights.",
@@ -74,6 +90,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Comparison Section
     "comparison.title": "Industries — real results, fast wins",
     "comparison.subtitle": "Turn waiting from a liability into an advantage",
+    "comparison.description": "See the difference QueueJoy makes across industries",
     "comparison.hospital.title": "Hospitals & Clinics",
     "comparison.hospital.old": "Manual lists, crowded lobbies, stressed staff.",
     "comparison.hospital.new": "Patients join via QR or kiosk, see position + ETA on phone, get Telegram alerts — calmer waiting rooms, fewer no-shows.",
@@ -157,12 +174,28 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.benefit2": "Perkhidmatan satu-ketukan — kurang keliru",
     "hero.benefit3": "Kedudukan masa nyata — 40% kurang tunggu",
     
-    // About Dialog
-    "about.button": "Tentang QueueJoy",
-    "about.title": "Tentang QueueJoy",
-    "about.description": "Hai! Saya Hong Jun, 14 tahun, dan saya membina QueueJoy untuk menjadikan beratur sebagai perkara lepas.\n\nQueueJoy mengubah giliran tradisional yang lambat menjadi sistem moden yang pantas dan mudah — tanpa perkakasan mahal, tanpa persediaan rumit. Kakitangan boleh fokus pada perkhidmatan pelanggan, dan semua orang menikmati pengalaman yang lebih lancar dan bebas tekanan.\n\nSebagai bonus, jika anda menggunakan QueueJoy, saya akan membantu mempromosikan perniagaan anda di Instagram saya, memberikan kedai anda keterlihatan tambahan sambil anda menyelaraskan perkhidmatan.",
-    "about.cta.ok": "Faham",
-    "about.cta.buy": "Beli Sekarang - RM10/bulan",
+    // Click Me Dialog (About QueueJoy)
+    "clickme.button": "Klik Saya!",
+    "clickme.title": "Tentang QueueJoy",
+    "clickme.description": "Hai! Saya Hong Jun, 14 tahun, dan saya membina QueueJoy untuk menjadikan beratur sebagai perkara lepas.\n\nQueueJoy mengubah giliran tradisional yang lambat menjadi sistem moden yang pantas dan mudah — tanpa perkakasan mahal, tanpa persediaan rumit. Kakitangan boleh fokus pada perkhidmatan pelanggan, dan semua orang menikmati pengalaman yang lebih lancar dan bebas tekanan.\n\nSebagai bonus, jika anda menggunakan QueueJoy, saya akan membantu mempromosikan perniagaan anda di Instagram saya, memberikan kedai anda keterlihatan tambahan sambil anda menyelaraskan perkhidmatan.",
+    "clickme.cta.ok": "Faham",
+    "clickme.cta.buy": "Beli Sekarang - RM10/bulan",
+    
+    // Staff Counter Section
+    "staffcounter.badge": "Pantas Kilat",
+    "staffcounter.title": "Kaunter Kakitangan Pantas",
+    "staffcounter.subtitle": "Satu ketukan 'Pelanggan Seterusnya' • Hantar makluman Telegram automatik",
+    "staffcounter.bullet1": "Panggil pelanggan seterusnya dengan satu ketukan",
+    "staffcounter.bullet2": "Pemberitahuan Telegram automatik dihantar serta-merta",
+    "staffcounter.cta": "Lihat Demo Kaunter",
+    
+    // Admin Dashboard Section
+    "admindashboard.badge": "Didorong Data",
+    "admindashboard.title": "Papan Pemuka Pentadbir",
+    "admindashboard.subtitle": "Jejak giliran, masa menunggu & waktu puncak • Buat keputusan yang lebih bijak serta-merta",
+    "admindashboard.bullet1": "Analitik masa nyata dan metrik giliran",
+    "admindashboard.bullet2": "Kenal pasti waktu puncak dan optimalkan kakitangan",
+    "admindashboard.cta": "Lihat Demo Papan Pemuka",
     
     // Quick Benefits
     "quickbenefits.title": "Perkhidmatan Mudah. Wawasan Segera.",
@@ -201,8 +234,9 @@ const translations: Record<Language, Record<string, string>> = {
     "feature4.cta": "Pratonton Alat Pengalaman",
     
     // Comparison Section
-    "comparison.title": "Hentikan kehilangan pelanggan akibat giliran panjang",
-    "comparison.subtitle": "Lihat perbezaan yang QueueJoy buat merentasi industri",
+    "comparison.title": "Industri — hasil nyata, kemenangan pantas",
+    "comparison.subtitle": "Ubah menunggu daripada liabiliti menjadi kelebihan",
+    "comparison.description": "Lihat perbezaan yang QueueJoy buat merentasi industri",
     "comparison.hospital.title": "Hospital & Klinik",
     "comparison.hospital.old": "Menunggu lama untuk berjumpa doktor. Kakitangan uruskan giliran secara manual.",
     "comparison.hospital.new": "Pesakit sertai melalui Telegram atau kiosk. Lihat kedudukan & masa menunggu. Kurang tekanan dan kesesakan.",
@@ -286,12 +320,28 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.benefit2": "一键服务 — 更少混乱",
     "hero.benefit3": "实时位置 — 减少40%等待",
     
-    // About Dialog
-    "about.button": "关于QueueJoy",
-    "about.title": "关于QueueJoy",
-    "about.description": "嗨！我是Hong Jun，14岁，我构建了QueueJoy，让排队成为过去。\n\nQueueJoy将缓慢的传统队列转变为快速、现代、轻松的系统——无需昂贵的硬件，无需复杂的设置。员工可以专注于服务客户，每个人都享受更顺畅、无压力的体验。\n\n作为奖励，如果您采用QueueJoy，我将帮助在我的Instagram上推广您的业务，在您简化服务的同时为您的商店提供额外的曝光。",
-    "about.cta.ok": "明白了",
-    "about.cta.buy": "立即购买 - RM10/月",
+    // Click Me Dialog (About QueueJoy)
+    "clickme.button": "点我！",
+    "clickme.title": "关于QueueJoy",
+    "clickme.description": "嗨！我是Hong Jun，14岁，我构建了QueueJoy，让排队成为过去。\n\nQueueJoy将缓慢的传统队列转变为快速、现代、轻松的系统——无需昂贵的硬件，无需复杂的设置。员工可以专注于服务客户，每个人都享受更顺畅、无压力的体验。\n\n作为奖励，如果您采用QueueJoy，我将帮助在我的Instagram上推广您的业务，在您简化服务的同时为您的商店提供额外的曝光。",
+    "clickme.cta.ok": "明白了",
+    "clickme.cta.buy": "立即购买 - RM10/月",
+    
+    // Staff Counter Section
+    "staffcounter.badge": "闪电般快速",
+    "staffcounter.title": "快速员工柜台",
+    "staffcounter.subtitle": "一键'下一位客户' • 发送自动Telegram提醒",
+    "staffcounter.bullet1": "一键呼叫下一位客户",
+    "staffcounter.bullet2": "即时自动发送Telegram通知",
+    "staffcounter.cta": "查看柜台演示",
+    
+    // Admin Dashboard Section
+    "admindashboard.badge": "数据驱动",
+    "admindashboard.title": "管理仪表板",
+    "admindashboard.subtitle": "追踪队列、等待时间和高峰时段 • 立即做出更明智的决策",
+    "admindashboard.bullet1": "实时分析和队列指标",
+    "admindashboard.bullet2": "识别高峰时段并优化人员配置",
+    "admindashboard.cta": "查看仪表板演示",
     
     // Quick Benefits
     "quickbenefits.title": "轻松服务。即时洞察。",
