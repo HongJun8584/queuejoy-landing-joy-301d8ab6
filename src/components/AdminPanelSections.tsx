@@ -3,6 +3,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "./ui/button";
 import { ExternalLink, Play, X, Megaphone, Palette, BarChart3 } from "lucide-react";
 import announcementImg from "@/assets/announcement-system.png";
+import analyticsDashboard from "@/assets/analytics-dashboard.png";
 
 export const AdminPanelSections = () => {
   const { t } = useLanguage();
@@ -13,25 +14,39 @@ export const AdminPanelSections = () => {
   return (
     <div id="admin-panel">
       {/* Announcements Section */}
-      <section className="py-24 bg-muted/30 overflow-hidden">
+      <section className="py-24 bg-muted/30 overflow-hidden scroll-reveal">
         <div className="container mx-auto px-4">
+          {/* Horizontal Video Highlight - Top and Center */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div 
+              className="relative rounded-2xl overflow-hidden shadow-2xl bg-black cursor-pointer group"
+              onMouseEnter={(e) => {
+                const video = e.currentTarget.querySelector('video');
+                if (video) video.play();
+              }}
+              onMouseLeave={(e) => {
+                const video = e.currentTarget.querySelector('video');
+                if (video) {
+                  video.pause();
+                  video.currentTime = 0;
+                }
+              }}
+            >
+              <video
+                src="/demo/announcement-demo.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Media - Left */}
+            {/* Image - Left - balanced size */}
             <div className="space-y-6">
-              {/* Video - Landscape highlight */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black">
-                <video
-                  src="/demo/announcement-demo.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-auto"
-                />
-              </div>
-              
-              {/* Image */}
-              <div className="rounded-2xl overflow-hidden shadow-xl">
+              <div className="rounded-2xl overflow-hidden shadow-xl max-w-md mx-auto lg:mx-0">
                 <img
                   src={announcementImg}
                   alt="Direct Announcements to Customers"
@@ -75,7 +90,7 @@ export const AdminPanelSections = () => {
       </section>
 
       {/* Customization Section */}
-      <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background overflow-hidden scroll-reveal">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Content - Left */}
@@ -111,7 +126,20 @@ export const AdminPanelSections = () => {
 
             {/* Media - Right - Video shown on page */}
             <div className="space-y-6">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black">
+              <div 
+                className="relative rounded-2xl overflow-hidden shadow-2xl bg-black max-w-md mx-auto cursor-pointer group"
+                onMouseEnter={(e) => {
+                  const video = e.currentTarget.querySelector('video');
+                  if (video) video.play();
+                }}
+                onMouseLeave={(e) => {
+                  const video = e.currentTarget.querySelector('video');
+                  if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                  }
+                }}
+              >
                 <video
                   src="/demo/customization-demo.mp4"
                   autoPlay
@@ -127,7 +155,7 @@ export const AdminPanelSections = () => {
       </section>
 
       {/* Analytics Section */}
-      <section className="py-24 bg-muted/30 overflow-hidden">
+      <section className="py-24 bg-muted/30 overflow-hidden scroll-reveal">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <div className="flex items-center justify-center gap-3">
@@ -144,6 +172,15 @@ export const AdminPanelSections = () => {
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               {t("admin.analytics.desc")}
             </p>
+
+            {/* Analytics Dashboard Image - Horizontal */}
+            <div className="rounded-2xl overflow-hidden shadow-xl max-w-3xl mx-auto my-8">
+              <img
+                src={analyticsDashboard}
+                alt="Analytics Dashboard"
+                className="w-full h-auto hover:scale-105 transition-transform duration-500"
+              />
+            </div>
 
             <div className="flex flex-wrap gap-4 justify-center pt-4">
               <Button onClick={() => setShowAnalyticsModal(true)} size="lg" className="rounded-full">

@@ -15,25 +15,13 @@ export const StatusPageSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-muted/30 overflow-hidden">
+    <section className="py-24 bg-muted/30 overflow-hidden scroll-reveal">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Media - Left side */}
+          {/* Image - Left side (no video per request) */}
           <div className="space-y-6">
-            {/* Video - Landscape highlight at top */}
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-black">
-              <video
-                src="/demo/status-notification-demo.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-auto"
-              />
-            </div>
-            
-            {/* Landscape image */}
-            <div className="rounded-2xl overflow-hidden shadow-xl">
+            {/* Image only - balanced size */}
+            <div className="rounded-2xl overflow-hidden shadow-xl max-w-md mx-auto lg:mx-0">
               <img
                 src={telegramLinkingImg}
                 alt="Automatic Telegram Linking"
