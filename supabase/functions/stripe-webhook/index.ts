@@ -6,18 +6,57 @@ const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
   apiVersion: '2023-10-16',
 });
 
-const cryptoKey = await crypto.subtle.generateKey(
-  { name: 'AES-GCM', length: 256 },
-  true,
-  ['encrypt', 'decrypt']
-);
+// Structured logger with sanitization
+const logger = {
+  info: (message: string, context?: Record<string, unknown>) => {
+    const sanitized = sanitizeContext(context);
+    console.log(JSON.stringify({ 
+      level: 'info', 
+      message, 
+      timestamp: new Date().toISOString(), 
+      ...sanitized 
+    }));
+  },
+  error: (message: string, context?: Record<string, unknown>) => {
+    const sanitized = sanitizeContext(context);
+    console.error(JSON.stringify({ 
+      level: 'error', 
+      message, 
+      timestamp: new Date().toISOString(), 
+      ...sanitized 
+    }));
+  }
+};
+
+function sanitizeContext(context?: Record<string, unknown>): Record<string, unknown> {
+  if (!context) return {};
+  const sanitized = { ...context };
+  
+  // Truncate session IDs for privacy
+  if (typeof sanitized.session_id === 'string') {
+    sanitized.session_id = `${(sanitized.session_id as string).substring(0, 12)}...`;
+  }
+  if (typeof sanitized.subscription_id === 'string') {
+    sanitized.subscription_id = `${(sanitized.subscription_id as string).substring(0, 12)}...`;
+  }
+  if (typeof sanitized.customer_id === 'string') {
+    sanitized.customer_id = `${(sanitized.customer_id as string).substring(0, 12)}...`;
+  }
+  
+  // Never log secrets
+  delete sanitized.stripe_secret;
+  delete sanitized.webhook_secret;
+  delete sanitized.api_key;
+  
+  return sanitized;
+}
 
 serve(async (req) => {
   const signature = req.headers.get('stripe-signature');
   const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
 
   if (!signature || !webhookSecret) {
-    console.error('Missing signature or webhook secret');
+    logger.error('Missing signature or webhook secret');
     return new Response('Webhook signature missing', { status: 400 });
   }
 
@@ -25,7 +64,7 @@ serve(async (req) => {
     const body = await req.text();
     const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
 
-    console.log('Webhook event received:', event.type);
+    logger.info('Webhook event received', { event_type: event.type });
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -34,7 +73,7 @@ serve(async (req) => {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
       
-      console.log('Processing checkout session:', session.id);
+      logger.info('Processing checkout session', { session_id: session.id });
 
       // Store pending session - tenant will be created when user completes setup
       const { error: mappingError } = await supabase
@@ -46,18 +85,21 @@ serve(async (req) => {
         });
 
       if (mappingError) {
-        console.error('Error creating session mapping:', mappingError);
+        logger.error('Error creating session mapping', { session_id: session.id, error: mappingError.message });
         throw mappingError;
       }
 
-      console.log('Pending session created for:', session.id);
+      logger.info('Pending session created', { session_id: session.id });
     }
 
     if (event.type === 'customer.subscription.deleted' || 
         event.type === 'customer.subscription.updated') {
       const subscription = event.data.object as Stripe.Subscription;
       
-      console.log('Processing subscription event:', event.type);
+      logger.info('Processing subscription event', { 
+        event_type: event.type, 
+        subscription_id: subscription.id 
+      });
 
       const { error } = await supabase
         .from('tenants')
@@ -65,11 +107,11 @@ serve(async (req) => {
         .eq('stripe_subscription_id', subscription.id);
 
       if (error) {
-        console.error('Error updating tenant:', error);
+        logger.error('Error updating tenant', { subscription_id: subscription.id, error: error.message });
         throw error;
       }
 
-      console.log('Tenant updated for subscription:', subscription.id);
+      logger.info('Tenant updated', { subscription_id: subscription.id });
     }
 
     return new Response(JSON.stringify({ received: true }), {
@@ -77,10 +119,9 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error('Webhook error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    logger.error('Webhook error', { error: error instanceof Error ? error.message : 'Unknown error' });
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: 'Webhook processing failed' }),
       { status: 400 }
     );
   }
