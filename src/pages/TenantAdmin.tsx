@@ -9,6 +9,32 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Upload } from "lucide-react";
 import DOMPurify from 'dompurify';
 
+// File validation constants
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const ALLOWED_FILE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+const ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'svg'];
+
+// Validate file for upload
+function validateLogoFile(file: File): { valid: boolean; error?: string } {
+  // Check file size
+  if (file.size > MAX_FILE_SIZE) {
+    return { valid: false, error: 'Logo must be under 2MB' };
+  }
+  
+  // Check file type (MIME)
+  if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+    return { valid: false, error: 'Only PNG, JPEG, WebP, and SVG images are allowed' };
+  }
+  
+  // Check file extension as additional validation
+  const extension = file.name.split('.').pop()?.toLowerCase();
+  if (!extension || !ALLOWED_EXTENSIONS.includes(extension)) {
+    return { valid: false, error: 'Invalid file extension. Use PNG, JPG, JPEG, WebP, or SVG' };
+  }
+  
+  return { valid: true };
+}
+
 const TenantAdmin = () => {
   const { slug } = useParams();
   const [searchParams] = useSearchParams();
@@ -19,7 +45,12 @@ const TenantAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-  const [tenantData, setTenantData] = useState<any>(null);
+  const [tenantData, setTenantData] = useState<{
+    id?: string;
+    slug?: string;
+    settings?: Record<string, unknown>;
+    logo_url?: string;
+  } | null>(null);
   const [settings, setSettings] = useState<{
     business_name: string;
     welcome_text: string;
@@ -30,6 +61,7 @@ const TenantAdmin = () => {
     ads_html: '',
   });
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoError, setLogoError] = useState<string | null>(null);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -70,10 +102,11 @@ const TenantAdmin = () => {
         setAuthenticated(true);
         setTenantData(data.tenant);
         if (data.tenant.settings && typeof data.tenant.settings === 'object') {
+          const tenantSettings = data.tenant.settings as Record<string, unknown>;
           setSettings({
-            business_name: data.tenant.settings.business_name || '',
-            welcome_text: data.tenant.settings.welcome_text || '',
-            ads_html: data.tenant.settings.ads_html || '',
+            business_name: (tenantSettings.business_name as string) || '',
+            welcome_text: (tenantSettings.welcome_text as string) || '',
+            ads_html: (tenantSettings.ads_html as string) || '',
           });
         }
         setLoading(false);
@@ -87,6 +120,27 @@ const TenantAdmin = () => {
     verifyToken();
   }, [slug, token, toast, navigate]);
 
+  // Handle file selection with validation
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setLogoError(null);
+    
+    if (!file) {
+      setLogoFile(null);
+      return;
+    }
+    
+    const validation = validateLogoFile(file);
+    if (!validation.valid) {
+      setLogoError(validation.error || 'Invalid file');
+      setLogoFile(null);
+      e.target.value = ''; // Reset input
+      return;
+    }
+    
+    setLogoFile(file);
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -97,9 +151,15 @@ const TenantAdmin = () => {
 
       let logoUrl = tenantData?.logo_url;
 
-      // Upload logo if selected
+      // Upload logo if selected (already validated on selection)
       if (logoFile) {
-        const fileExt = logoFile.name.split('.').pop();
+        // Double-check validation before upload
+        const validation = validateLogoFile(logoFile);
+        if (!validation.valid) {
+          throw new Error(validation.error || 'Invalid logo file');
+        }
+        
+        const fileExt = logoFile.name.split('.').pop()?.toLowerCase();
         const fileName = `${slug}-${Date.now()}.${fileExt}`;
         const { error: uploadError } = await supabase.storage
           .from('tenant-logos')
@@ -188,6 +248,7 @@ const TenantAdmin = () => {
                 onChange={(e) => setSettings({ ...settings, business_name: e.target.value })}
                 placeholder="Your Business Name"
                 className="mt-2"
+                maxLength={100}
               />
             </div>
 
@@ -200,6 +261,7 @@ const TenantAdmin = () => {
                 placeholder="Welcome message for customers"
                 className="mt-2"
                 rows={3}
+                maxLength={200}
               />
             </div>
 
@@ -212,6 +274,7 @@ const TenantAdmin = () => {
                 placeholder="<p>Special offer today!</p>"
                 className="mt-2 font-mono text-sm"
                 rows={5}
+                maxLength={5000}
               />
               <p className="text-sm text-muted-foreground mt-1">
                 HTML will be sanitized for security. Allowed tags: p, br, b, i, u, strong, em, a, ul, ol, li, h1-h3
@@ -224,14 +287,19 @@ const TenantAdmin = () => {
                 <Input
                   id="logo"
                   type="file"
-                  accept="image/*"
-                  onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
+                  accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                  onChange={handleFileSelect}
                   className="flex-1"
                 />
                 <Upload className="w-5 h-5 text-muted-foreground" />
               </div>
+              {logoError && (
+                <p className="text-sm text-destructive mt-1">
+                  {logoError}
+                </p>
+              )}
               <p className="text-sm text-muted-foreground mt-1">
-                PNG, JPG or GIF (max 2MB)
+                PNG, JPG, WebP, or SVG (max 2MB)
               </p>
             </div>
 
@@ -239,7 +307,7 @@ const TenantAdmin = () => {
               variant="hero"
               size="lg"
               onClick={handleSave}
-              disabled={saving}
+              disabled={saving || !!logoError}
               className="w-full"
             >
               {saving ? (

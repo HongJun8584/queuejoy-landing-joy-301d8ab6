@@ -1,10 +1,71 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+// Allowed origins for CORS
+const allowedOrigins = [
+  'https://queuejoy.netlify.app',
+  'https://helloqueuejoy.netlify.app',
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const allowedOrigin = origin && allowedOrigins.includes(origin) 
+    ? origin 
+    : allowedOrigins[0];
+  
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Credentials': 'true',
+  };
+}
+
+// Structured logger with sanitization
+const logger = {
+  info: (message: string, context?: Record<string, unknown>) => {
+    const sanitized = sanitizeContext(context);
+    console.log(JSON.stringify({ 
+      level: 'info', 
+      message, 
+      timestamp: new Date().toISOString(), 
+      ...sanitized 
+    }));
+  },
+  error: (message: string, context?: Record<string, unknown>) => {
+    const sanitized = sanitizeContext(context);
+    console.error(JSON.stringify({ 
+      level: 'error', 
+      message, 
+      timestamp: new Date().toISOString(), 
+      ...sanitized 
+    }));
+  }
 };
+
+function sanitizeContext(context?: Record<string, unknown>): Record<string, unknown> {
+  if (!context) return {};
+  const sanitized = { ...context };
+  
+  if (typeof sanitized.slug === 'string' && (sanitized.slug as string).length > 20) {
+    sanitized.slug = `${(sanitized.slug as string).substring(0, 20)}...`;
+  }
+  if (typeof sanitized.token === 'string') {
+    sanitized.token = '[REDACTED]';
+  }
+  
+  return sanitized;
+}
+
+// Validate token format (64 hex characters)
+function validateTokenFormat(token: string): boolean {
+  return /^[a-f0-9]{64}$/i.test(token);
+}
+
+// Validate slug format
+function validateSlugFormat(slug: string): boolean {
+  if (!slug || typeof slug !== 'string') return false;
+  if (slug.length < 3 || slug.length > 50) return false;
+  return /^[a-z0-9-]+$/.test(slug);
+}
 
 // Basic HTML sanitization - strip script tags and dangerous attributes
 function sanitizeHtml(html: string): string {
@@ -29,6 +90,9 @@ function sanitizeHtml(html: string): string {
 }
 
 serve(async (req) => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -46,7 +110,29 @@ serve(async (req) => {
       );
     }
 
-    console.log('Updating tenant:', slug);
+    // Validate slug format
+    if (!validateSlugFormat(slug)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid credentials' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 401,
+        }
+      );
+    }
+
+    // Validate token format before hashing
+    if (!validateTokenFormat(token)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid credentials' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 401,
+        }
+      );
+    }
+
+    logger.info('Updating tenant', { slug });
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -68,7 +154,7 @@ serve(async (req) => {
       .single();
 
     if (authError || !tenant) {
-      console.error('Invalid admin credentials for update');
+      logger.error('Invalid admin credentials for update', { slug });
       return new Response(
         JSON.stringify({ error: 'Invalid credentials' }),
         {
@@ -101,7 +187,7 @@ serve(async (req) => {
     }
 
     // Update tenant
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString()
     };
 
@@ -119,7 +205,7 @@ serve(async (req) => {
       .eq('id', tenant.id);
 
     if (updateError) {
-      console.error('Error updating tenant:', updateError);
+      logger.error('Error updating tenant', { slug, error: updateError.message });
       return new Response(
         JSON.stringify({ error: 'Failed to update tenant' }),
         {
@@ -129,7 +215,7 @@ serve(async (req) => {
       );
     }
 
-    console.log('Tenant updated successfully');
+    logger.info('Tenant updated successfully', { slug });
 
     return new Response(
       JSON.stringify({ success: true }),
@@ -139,10 +225,9 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error updating tenant:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    logger.error('Error updating tenant', { error: error instanceof Error ? error.message : 'Unknown error' });
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: 'An error occurred' }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
