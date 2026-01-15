@@ -6,7 +6,7 @@ import { CounterPanelSection } from "@/components/CounterPanelSection";
 import { AdminPanelSections } from "@/components/AdminPanelSections";
 import { InteractiveDemo } from "@/components/InteractiveDemo";
 import { PricingComparison } from "@/components/PricingComparison";
-import { ComparisonSection } from "@/components/ComparisonSection";
+import { IndustriesSlider } from "@/components/IndustriesSlider";
 import HowItWorks from "@/components/HowItWorks";
 import { DemoVideoSection } from "@/components/DemoVideoSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
@@ -48,7 +48,7 @@ const Index = () => {
           <DemoVideoSection />
         </div>
         {/* Industries + How It Works moved ABOVE Interactive Demo */}
-        <ComparisonSection />
+        <IndustriesSlider />
         <div id="about">
           <HowItWorks />
         </div>
@@ -64,6 +64,9 @@ const Index = () => {
         </div>
         <div id="pricing">
           <PricingComparison />
+        </div>
+        <div id="checkout">
+          {/* Checkout section - scrolls to pricing which contains Stripe button */}
         </div>
         <FAQ />
         <div id="contact">
