@@ -37,8 +37,7 @@ export const IslandNav = ({ onSectionClick }: IslandNavProps) => {
     { id: "functions", label: t("nav.functions") },
     { id: "demo", label: t("nav.demo") },
     { id: "pricing", label: t("nav.pricing") },
-    { id: "contact", label: t("nav.contact") },
-    { id: "pricing", label: t("hero.cta.buy") || "Buy Now", isCta: true }
+    { id: "contact", label: t("nav.contact") }
   ];
 
   return (
@@ -73,10 +72,21 @@ export const IslandNav = ({ onSectionClick }: IslandNavProps) => {
               </button>
             ))}
             
+            {/* Buy Now CTA - Highlighted */}
+            <Button
+              variant="hero"
+              size="sm"
+              onClick={() => onSectionClick("checkout")}
+              className="ml-2 rounded-full px-4 font-bold shadow-lg hover:shadow-xl transition-shadow animate-pulse-subtle"
+              data-track="nav_buy_now"
+            >
+              {t("hero.cta.buy")}
+            </Button>
+            
             {/* Language Selector - Desktop */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 rounded-full px-3">
+                <Button variant="ghost" size="sm" className="gap-1.5 rounded-full px-3 ml-1">
                   <Globe className="h-4 w-4" />
                   <span className="text-xs">{languages.find(l => l.code === language)?.name}</span>
                 </Button>
@@ -97,6 +107,20 @@ export const IslandNav = ({ onSectionClick }: IslandNavProps) => {
 
           {/* Mobile - Language + Menu */}
           <div className="md:hidden flex items-center gap-1">
+            {/* Mobile Buy Now Button */}
+            <Button
+              variant="hero"
+              size="sm"
+              onClick={() => {
+                onSectionClick("checkout");
+                setMobileMenuOpen(false);
+              }}
+              className="rounded-full px-3 text-xs font-bold"
+              data-track="nav_buy_now_mobile"
+            >
+              {t("hero.cta.buy").split(" - ")[0]}
+            </Button>
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
@@ -140,6 +164,16 @@ export const IslandNav = ({ onSectionClick }: IslandNavProps) => {
                 {item.label}
               </button>
             ))}
+            {/* Mobile Buy Now in menu */}
+            <button
+              onClick={() => {
+                onSectionClick("checkout");
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left py-2.5 px-4 rounded-xl bg-primary text-primary-foreground font-bold mt-2"
+            >
+              {t("hero.cta.buy")}
+            </button>
           </div>
         )}
       </div>
