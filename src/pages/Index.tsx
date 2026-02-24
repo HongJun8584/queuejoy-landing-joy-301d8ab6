@@ -17,6 +17,8 @@ import AboutDialog from "@/components/AboutDialog";
 import { IslandNav } from "@/components/IslandNav";
 import { StickyClickMe } from "@/components/StickyClickMe";
 import { ReturnPopup } from "@/components/ReturnPopup";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
+import { StickyPurchasePanel } from "@/components/StickyPurchasePanel";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Index = () => {
@@ -28,16 +30,13 @@ const Index = () => {
       const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
   };
 
   return (
     <>
+      <ScrollProgressBar />
       <IslandNav onSectionClick={scrollToSection} />
       
       <main className="min-h-screen">
@@ -48,7 +47,6 @@ const Index = () => {
         <div id="demo">
           <DemoVideoSection />
         </div>
-        {/* Industries + How It Works moved ABOVE Interactive Demo */}
         <IndustriesSlider />
         <div id="about">
           <HowItWorks />
@@ -67,7 +65,7 @@ const Index = () => {
           <PricingComparison />
         </div>
         <div id="checkout">
-          {/* Checkout section - scrolls to pricing which contains Stripe button */}
+          {/* Scroll anchor for checkout — pricing has the Stripe button */}
         </div>
         <FAQ />
         <div id="contact">
@@ -77,6 +75,7 @@ const Index = () => {
         <AboutDialog />
         <StickyClickMe />
         <ReturnPopup />
+        <StickyPurchasePanel />
       </main>
     </>
   );

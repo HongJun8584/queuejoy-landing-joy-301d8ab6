@@ -80,7 +80,7 @@ export const AnimatedMetrics = () => {
     },
     {
       icon: Clock,
-      value: 10,
+      value: 3,
       suffix: " min",
       label: t("metrics.setup"),
       color: "text-accent",

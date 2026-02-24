@@ -1,6 +1,6 @@
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
 import { Button } from "./ui/button";
-import { Play } from "lucide-react";
+import { Play, Shield, Zap, MessageCircle } from "lucide-react";
 import heroPhoneMockup from "@/assets/hero-phone-mockup.png";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -38,47 +38,55 @@ const Hero = () => {
                 variant="hero" 
                 size="lg"
                 className="text-lg px-8 py-6 shadow-glow"
+                data-track="hero_cta_buy"
               />
               <Button
                 variant="outline"
                 size="lg"
                 onClick={scrollToDemo}
                 className="text-lg px-8 py-6 border-2 group"
+                data-track="hero_cta_demo"
               >
                 <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 {t("hero.cta.demo")}
               </Button>
             </div>
 
-            {/* Trust line */}
-            <p className="text-sm text-muted-foreground">
-              {t("hero.trust")}
-            </p>
+            {/* Trust line with guarantee */}
+            <div className="flex items-center gap-2 justify-center lg:justify-start text-sm text-muted-foreground">
+              <Shield className="w-4 h-4 text-green-500 flex-shrink-0" />
+              <p>{t("hero.trust")}</p>
+            </div>
 
-            {/* Micro-proof bullets */}
+            {/* Micro-proof bullets with icons */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
               <div className="flex items-center gap-2 justify-center lg:justify-start">
-                <div className="w-2 h-2 rounded-full bg-accent"></div>
+                <MessageCircle className="w-4 h-4 text-accent flex-shrink-0" />
                 <span className="text-sm">{t("hero.benefit1")}</span>
               </div>
               <div className="flex items-center gap-2 justify-center lg:justify-start">
-                <div className="w-2 h-2 rounded-full bg-accent"></div>
+                <Zap className="w-4 h-4 text-accent flex-shrink-0" />
                 <span className="text-sm">{t("hero.benefit2")}</span>
               </div>
               <div className="flex items-center gap-2 justify-center lg:justify-start">
-                <div className="w-2 h-2 rounded-full bg-accent"></div>
+                <div className="w-4 h-4 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-[10px] font-bold text-green-500">40</span>
+                </div>
                 <span className="text-sm">{t("hero.benefit3")}</span>
               </div>
             </div>
           </div>
 
           {/* Right: Hero mockup */}
-          <div className="relative animate-fade-up" style={{ animationDelay: "0.2s" }}>
+          <div className="relative animate-fade-up hidden md:block" style={{ animationDelay: "0.2s" }}>
             <div className="relative mx-auto max-w-md lg:max-w-lg">
               <img
                 src={heroPhoneMockup}
                 alt="QueueJoy Smart Queueing - Live queue status on mobile"
                 className="w-full h-auto drop-shadow-2xl hover-lift"
+                width={500}
+                height={700}
+                loading="eager"
               />
             </div>
           </div>
