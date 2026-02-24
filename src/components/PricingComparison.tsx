@@ -13,7 +13,7 @@ export const PricingComparison = () => {
     { name: t("pricing.feature.analytics"), queuejoy: true, others: "paid" },
     { name: t("pricing.feature.announcements"), queuejoy: true, others: false },
     { name: t("pricing.feature.customization"), queuejoy: true, others: "paid" },
-    { name: t("pricing.feature.setup"), queuejoy: "10 min", others: "1-2 days" },
+    { name: t("pricing.feature.setup"), queuejoy: "< 3 min", others: "1-2 days" },
     { name: t("pricing.feature.price"), queuejoy: "RM25/mo", others: "RM100+" },
   ];
 

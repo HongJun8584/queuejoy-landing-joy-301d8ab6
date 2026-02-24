@@ -121,6 +121,12 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.analytics.desc": "Track queues, wait times & peak hours. Make smarter decisions instantly with real-time analytics. Identify busy periods, optimize staffing, and improve customer flow with data-driven insights.",
     "admin.analytics.cta": "View Analytics",
     "admin.analytics.modalDesc": "Get insights into your queue performance and optimize your operations.",
+    "admin.analytics.benefit1.title": "Track Peak Hours",
+    "admin.analytics.benefit1.desc": "See exactly when your busiest times are and plan staff shifts accordingly to reduce wait times.",
+    "admin.analytics.benefit2.title": "Average Wait Time",
+    "admin.analytics.benefit2.desc": "Monitor how long customers wait and identify bottlenecks to improve service speed.",
+    "admin.analytics.benefit3.title": "Customer Flow",
+    "admin.analytics.benefit3.desc": "Understand customer patterns to optimize your operations and grow repeat visits.",
     "admin.liveDemo": "Live Demo",
     
     // Comparison
@@ -231,6 +237,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.email": "Your email",
     "contact.message": "Your message",
     "contact.send": "Send Message",
+    "contact.trustedTitle": "Trusted & Secure",
+    "contact.trustedDesc": "Uses secure Firebase backend. All secrets are kept server-side. Your data is protected.",
     
     // Footer
     "footer.tagline": "Smart queue management for modern businesses",
@@ -430,6 +438,12 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.analytics.title": "Papan Pemuka Analitik",
     "admin.analytics.desc": "Jejak barisan, masa menunggu & waktu puncak. Buat keputusan lebih pintar segera dengan analitik masa nyata.",
     "admin.analytics.cta": "Lihat Analitik",
+    "admin.analytics.benefit1.title": "Jejak Waktu Puncak",
+    "admin.analytics.benefit1.desc": "Lihat dengan tepat bila masa paling sibuk dan rancang kakitangan untuk kurangkan masa menunggu.",
+    "admin.analytics.benefit2.title": "Purata Masa Menunggu",
+    "admin.analytics.benefit2.desc": "Pantau berapa lama pelanggan menunggu dan kenal pasti kesesakan untuk tingkatkan kelajuan.",
+    "admin.analytics.benefit3.title": "Aliran Pelanggan",
+    "admin.analytics.benefit3.desc": "Fahami corak pelanggan untuk optimumkan operasi dan tingkatkan lawatan berulang.",
     "admin.liveDemo": "Demo Langsung",
     
     // Pricing
@@ -488,6 +502,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.email": "Emel anda",
     "contact.message": "Beritahu kami tentang keperluan anda",
     "contact.send": "Hantar Mesej",
+    "contact.trustedTitle": "Dipercayai & Selamat",
+    "contact.trustedDesc": "Menggunakan backend Firebase yang selamat. Semua kunci disimpan di pelayan. Data anda dilindungi.",
   },
   zh: {
     // Nav
@@ -666,6 +682,12 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.analytics.title": "分析面板",
     "admin.analytics.desc": "追踪队列、等待时间与高峰时段。借助实时分析做出更聪明的决策。",
     "admin.analytics.cta": "查看分析",
+    "admin.analytics.benefit1.title": "追踪高峰时段",
+    "admin.analytics.benefit1.desc": "精确了解最忙碌的时段，合理安排员工班次以减少等待时间。",
+    "admin.analytics.benefit2.title": "平均等待时间",
+    "admin.analytics.benefit2.desc": "监控客户等待时长，识别瓶颈以提升服务速度。",
+    "admin.analytics.benefit3.title": "客户流量",
+    "admin.analytics.benefit3.desc": "了解客户模式，优化运营并增加回头客。",
     "admin.liveDemo": "实时演示",
     
     // Pricing
@@ -724,6 +746,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.email": "电子邮件",
     "contact.message": "告诉我们你的需求",
     "contact.send": "发送信息",
+    "contact.trustedTitle": "受信赖与安全",
+    "contact.trustedDesc": "使用安全的 Firebase 后端。所有密钥保存在服务器端。你的数据受保护。",
   },
 };
 
