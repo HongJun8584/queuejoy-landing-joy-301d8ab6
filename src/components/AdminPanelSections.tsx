@@ -177,9 +177,45 @@ export const AdminPanelSections = () => {
               </div>
             </div>
 
+            {/* Analytics image slider */}
+            <div className="mb-10">
+              <AnalyticsSlider />
+            </div>
+
+            {/* Demo credentials card */}
+            <div className="max-w-2xl mx-auto mb-10 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <KeyRound className="w-5 h-5 text-primary" />
+                <h4 className="font-bold text-lg">{t("admin.demo.credentials.title")}</h4>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">{t("admin.demo.credentials.desc")}</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <button
+                  onClick={() => copy("admin@test.com", "email")}
+                  className="flex items-center justify-between gap-2 p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors text-left group"
+                >
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">{t("admin.demo.credentials.email")}</div>
+                    <div className="font-mono text-sm font-semibold truncate">admin@test.com</div>
+                  </div>
+                  {copied === "email" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary" />}
+                </button>
+                <button
+                  onClick={() => copy("123456", "password")}
+                  className="flex items-center justify-between gap-2 p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors text-left group"
+                >
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">{t("admin.demo.credentials.password")}</div>
+                    <div className="font-mono text-sm font-semibold truncate">123456</div>
+                  </div>
+                  {copied === "password" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary" />}
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <a href="https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer" data-track="analytics_live_demo">
+              <Button variant="hero" size="lg" className="rounded-full shadow-glow" asChild>
+                <a href={ADMIN_DEMO_URL} target="_blank" rel="noopener noreferrer" data-track="analytics_live_demo">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   {t("admin.liveDemo")}
                 </a>
