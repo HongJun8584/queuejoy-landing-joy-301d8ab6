@@ -59,31 +59,24 @@ export const StickyClickMe = () => {
     { 
       icon: ExternalLink, 
       label: t("sticky.status"), 
-      href: "https://queuejoy.netlify.app/status.html",
+      href: "https://queuejoy-live.netlify.app/index.html?slug=queuejoy-test-cafe-4",
       external: true
     },
     { 
       icon: ExternalLink, 
       label: t("sticky.counter"), 
-      href: "https://queuejoy.netlify.app/counter.html",
+      href: "https://queuejoy-live.netlify.app/counter.html?slug=queuejoy-test-cafe-4",
       external: true
     },
     { 
       icon: ExternalLink, 
       label: t("sticky.admin"), 
-      href: "https://queuejoy.netlify.app/admin.html",
+      href: "https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4",
       external: true
     },
   ];
 
-  const clickMeContent = `Hi! I'm Hong Jun, 14, and I built QueueJoy to help businesses like yours save time and keep customers happy. I can even promote your business on my Instagram to reach more people.
-
-Benefits of QueueJoy:
-• No more long lines – let customers join your queue digitally
-• Keep your customers informed with real-time updates
-• Boost customer satisfaction and loyalty
-• Easily track visits and manage your queue
-• Promote your business directly to my Instagram audience`;
+  const clickMeContent = t("clickme.founderPitch");
 
   return (
     <>

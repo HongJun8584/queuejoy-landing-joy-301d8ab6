@@ -1,14 +1,25 @@
 import { useState, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "./ui/button";
-import { ExternalLink, Play, X, Megaphone, Palette, BarChart3, TrendingUp, Clock, Users } from "lucide-react";
+import { ExternalLink, Play, X, Megaphone, Palette, BarChart3, TrendingUp, Clock, Users, KeyRound, Copy, Check } from "lucide-react";
 import announcementImg from "@/assets/announcement-system.png";
+import { AnalyticsSlider } from "./AnalyticsSlider";
+
+const ADMIN_DEMO_URL = "https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4";
 
 export const AdminPanelSections = () => {
   const { t } = useLanguage();
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [isAnnouncementPlaying, setIsAnnouncementPlaying] = useState(false);
   const [isCustomizePlaying, setIsCustomizePlaying] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(key);
+      setTimeout(() => setCopied(null), 1500);
+    });
+  };
   const announcementVideoRef = useRef<HTMLVideoElement>(null);
   const customizeVideoRef = useRef<HTMLVideoElement>(null);
 
@@ -51,7 +62,7 @@ export const AdminPanelSections = () => {
           {/* Video - Centered horizontally like demo video */}
           <div className="max-w-4xl mx-auto mb-8">
             <div 
-              className="relative rounded-2xl overflow-hidden shadow-2xl bg-black group cursor-pointer transition-all duration-500 hover:shadow-glow hover:scale-[1.01]"
+              className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 via-muted to-accent/20 group cursor-pointer transition-all duration-500 hover:shadow-glow hover:scale-[1.01] aspect-video"
               onClick={() => setShowAnnouncementModal(true)}
               onMouseEnter={() => handleVideoHover(announcementVideoRef, true, setIsAnnouncementPlaying)}
               onMouseLeave={() => handleVideoHover(announcementVideoRef, false, setIsAnnouncementPlaying)}
@@ -62,10 +73,10 @@ export const AdminPanelSections = () => {
                 muted
                 loop
                 playsInline
-                preload="none"
-                className="w-full h-auto aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
+                preload="metadata"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className={`absolute inset-0 flex items-center justify-center bg-black/40 transition-opacity duration-300 ${isAnnouncementPlaying ? 'opacity-0' : 'opacity-100'}`}>
+              <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/40 via-transparent to-transparent transition-opacity duration-300 ${isAnnouncementPlaying ? 'opacity-0' : 'opacity-100'}`}>
                 <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center shadow-glow">
                   <Play className="w-10 h-10 text-white fill-white ml-1" />
                 </div>
@@ -84,7 +95,7 @@ export const AdminPanelSections = () => {
               {t("admin.announcement.cta")}
             </Button>
             <Button variant="outline" size="lg" className="rounded-full" asChild>
-              <a href="https://queuejoy.netlify.app/admin.html" target="_blank" rel="noopener noreferrer" data-track="announcement_live_demo">
+              <a href="https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer" data-track="announcement_live_demo">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 {t("admin.liveDemo")}
               </a>
@@ -108,7 +119,7 @@ export const AdminPanelSections = () => {
               <p className="text-lg text-muted-foreground leading-relaxed">{t("admin.customize.desc")}</p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <Button variant="outline" size="lg" className="rounded-full" asChild>
-                  <a href="https://queuejoy.netlify.app/admin.html" target="_blank" rel="noopener noreferrer" data-track="customize_live_demo">
+                  <a href="https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer" data-track="customize_live_demo">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     {t("admin.liveDemo")}
                   </a>
@@ -117,13 +128,13 @@ export const AdminPanelSections = () => {
             </div>
 
             <div 
-              className="relative rounded-2xl overflow-hidden shadow-2xl bg-black group cursor-pointer"
+              className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-accent/20 via-muted to-primary/20 group cursor-pointer aspect-video"
               onMouseEnter={() => handleVideoHover(customizeVideoRef, true, setIsCustomizePlaying)}
               onMouseLeave={() => handleVideoHover(customizeVideoRef, false, setIsCustomizePlaying)}
             >
-              <video ref={customizeVideoRef} src="/demo/customization-demo.mp4" muted loop playsInline preload="none" className="w-full h-auto transition-transform duration-500 group-hover:scale-105" />
-              <div className={`absolute inset-0 flex items-center justify-center bg-black/40 transition-opacity duration-300 ${isCustomizePlaying ? 'opacity-0' : 'opacity-100'}`}>
-                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center">
+              <video ref={customizeVideoRef} src="/demo/customization-demo.mp4" muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/40 via-transparent to-transparent transition-opacity duration-300 ${isCustomizePlaying ? 'opacity-0' : 'opacity-100'}`}>
+                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-glow">
                   <Play className="w-8 h-8 text-white fill-white ml-1" />
                 </div>
               </div>
@@ -166,9 +177,45 @@ export const AdminPanelSections = () => {
               </div>
             </div>
 
+            {/* Analytics image slider */}
+            <div className="mb-10">
+              <AnalyticsSlider />
+            </div>
+
+            {/* Demo credentials card */}
+            <div className="max-w-2xl mx-auto mb-10 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <KeyRound className="w-5 h-5 text-primary" />
+                <h4 className="font-bold text-lg">{t("admin.demo.credentials.title")}</h4>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">{t("admin.demo.credentials.desc")}</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <button
+                  onClick={() => copy("admin@test.com", "email")}
+                  className="flex items-center justify-between gap-2 p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors text-left group"
+                >
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">{t("admin.demo.credentials.email")}</div>
+                    <div className="font-mono text-sm font-semibold truncate">admin@test.com</div>
+                  </div>
+                  {copied === "email" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary" />}
+                </button>
+                <button
+                  onClick={() => copy("123456", "password")}
+                  className="flex items-center justify-between gap-2 p-3 rounded-xl bg-background border border-border hover:border-primary/40 transition-colors text-left group"
+                >
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">{t("admin.demo.credentials.password")}</div>
+                    <div className="font-mono text-sm font-semibold truncate">123456</div>
+                  </div>
+                  {copied === "password" ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary" />}
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <a href="https://queuejoy.netlify.app/admin.html" target="_blank" rel="noopener noreferrer" data-track="analytics_live_demo">
+              <Button variant="hero" size="lg" className="rounded-full shadow-glow" asChild>
+                <a href={ADMIN_DEMO_URL} target="_blank" rel="noopener noreferrer" data-track="analytics_live_demo">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   {t("admin.liveDemo")}
                 </a>
@@ -192,7 +239,7 @@ export const AdminPanelSections = () => {
                 <video src="/demo/announcement-demo.mp4" controls autoPlay className="w-full" />
               </div>
               <Button asChild className="w-full rounded-xl" size="lg">
-                <a href="https://queuejoy.netlify.app/admin.html" target="_blank" rel="noopener noreferrer">
+                <a href="https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   {t("admin.liveDemo")}
                 </a>
