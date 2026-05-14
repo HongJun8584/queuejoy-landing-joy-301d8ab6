@@ -40,7 +40,7 @@ export const UserHomepageSection = () => {
                 {t("userpage.cta")}
               </Button>
               <Button variant="outline" size="lg" className="rounded-full" asChild>
-                <a href="https://queuejoy.netlify.app" target="_blank" rel="noopener noreferrer">
+                <a href="https://queuejoy-live.netlify.app/index.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   {t("userpage.liveDemo")}
                 </a>
@@ -104,7 +104,7 @@ export const UserHomepageSection = () => {
               </div>
               
               <Button asChild className="w-full rounded-xl" size="lg">
-                <a href="https://queuejoy.netlify.app" target="_blank" rel="noopener noreferrer">
+                <a href="https://queuejoy-live.netlify.app/index.html?slug=queuejoy-test-cafe-4" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   {t("userpage.liveDemo")}
                 </a>

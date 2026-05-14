@@ -59,19 +59,19 @@ export const StickyClickMe = () => {
     { 
       icon: ExternalLink, 
       label: t("sticky.status"), 
-      href: "https://queuejoy.netlify.app/status.html",
+      href: "https://queuejoy-live.netlify.app/index.html?slug=queuejoy-test-cafe-4",
       external: true
     },
     { 
       icon: ExternalLink, 
       label: t("sticky.counter"), 
-      href: "https://queuejoy.netlify.app/counter.html",
+      href: "https://queuejoy-live.netlify.app/counter.html?slug=queuejoy-test-cafe-4",
       external: true
     },
     { 
       icon: ExternalLink, 
       label: t("sticky.admin"), 
-      href: "https://queuejoy.netlify.app/admin.html",
+      href: "https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4",
       external: true
     },
   ];
