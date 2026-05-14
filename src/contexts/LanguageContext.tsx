@@ -269,6 +269,7 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.demo.credentials.desc": "Use these demo credentials to log into the live admin panel. Tap to copy.",
     "admin.demo.credentials.email": "Email",
     "admin.demo.credentials.password": "Password",
+  },
   ms: {
     // Nav
     "nav.home": "Laman Utama",
