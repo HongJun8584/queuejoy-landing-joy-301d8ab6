@@ -1,14 +1,25 @@
 import { useState, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "./ui/button";
-import { ExternalLink, Play, X, Megaphone, Palette, BarChart3, TrendingUp, Clock, Users } from "lucide-react";
+import { ExternalLink, Play, X, Megaphone, Palette, BarChart3, TrendingUp, Clock, Users, KeyRound, Copy, Check } from "lucide-react";
 import announcementImg from "@/assets/announcement-system.png";
+import { AnalyticsSlider } from "./AnalyticsSlider";
+
+const ADMIN_DEMO_URL = "https://queuejoy-live.netlify.app/admin.html?slug=queuejoy-test-cafe-4";
 
 export const AdminPanelSections = () => {
   const { t } = useLanguage();
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [isAnnouncementPlaying, setIsAnnouncementPlaying] = useState(false);
   const [isCustomizePlaying, setIsCustomizePlaying] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(key);
+      setTimeout(() => setCopied(null), 1500);
+    });
+  };
   const announcementVideoRef = useRef<HTMLVideoElement>(null);
   const customizeVideoRef = useRef<HTMLVideoElement>(null);
 
