@@ -76,14 +76,7 @@ export const StickyClickMe = () => {
     },
   ];
 
-  const clickMeContent = `Hi! I'm Hong Jun, 14, and I built QueueJoy to help businesses like yours save time and keep customers happy. I can even promote your business on my Instagram to reach more people.
-
-Benefits of QueueJoy:
-• No more long lines – let customers join your queue digitally
-• Keep your customers informed with real-time updates
-• Boost customer satisfaction and loyalty
-• Easily track visits and manage your queue
-• Promote your business directly to my Instagram audience`;
+  const clickMeContent = t("clickme.founderPitch");
 
   return (
     <>
