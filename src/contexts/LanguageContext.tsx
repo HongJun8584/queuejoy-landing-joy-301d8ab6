@@ -259,8 +259,16 @@ const translations: Record<Language, Record<string, string>> = {
     // Click Me
     "clickme.button": "Click Me!",
     "clickme.title": "About QueueJoy",
-    "clickme.description": "Hi! I'm Hong Jun, 14, and I built QueueJoy to make waiting in line a thing of the past.",
-  },
+    "clickme.description": "Hi, I'm Hong Jun — the 14-year-old founder behind QueueJoy. I built this to help real businesses cut wait times, keep customers happy, and look more professional. Every customer I work with also gets featured on my Instagram for extra exposure — that's my personal commitment to your growth.",
+    "clickme.cta.ok": "Maybe later",
+    "clickme.cta.buy": "Get QueueJoy",
+    "clickme.founderPitch": "Hi, I'm Hong Jun — the 14-year-old founder behind QueueJoy. I built this product to help real businesses run smoother, serve faster, and look more professional.\n\nWhy business owners choose QueueJoy:\n• Cut waiting time and reduce walkaways\n• Keep customers informed in real time via Telegram\n• Improve loyalty and repeat visits\n• Track every visit and manage your queue with ease\n• Free Instagram shoutout from me to boost your exposure",
+
+    // Admin demo credentials
+    "admin.demo.credentials.title": "Try the Admin Demo",
+    "admin.demo.credentials.desc": "Use these demo credentials to log into the live admin panel. Tap to copy.",
+    "admin.demo.credentials.email": "Email",
+    "admin.demo.credentials.password": "Password",
   ms: {
     // Nav
     "nav.home": "Laman Utama",
@@ -389,9 +397,18 @@ const translations: Record<Language, Record<string, string>> = {
     "popup.cta.no": "Tidak — Saya okay kehilangan pelanggan berulang",
     
     // Click Me
-    "clickme.button": "Klik Aku!",
+    "clickme.button": "Klik Saya!",
     "clickme.title": "Tentang QueueJoy",
-    
+    "clickme.description": "Hai, saya Hong Jun — pengasas QueueJoy berusia 14 tahun. Saya bina ini untuk membantu perniagaan sebenar mengurangkan masa menunggu, menggembirakan pelanggan, dan kelihatan lebih profesional. Setiap pelanggan saya juga akan dipromosikan di Instagram saya untuk pendedahan tambahan.",
+    "clickme.cta.ok": "Nanti dulu",
+    "clickme.cta.buy": "Dapatkan QueueJoy",
+    "clickme.founderPitch": "Hai, saya Hong Jun — pengasas QueueJoy berusia 14 tahun. Saya bina produk ini untuk membantu perniagaan sebenar berjalan lebih lancar, melayan lebih cepat, dan kelihatan lebih profesional.\n\nMengapa pemilik perniagaan memilih QueueJoy:\n• Kurangkan masa menunggu dan elakkan pelanggan beredar\n• Maklumkan pelanggan secara langsung melalui Telegram\n• Tingkatkan kesetiaan dan lawatan berulang\n• Jejak setiap lawatan dan urus barisan dengan mudah\n• Promosi percuma di Instagram saya untuk meningkatkan pendedahan",
+
+    // Admin demo credentials
+    "admin.demo.credentials.title": "Cuba Demo Pentadbir",
+    "admin.demo.credentials.desc": "Gunakan kelayakan demo ini untuk log masuk ke panel pentadbir langsung. Ketik untuk salin.",
+    "admin.demo.credentials.email": "Emel",
+    "admin.demo.credentials.password": "Kata Laluan",
     // User Page
     "userpage.badge": "Pengalaman Pengguna",
     "userpage.title": "Halaman Pengguna",
@@ -635,7 +652,16 @@ const translations: Record<Language, Record<string, string>> = {
     // Click Me
     "clickme.button": "点我！",
     "clickme.title": "关于 QueueJoy",
-    
+    "clickme.description": "你好，我是 Hong Jun —— QueueJoy 的 14 岁创始人。我打造这个产品，是为了帮助真实的商家缩短等待时间、留住顾客、让品牌看起来更专业。每位合作客户都会获得我在 Instagram 上的免费推广，帮助你触达更多人。",
+    "clickme.cta.ok": "稍后再说",
+    "clickme.cta.buy": "立即获取 QueueJoy",
+    "clickme.founderPitch": "你好，我是 Hong Jun —— QueueJoy 的 14 岁创始人。我打造这款产品，是为了帮助真实的商家运转得更顺畅、服务更快、形象更专业。\n\n商家选择 QueueJoy 的理由：\n• 缩短等待时间，减少顾客流失\n• 通过 Telegram 实时告知顾客\n• 提升忠诚度与回头率\n• 轻松追踪每一次到访并管理排队\n• 我会免费在我的 Instagram 上为你推广",
+
+    // Admin demo credentials
+    "admin.demo.credentials.title": "试用管理后台演示",
+    "admin.demo.credentials.desc": "使用以下演示凭证登录实时管理面板。点击复制。",
+    "admin.demo.credentials.email": "邮箱",
+    "admin.demo.credentials.password": "密码",
     // User Page
     "userpage.badge": "用户体验",
     "userpage.title": "用户页面",
