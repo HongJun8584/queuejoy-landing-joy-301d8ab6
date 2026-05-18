@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "./ui/button";
 import { ExternalLink, Play, X } from "lucide-react";
+import userPageImg from "@/assets/user-page-2.avif";
 
 export const UserHomepageSection = () => {
   const { t } = useLanguage();
@@ -53,28 +54,13 @@ export const UserHomepageSection = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 via-muted to-accent/20 group cursor-pointer aspect-video"
               onClick={() => setShowModal(true)}
             >
-              <video
-                src="/demo/user-homepage-demo.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
+              <img
+                src={userPageImg}
+                alt={t("userpage.title")}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                onMouseEnter={(e) => {
-                  e.currentTarget.muted = false;
-                  e.currentTarget.play();
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.muted = true;
-                  e.currentTarget.pause();
-                  e.currentTarget.currentTime = 0;
-                }}
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-opacity">
-                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-glow">
-                  <Play className="w-8 h-8 text-white fill-white ml-1" />
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -96,12 +82,7 @@ export const UserHomepageSection = () => {
               <p className="text-muted-foreground mb-6">{t("userpage.modalDesc")}</p>
               
               <div className="rounded-xl overflow-hidden mb-6">
-                <video
-                  src="/demo/user-homepage-demo.mp4"
-                  controls
-                  autoPlay
-                  className="w-full"
-                />
+                <img src={userPageImg} alt={t("userpage.title")} className="w-full" />
               </div>
               
               <Button asChild className="w-full rounded-xl" size="lg">
