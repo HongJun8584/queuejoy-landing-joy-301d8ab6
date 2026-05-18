@@ -59,10 +59,10 @@ export const StripeCheckoutButton = ({
       {loading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Loading...
+          {t("common.loading") || "Loading..."}
         </>
       ) : (
-        children
+        children ?? t("hero.cta.buy")
       )}
     </Button>
   );
