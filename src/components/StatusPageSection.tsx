@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "./ui/button";
 import { ExternalLink, Play, X, Bell, Smartphone, MessageCircle } from "lucide-react";
+import statusTelegramImg from "@/assets/status-telegram-linking-2.avif";
 
 export const StatusPageSection = () => {
   const { t } = useLanguage();
@@ -22,28 +23,13 @@ export const StatusPageSection = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-accent/20 via-muted to-primary/20 group cursor-pointer aspect-video"
               onClick={() => setShowModal(true)}
             >
-              <video
-                src="/demo/status-notification-demo.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
+              <img
+                src={statusTelegramImg}
+                alt={t("statuspage.title")}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                onMouseEnter={(e) => {
-                  e.currentTarget.muted = false;
-                  e.currentTarget.play();
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.muted = true;
-                  e.currentTarget.pause();
-                  e.currentTarget.currentTime = 0;
-                }}
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-opacity">
-                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-glow">
-                  <Play className="w-8 h-8 text-white fill-white ml-1" />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -106,12 +92,7 @@ export const StatusPageSection = () => {
               <p className="text-muted-foreground mb-6">{t("statuspage.modalDesc")}</p>
               
               <div className="rounded-xl overflow-hidden mb-6">
-                <video
-                  src="/demo/status-notification-demo.mp4"
-                  controls
-                  autoPlay
-                  className="w-full"
-                />
+                <img src={statusTelegramImg} alt={t("statuspage.title")} className="w-full" />
               </div>
               
               <Button asChild className="w-full rounded-xl" size="lg">
