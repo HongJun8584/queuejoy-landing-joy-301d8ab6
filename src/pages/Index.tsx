@@ -19,6 +19,8 @@ import { StickyClickMe } from "@/components/StickyClickMe";
 import { ReturnPopup } from "@/components/ReturnPopup";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import { StickyPurchasePanel } from "@/components/StickyPurchasePanel";
+import { WhyLessWaitSection } from "@/components/WhyLessWaitSection";
+import { FreeSetupHelp } from "@/components/FreeSetupHelp";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Index = () => {
@@ -52,6 +54,7 @@ const Index = () => {
           <HowItWorks />
         </div>
         <InteractiveDemo />
+        <WhyLessWaitSection />
         <div id="functions">
           <UserHomepageSection />
           <StatusPageSection />
@@ -64,6 +67,7 @@ const Index = () => {
         <div id="pricing">
           <PricingComparison />
         </div>
+        <FreeSetupHelp />
         <div id="checkout">
           {/* Scroll anchor for checkout — pricing has the Stripe button */}
         </div>

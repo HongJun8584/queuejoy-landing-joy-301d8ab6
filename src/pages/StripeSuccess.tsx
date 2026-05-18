@@ -6,9 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
-// Configuration
-const NETLIFY_BASE = "https://queuejoy.netlify.app";
+// Configuration — production live domain
+const NETLIFY_BASE = "https://queuejoy-live.netlify.app";
 const SITE_BASE = NETLIFY_BASE;
+const buildStatusUrl = (s: string) => `${NETLIFY_BASE}/index.html?slug=${encodeURIComponent(s)}`;
+const buildAdminUrl = (s: string) => `${NETLIFY_BASE}/admin.html?slug=${encodeURIComponent(s)}`;
+const buildCounterUrl = (s: string) => `${NETLIFY_BASE}/counter.html?slug=${encodeURIComponent(s)}`;
 
 interface TenantLinks {
   home: string;
@@ -246,8 +249,8 @@ const StripeSuccess = () => {
                   data-track="setup_input"
                   data-input-type="slug"
                 />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Your unique URL: {SITE_BASE}/<strong>{slug || 'yourslug'}</strong>
+                <p className="text-sm text-muted-foreground mt-1 break-all">
+                  Your unique URL: {buildStatusUrl(slug || 'yourslug')}
                 </p>
               </div>
 

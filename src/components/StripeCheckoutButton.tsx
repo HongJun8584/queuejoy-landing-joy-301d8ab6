@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StripeCheckoutButtonProps {
   variant?: "default" | "hero" | "outline";
@@ -13,14 +14,15 @@ interface StripeCheckoutButtonProps {
 
 const STRIPE_PRICE_ID = "price_1SPOROPXi3d3baj9hwUMnu0g";
 
-export const StripeCheckoutButton = ({ 
-  variant = "hero", 
+export const StripeCheckoutButton = ({
+  variant = "hero",
   size = "lg",
   className = "",
-  children = "Buy Now - RM25/month"
+  children,
 }: StripeCheckoutButtonProps) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -57,10 +59,10 @@ export const StripeCheckoutButton = ({
       {loading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          Loading...
+          {t("common.loading") || "Loading..."}
         </>
       ) : (
-        children
+        children ?? t("hero.cta.buy")
       )}
     </Button>
   );
