@@ -249,8 +249,8 @@ const StripeSuccess = () => {
                   data-track="setup_input"
                   data-input-type="slug"
                 />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Your unique URL: {SITE_BASE}/<strong>{slug || 'yourslug'}</strong>
+                <p className="text-sm text-muted-foreground mt-1 break-all">
+                  Your unique URL: {buildStatusUrl(slug || 'yourslug')}
                 </p>
               </div>
 
