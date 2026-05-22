@@ -269,15 +269,16 @@ serve(async (req) => {
 
     logger.info('Tenant created successfully', { slug });
 
-    const responseOrigin = origin || 'https://queuejoy.netlify.app';
-    const adminUrl = `${responseOrigin}/admin/${slug}?token=${adminToken}`;
-    const publicUrl = `${responseOrigin}/${slug}`;
-
+    const responseOrigin = 'https://queuejoy-live.netlify.app';
     return new Response(
       JSON.stringify({
         ok: true,
-        adminUrl,
-        publicUrl,
+        slug,
+        links: {
+          home: `${responseOrigin}/index.html?slug=${encodeURIComponent(slug)}`,
+          counter: `${responseOrigin}/counter.html?slug=${encodeURIComponent(slug)}`,
+          admin: `${responseOrigin}/admin.html?slug=${encodeURIComponent(slug)}&token=${encodeURIComponent(adminToken)}`,
+        },
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
