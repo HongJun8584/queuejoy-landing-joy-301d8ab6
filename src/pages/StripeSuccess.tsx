@@ -35,12 +35,11 @@ const StripeSuccess = () => {
   const { toast } = useToast();
   const sessionId = searchParams.get('session_id');
   
-  const [status, setStatus] = useState<'form' | 'submitting' | 'polling' | 'success' | 'error'>('form');
+  const [status, setStatus] = useState<'form' | 'submitting' | 'success' | 'error'>('form');
   const [slug, setSlug] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [links, setLinks] = useState<TenantLinks | null>(null);
-  const [pollCount, setPollCount] = useState(0);
 
   // Tutorial checklist state
   const [checklist, setChecklist] = useState({
@@ -50,38 +49,26 @@ const StripeSuccess = () => {
     downloadQr: false
   });
 
-  // Poll for tenant creation (fallback if webhook creates tenant)
+  // Restore prior provisioning result from sessionStorage on refresh (idempotency-friendly UX)
   useEffect(() => {
-    if (status !== 'polling' || !slug) return;
-
-    const pollInterval = setInterval(async () => {
-      try {
-        const res = await fetch(`/.netlify/functions/getBusiness?slug=${encodeURIComponent(slug)}`);
-        const data: SetupResponse = await res.json();
-        
-        if (data.ok && data.links) {
-          setLinks(data.links);
+    if (!sessionId) return;
+    try {
+      const cached = sessionStorage.getItem(`queuejoy:setup:${sessionId}`);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed?.links?.home && parsed?.slug) {
+          setSlug(parsed.slug);
+          setBusinessName(parsed.businessName || '');
+          setLinks(parsed.links);
           setStatus('success');
-          clearInterval(pollInterval);
-        } else {
-          setPollCount(prev => prev + 1);
-          if (pollCount >= 10) { // 20 seconds max (2s * 10)
-            clearInterval(pollInterval);
-            setErrorMessage('Setup is taking longer than expected. Please contact support.');
-            setStatus('error');
-          }
         }
-      } catch (err) {
-        console.error('Poll error:', err);
       }
-    }, 2000);
-
-    return () => clearInterval(pollInterval);
-  }, [status, slug, pollCount]);
+    } catch { /* ignore */ }
+  }, [sessionId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!sessionId) {
       setErrorMessage('Invalid session. Please contact support.');
       setStatus('error');
@@ -93,7 +80,6 @@ const StripeSuccess = () => {
       return;
     }
 
-    // Validate slug format
     const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-]/g, '');
     if (cleanSlug.length < 3 || cleanSlug.length > 50) {
       setErrorMessage('Slug must be 3-50 characters (letters, numbers, hyphens only)');
@@ -103,47 +89,48 @@ const StripeSuccess = () => {
     setStatus('submitting');
     setErrorMessage('');
 
+    console.log('[StripeSuccess] Invoking setup-tenant', { sessionId, slug: cleanSlug });
+
     try {
-      // Call Netlify function directly - NO MASTER KEY in browser
-      // The server should validate the Stripe session_id and create tenant
-      const res = await fetch(`/.netlify/functions/createBusiness`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-          // NO x-master-key here - browser must not contain secrets
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('setup-tenant', {
+        body: {
+          session_id: sessionId,
           slug: cleanSlug,
-          name: businessName,
-          session_id: sessionId, // Server validates this with Stripe
-          createdBy: 'stripe-checkout'
-        })
+          business_name: businessName,
+        },
       });
 
-      const data: SetupResponse = await res.json();
+      console.log('[StripeSuccess] setup-tenant response', { data, error });
 
-      if (!res.ok) {
-        if (res.status === 409 && data.exists && data.links) {
-          // Tenant already exists - show the links
-          setLinks(data.links);
-          setStatus('success');
-          return;
-        }
-        throw new Error(data.error || `Server error: ${res.status}`);
+      if (error) {
+        // Edge function errors include FunctionsHttpError with non-2xx; surface the message
+        const msg = (error as any)?.context?.error || error.message || 'Setup failed. Please try again.';
+        throw new Error(msg);
       }
 
-      if (data.ok && data.links) {
-        setLinks(data.links);
-        setStatus('success');
-      } else if (data.ok && !data.links) {
-        // Tenant creation started but links not ready yet - poll
-        setStatus('polling');
-      } else {
-        throw new Error(data.error || 'Setup failed');
+      const resp = data as SetupResponse | null;
+      if (!resp?.ok || !resp.links) {
+        throw new Error(resp?.error || 'Setup did not return links. Please contact support.');
       }
-    } catch (error: any) {
-      console.error('Setup error:', error);
-      setErrorMessage(error.message || 'Failed to create your system. Please try again.');
+
+      setLinks(resp.links);
+      setStatus('success');
+
+      // Cache for refresh resilience
+      try {
+        sessionStorage.setItem(`queuejoy:setup:${sessionId}`, JSON.stringify({
+          slug: resp.slug || cleanSlug,
+          businessName,
+          links: resp.links,
+        }));
+      } catch { /* ignore */ }
+
+      if (resp.exists) {
+        toast({ title: 'Already set up', description: 'Returning your existing links.' });
+      }
+    } catch (err: any) {
+      console.error('[StripeSuccess] Setup error', err);
+      setErrorMessage(err?.message || 'Failed to create your system. Please try again.');
       setStatus('error');
     }
   };
