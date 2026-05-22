@@ -262,18 +262,16 @@ const StripeSuccess = () => {
           </div>
         )}
 
-        {/* Submitting/Polling State */}
-        {(status === 'submitting' || status === 'polling') && (
+        {/* Submitting State */}
+        {status === 'submitting' && (
           <div className="bg-card p-8 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-primary/30 text-center">
             <Loader2 className="w-16 h-16 mx-auto mb-6 text-primary animate-spin" />
-            <h1 className="text-2xl font-bold mb-4">
-              {status === 'submitting' ? 'Creating your system...' : 'Setting up...'}
-            </h1>
+            <h1 className="text-2xl font-bold mb-4">Creating your system...</h1>
             <p className="text-muted-foreground">
               Setting up {businessName} at <span className="font-mono">{slug}</span>
             </p>
             <p className="text-sm text-muted-foreground mt-4">
-              This usually takes under 3 minutes.
+              This usually takes under 30 seconds.
             </p>
           </div>
         )}
