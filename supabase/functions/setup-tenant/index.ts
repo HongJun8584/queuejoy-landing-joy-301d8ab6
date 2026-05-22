@@ -1,21 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
-// Allowed origins for CORS
-const allowedOrigins = [
-  'https://queuejoy.netlify.app',
-  'https://helloqueuejoy.netlify.app',
-];
-
-function getCorsHeaders(origin: string | null): Record<string, string> {
-  const allowedOrigin = origin && allowedOrigins.includes(origin) 
-    ? origin 
-    : allowedOrigins[0];
-  
+// CORS — allow all origins for this provisioning endpoint (no cookies/credentials used)
+function getCorsHeaders(_origin: string | null): Record<string, string> {
   return {
-    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Access-Control-Allow-Credentials': 'true',
   };
 }
 
@@ -178,22 +168,42 @@ serve(async (req) => {
       );
     }
 
-    // Lookup session mapping
+    // Lookup session mapping (idempotent: refresh-safe)
     const { data: mapping, error: mappingError } = await supabase
       .from('sessions_map')
       .select('*')
       .eq('session_id', session_id)
-      .is('tenant_slug', null)
       .single();
 
     if (mappingError || !mapping) {
-      logger.error('Session not found or already claimed', { session_id });
+      logger.error('Session not found', { session_id });
       return new Response(
-        JSON.stringify({ error: 'Invalid session or already set up' }),
+        JSON.stringify({ error: 'Invalid session. Please contact support.' }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 404,
         }
+      );
+    }
+
+    // Idempotency: if this Stripe session already provisioned a tenant, return existing links
+    if (mapping.tenant_slug && mapping.admin_token) {
+      const responseOrigin = origin || 'https://queuejoy-live.netlify.app';
+      const existingSlug = mapping.tenant_slug;
+      const existingToken = mapping.admin_token;
+      logger.info('Idempotent hit: returning existing tenant links', { session_id, slug: existingSlug });
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          exists: true,
+          slug: existingSlug,
+          links: {
+            home: `${responseOrigin}/index.html?slug=${encodeURIComponent(existingSlug)}`,
+            counter: `${responseOrigin}/counter.html?slug=${encodeURIComponent(existingSlug)}`,
+            admin: `${responseOrigin}/admin.html?slug=${encodeURIComponent(existingSlug)}&token=${encodeURIComponent(existingToken)}`,
+          },
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
       );
     }
 
@@ -249,15 +259,16 @@ serve(async (req) => {
 
     logger.info('Tenant created successfully', { slug });
 
-    const responseOrigin = origin || 'https://queuejoy.netlify.app';
-    const adminUrl = `${responseOrigin}/admin/${slug}?token=${adminToken}`;
-    const publicUrl = `${responseOrigin}/${slug}`;
-
+    const responseOrigin = 'https://queuejoy-live.netlify.app';
     return new Response(
       JSON.stringify({
         ok: true,
-        adminUrl,
-        publicUrl,
+        slug,
+        links: {
+          home: `${responseOrigin}/index.html?slug=${encodeURIComponent(slug)}`,
+          counter: `${responseOrigin}/counter.html?slug=${encodeURIComponent(slug)}`,
+          admin: `${responseOrigin}/admin.html?slug=${encodeURIComponent(slug)}&token=${encodeURIComponent(adminToken)}`,
+        },
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
