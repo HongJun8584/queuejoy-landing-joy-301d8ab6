@@ -1,21 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
-// Allowed origins for CORS
-const allowedOrigins = [
-  'https://queuejoy.netlify.app',
-  'https://helloqueuejoy.netlify.app',
-];
-
-function getCorsHeaders(origin: string | null): Record<string, string> {
-  const allowedOrigin = origin && allowedOrigins.includes(origin) 
-    ? origin 
-    : allowedOrigins[0];
-  
+// CORS — allow all origins for this provisioning endpoint (no cookies/credentials used)
+function getCorsHeaders(_origin: string | null): Record<string, string> {
   return {
-    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Access-Control-Allow-Credentials': 'true',
   };
 }
 
