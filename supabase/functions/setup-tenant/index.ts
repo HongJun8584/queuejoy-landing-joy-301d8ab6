@@ -178,22 +178,42 @@ serve(async (req) => {
       );
     }
 
-    // Lookup session mapping
+    // Lookup session mapping (idempotent: refresh-safe)
     const { data: mapping, error: mappingError } = await supabase
       .from('sessions_map')
       .select('*')
       .eq('session_id', session_id)
-      .is('tenant_slug', null)
       .single();
 
     if (mappingError || !mapping) {
-      logger.error('Session not found or already claimed', { session_id });
+      logger.error('Session not found', { session_id });
       return new Response(
-        JSON.stringify({ error: 'Invalid session or already set up' }),
+        JSON.stringify({ error: 'Invalid session. Please contact support.' }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 404,
         }
+      );
+    }
+
+    // Idempotency: if this Stripe session already provisioned a tenant, return existing links
+    if (mapping.tenant_slug && mapping.admin_token) {
+      const responseOrigin = origin || 'https://queuejoy-live.netlify.app';
+      const existingSlug = mapping.tenant_slug;
+      const existingToken = mapping.admin_token;
+      logger.info('Idempotent hit: returning existing tenant links', { session_id, slug: existingSlug });
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          exists: true,
+          slug: existingSlug,
+          links: {
+            home: `${responseOrigin}/index.html?slug=${encodeURIComponent(existingSlug)}`,
+            counter: `${responseOrigin}/counter.html?slug=${encodeURIComponent(existingSlug)}`,
+            admin: `${responseOrigin}/admin.html?slug=${encodeURIComponent(existingSlug)}&token=${encodeURIComponent(existingToken)}`,
+          },
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
       );
     }
 
