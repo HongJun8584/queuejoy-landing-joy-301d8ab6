@@ -1044,7 +1044,7 @@ const translations: Record<Language, Record<string, string>> = {
     "lessWait.b3.title": "准时到达",
     "lessWait.b3.desc": "顾客在接近叫号时才出现 — 柜台不再拥挤。",
     "lessWait.b4.title": "员工服务，不再解释",
-    "lessWait.b4.desc": "减少"还要多久?"的提问，服务更顺畅。",
+    "lessWait.b4.desc": "减少「还要多久？」的提问，服务更顺畅。",
 
     // Free Setup Help
     "setupHelp.tag": "免费包含",
