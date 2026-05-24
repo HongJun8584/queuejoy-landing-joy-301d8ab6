@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Loader2, CheckCircle, XCircle, Copy, ExternalLink, Download, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
-// Configuration — production live domain (the deployed tenant app)
+// Configuration — production live domain (the deployed tenant app + Netlify functions host)
 const NETLIFY_BASE = "https://queuejoy-live.netlify.app";
-const SITE_BASE = NETLIFY_BASE;
+const CREATE_BUSINESS_ENDPOINT = `${NETLIFY_BASE}/.netlify/functions/createBusiness`;
+
 const buildStatusUrl = (s: string) => `${NETLIFY_BASE}/index.html?slug=${encodeURIComponent(s)}`;
-const buildAdminUrl = (s: string) => `${NETLIFY_BASE}/admin.html?slug=${encodeURIComponent(s)}`;
+const buildAdminUrl = (s: string, token?: string) =>
+  `${NETLIFY_BASE}/admin.html?slug=${encodeURIComponent(s)}${token ? `&token=${encodeURIComponent(token)}` : ""}`;
 const buildCounterUrl = (s: string) => `${NETLIFY_BASE}/counter.html?slug=${encodeURIComponent(s)}`;
 
 interface TenantLinks {
@@ -20,36 +21,59 @@ interface TenantLinks {
   admin: string;
 }
 
-interface SetupResponse {
-  ok: boolean;
-  slug: string;
+interface CreateBusinessResponse {
+  ok?: boolean;
+  tenantId?: string;
+  slug?: string;
+  adminToken?: string;
+  // legacy / alt shapes
   data?: any;
-  links?: TenantLinks;
-  exists?: boolean;
+  adminUrl?: string;
+  siteUrl?: string;
   error?: string;
+  message?: string;
+}
+
+// Stable idempotency key keyed by Stripe session_id (survives refresh + StrictMode double-mount)
+function getOrCreateIdempotencyKey(sessionId: string): string {
+  const storageKey = `queuejoy:idem:${sessionId}`;
+  try {
+    const existing = sessionStorage.getItem(storageKey);
+    if (existing) return existing;
+    const fresh =
+      (crypto as any)?.randomUUID?.() ??
+      `idem_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    sessionStorage.setItem(storageKey, fresh);
+    return fresh;
+  } catch {
+    return `idem_${sessionId}`;
+  }
 }
 
 const StripeSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const sessionId = searchParams.get('session_id');
-  
-  const [status, setStatus] = useState<'form' | 'submitting' | 'success' | 'error'>('form');
-  const [slug, setSlug] = useState('');
-  const [businessName, setBusinessName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const sessionId = searchParams.get("session_id");
+
+  const [status, setStatus] = useState<"form" | "submitting" | "success" | "error">("form");
+  const [slug, setSlug] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [links, setLinks] = useState<TenantLinks | null>(null);
 
-  // Tutorial checklist state
+  // Double-execution guard (React StrictMode / rapid clicks)
+  const submittingRef = useRef(false);
+
   const [checklist, setChecklist] = useState({
     openCustomer: false,
     openCounter: false,
     openAdmin: false,
-    downloadQr: false
+    downloadQr: false,
   });
 
-  // Restore prior provisioning result from sessionStorage on refresh (idempotency-friendly UX)
+  // Restore prior result on refresh
   useEffect(() => {
     if (!sessionId) return;
     try {
@@ -58,117 +82,162 @@ const StripeSuccess = () => {
         const parsed = JSON.parse(cached);
         if (parsed?.links?.home && parsed?.slug) {
           setSlug(parsed.slug);
-          setBusinessName(parsed.businessName || '');
+          setBusinessName(parsed.businessName || "");
           setLinks(parsed.links);
-          setStatus('success');
+          setStatus("success");
         }
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }, [sessionId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!sessionId) {
-      setErrorMessage('Invalid session. Please contact support.');
-      setStatus('error');
+      setErrorMessage("Invalid session. Please contact support.");
+      setStatus("error");
       return;
     }
 
     if (!slug || !businessName) {
-      setErrorMessage('Please fill in all fields');
+      setErrorMessage("Please fill in all required fields.");
       return;
     }
 
-    const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9-]/g, "");
     if (cleanSlug.length < 3 || cleanSlug.length > 50) {
-      setErrorMessage('Slug must be 3-50 characters (letters, numbers, hyphens only)');
+      setErrorMessage("Slug must be 3–50 characters (letters, numbers, hyphens).");
       return;
     }
 
-    setStatus('submitting');
-    setErrorMessage('');
+    // Guard against double-submission (StrictMode, retries, rapid clicks)
+    if (submittingRef.current) return;
+    submittingRef.current = true;
 
-    console.log('[StripeSuccess] Invoking setup-tenant', { sessionId, slug: cleanSlug });
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const idempotencyKey = getOrCreateIdempotencyKey(sessionId);
 
     try {
-      const { data, error } = await supabase.functions.invoke('setup-tenant', {
-        body: {
-          session_id: sessionId,
-          slug: cleanSlug,
-          business_name: businessName,
+      const res = await fetch(CREATE_BUSINESS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyKey,
         },
+        body: JSON.stringify({
+          businessName,
+          email: email || undefined,
+          desiredSlug: cleanSlug,
+          plan: "monthly_myr_25",
+          purchaseInfo: {
+            stripeSessionId: sessionId,
+            idempotencyKey,
+          },
+        }),
       });
 
-      console.log('[StripeSuccess] setup-tenant response', { data, error });
+      // Safe response handling — never assume JSON
+      const contentType = res.headers.get("content-type") || "";
+      const isJson = contentType.includes("application/json");
 
-      if (error) {
-        // Edge function errors include FunctionsHttpError with non-2xx; surface the message
-        const msg = (error as any)?.context?.error || error.message || 'Setup failed. Please try again.';
-        throw new Error(msg);
+      if (!res.ok) {
+        let serverMsg = "";
+        try {
+          serverMsg = isJson
+            ? (await res.json())?.error || (await Promise.resolve("")) // fallback chain
+            : (await res.text()).slice(0, 200);
+        } catch {
+          serverMsg = "";
+        }
+
+        if (res.status === 404) {
+          throw new Error(
+            "Setup service is temporarily unavailable (404). Please contact support — your payment is safe."
+          );
+        }
+        if (res.status === 409) {
+          throw new Error(serverMsg || "That slug is already taken. Please choose a different one.");
+        }
+        throw new Error(serverMsg || `Setup failed (HTTP ${res.status}). Please try again.`);
       }
 
-      const resp = data as SetupResponse | null;
-      if (!resp?.ok || !resp.links) {
-        throw new Error(resp?.error || 'Setup did not return links. Please contact support.');
+      if (!isJson) {
+        const text = await res.text();
+        console.error("[StripeSuccess] Non-JSON response:", text.slice(0, 200));
+        throw new Error("Setup service returned an unexpected response. Please contact support.");
       }
 
-      setLinks(resp.links);
-      setStatus('success');
+      const data: CreateBusinessResponse = await res.json();
+      const finalSlug = data.slug || cleanSlug;
+      const adminToken = data.adminToken;
 
-      // Cache for refresh resilience
+      const resolvedLinks: TenantLinks = {
+        home: buildStatusUrl(finalSlug),
+        counter: buildCounterUrl(finalSlug),
+        admin: buildAdminUrl(finalSlug, adminToken),
+      };
+
+      setLinks(resolvedLinks);
+      setStatus("success");
+
       try {
-        sessionStorage.setItem(`queuejoy:setup:${sessionId}`, JSON.stringify({
-          slug: resp.slug || cleanSlug,
-          businessName,
-          links: resp.links,
-        }));
-      } catch { /* ignore */ }
-
-      if (resp.exists) {
-        toast({ title: 'Already set up', description: 'Returning your existing links.' });
+        sessionStorage.setItem(
+          `queuejoy:setup:${sessionId}`,
+          JSON.stringify({
+            slug: finalSlug,
+            businessName,
+            tenantId: data.tenantId,
+            links: resolvedLinks,
+          })
+        );
+      } catch {
+        /* ignore */
       }
     } catch (err: any) {
-      console.error('[StripeSuccess] Setup error', err);
-      setErrorMessage(err?.message || 'Failed to create your system. Please try again.');
-      setStatus('error');
+      console.error("[StripeSuccess] createBusiness error:", err);
+      setErrorMessage(err?.message || "Failed to create your system. Please try again.");
+      setStatus("error");
+    } finally {
+      submittingRef.current = false;
     }
   };
 
   const handleSlugChange = (value: string) => {
-    const formatted = value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const formatted = value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
     setSlug(formatted);
   };
 
   const copyToClipboard = async (text: string, label: string) => {
     await navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied!",
-      description: `${label} copied to clipboard`
-    });
+    toast({ title: "Copied!", description: `${label} copied to clipboard` });
   };
 
-  const openLink = (url: string, type: 'customer' | 'counter' | 'admin') => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-    setChecklist(prev => ({
+  const openLink = (url: string, type: "customer" | "counter" | "admin") => {
+    window.open(url, "_blank", "noopener,noreferrer");
+    setChecklist((prev) => ({
       ...prev,
-      [type === 'customer' ? 'openCustomer' : type === 'counter' ? 'openCounter' : 'openAdmin']: true
+      [type === "customer" ? "openCustomer" : type === "counter" ? "openCounter" : "openAdmin"]: true,
     }));
   };
 
   const downloadQR = () => {
     if (!links?.home) return;
-    // Generate QR code URL using a public QR API
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(links.home)}`;
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = qrUrl;
     link.download = `queuejoy-${slug}-qr.png`;
     link.click();
-    setChecklist(prev => ({ ...prev, downloadQr: true }));
-    toast({
-      title: "QR Downloaded!",
-      description: "Print this QR code for customers to scan"
-    });
+    setChecklist((prev) => ({ ...prev, downloadQr: true }));
+    toast({ title: "QR Downloaded!", description: "Print this QR code for customers to scan" });
+  };
+
+  const handleRetry = () => {
+    setErrorMessage("");
+    setStatus("form");
   };
 
   if (!sessionId) {
@@ -180,7 +249,7 @@ const StripeSuccess = () => {
           <p className="text-muted-foreground mb-6">
             No payment session found. Please complete checkout first.
           </p>
-          <Button variant="outline" onClick={() => navigate('/')}>
+          <Button variant="outline" onClick={() => navigate("/")}>
             Return to Home
           </Button>
         </div>
@@ -191,15 +260,14 @@ const StripeSuccess = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-accent/5 to-background p-4 py-12">
       <div className="max-w-2xl mx-auto">
-        
         {/* Form State */}
-        {status === 'form' && (
+        {status === "form" && (
           <div className="bg-card p-8 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-primary/30">
             <div className="text-center mb-8">
               <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-500" />
               <h1 className="text-2xl font-bold mb-2">Payment Successful!</h1>
               <p className="text-muted-foreground">
-                Setup is under 3 minutes. Let's configure your QueueJoy system.
+                Setup takes under a minute. Let's configure your QueueJoy system.
               </p>
             </div>
 
@@ -215,11 +283,25 @@ const StripeSuccess = () => {
                   className="mt-2"
                   required
                   maxLength={100}
-                  data-track="setup_input"
-                  data-input-type="business_name"
                 />
                 <p className="text-sm text-muted-foreground mt-1">
-                  Your business name as it will appear to customers
+                  Shown to your customers on the queue page.
+                </p>
+              </div>
+
+              <div>
+                <Label htmlFor="email" className="text-base">Your Email <span className="text-muted-foreground text-sm">(optional)</span></Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@yourbusiness.com"
+                  className="mt-2"
+                  maxLength={120}
+                />
+                <p className="text-sm text-muted-foreground mt-1">
+                  Used for support and account recovery.
                 </p>
               </div>
 
@@ -234,11 +316,9 @@ const StripeSuccess = () => {
                   className="mt-2 font-mono"
                   required
                   maxLength={50}
-                  data-track="setup_input"
-                  data-input-type="slug"
                 />
                 <p className="text-sm text-muted-foreground mt-1 break-all">
-                  Your unique URL: {buildStatusUrl(slug || 'yourslug')}
+                  Your unique URL: {buildStatusUrl(slug || "yourslug")}
                 </p>
               </div>
 
@@ -254,46 +334,48 @@ const StripeSuccess = () => {
                 size="lg"
                 className="w-full"
                 disabled={!slug || !businessName}
-                data-track="setup_submit"
               >
-                Create My System
+                Launch My Queue System
               </Button>
             </form>
           </div>
         )}
 
         {/* Submitting State */}
-        {status === 'submitting' && (
+        {status === "submitting" && (
           <div className="bg-card p-8 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-primary/30 text-center">
             <Loader2 className="w-16 h-16 mx-auto mb-6 text-primary animate-spin" />
-            <h1 className="text-2xl font-bold mb-4">Creating your system...</h1>
+            <h1 className="text-2xl font-bold mb-4">Creating your system…</h1>
             <p className="text-muted-foreground">
-              Setting up {businessName} at <span className="font-mono">{slug}</span>
+              Setting up <span className="font-semibold">{businessName}</span> at{" "}
+              <span className="font-mono">{slug}</span>
             </p>
-            <p className="text-sm text-muted-foreground mt-4">
-              This usually takes under 30 seconds.
-            </p>
+            <ul className="text-sm text-muted-foreground mt-6 space-y-1 text-left max-w-xs mx-auto">
+              <li>✓ Verifying payment</li>
+              <li>✓ Creating your business</li>
+              <li>✓ Setting up database</li>
+              <li>✓ Generating queue pages</li>
+              <li>✓ Preparing your dashboard</li>
+            </ul>
           </div>
         )}
 
         {/* Success State */}
-        {status === 'success' && links && (
+        {status === "success" && links && (
           <div className="space-y-6">
-            {/* Header */}
             <div className="bg-card p-8 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-green-500/30 text-center">
               <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-500" />
               <h1 className="text-2xl font-bold mb-2 text-green-600">
-                Payment successful — now let's finish setup
+                You're live — welcome to QueueJoy
               </h1>
               <p className="text-muted-foreground">
-                Setup is under 3 minutes. Below are your links and quick steps.
+                Your business links are ready below. Bookmark them or print the QR code.
               </p>
             </div>
 
-            {/* Links Card */}
             <div className="bg-card p-6 rounded-2xl shadow-lg border border-border">
               <h2 className="text-lg font-bold mb-4">Your Live URLs</h2>
-              
+
               <div className="space-y-4">
                 {/* Customer Page */}
                 <div className="p-4 bg-muted/30 rounded-xl">
@@ -303,33 +385,17 @@ const StripeSuccess = () => {
                       <p className="text-xs text-muted-foreground truncate font-mono">{links.home}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => copyToClipboard(links.home, 'Customer page URL')}
-                        data-track="setup_link"
-                        data-link-type="customer"
-                        data-action="copy"
-                        data-slug={slug}
-                      >
+                      <Button size="sm" variant="outline" onClick={() => copyToClipboard(links.home, "Customer page URL")}>
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => openLink(links.home, 'customer')}
-                        data-track="setup_link"
-                        data-link-type="customer"
-                        data-action="open"
-                        data-slug={slug}
-                        aria-label="Open customer page — opens in new tab"
-                      >
+                      <Button size="sm" onClick={() => openLink(links.home, "customer")}>
                         <ExternalLink className="h-4 w-4 mr-1" />
                         Open
                       </Button>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Customer-facing queue page (what customers see when they scan QR)
+                    What customers see when they scan your QR code.
                   </p>
                 </div>
 
@@ -341,33 +407,17 @@ const StripeSuccess = () => {
                       <p className="text-xs text-muted-foreground truncate font-mono">{links.counter}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => copyToClipboard(links.counter, 'Counter page URL')}
-                        data-track="setup_link"
-                        data-link-type="counter"
-                        data-action="copy"
-                        data-slug={slug}
-                      >
+                      <Button size="sm" variant="outline" onClick={() => copyToClipboard(links.counter, "Counter page URL")}>
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => openLink(links.counter, 'counter')}
-                        data-track="setup_link"
-                        data-link-type="counter"
-                        data-action="open"
-                        data-slug={slug}
-                        aria-label="Open counter page — opens in new tab"
-                      >
+                      <Button size="sm" onClick={() => openLink(links.counter, "counter")}>
                         <ExternalLink className="h-4 w-4 mr-1" />
                         Open
                       </Button>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Full-screen counter for staff or display monitor
+                    Full-screen counter for staff or display monitor.
                   </p>
                 </div>
 
@@ -379,137 +429,73 @@ const StripeSuccess = () => {
                       <p className="text-xs text-muted-foreground truncate font-mono">{links.admin}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => copyToClipboard(links.admin, 'Admin page URL')}
-                        data-track="setup_link"
-                        data-link-type="admin"
-                        data-action="copy"
-                        data-slug={slug}
-                      >
+                      <Button size="sm" variant="outline" onClick={() => copyToClipboard(links.admin, "Admin page URL")}>
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => openLink(links.admin, 'admin')}
-                        data-track="setup_link"
-                        data-link-type="admin"
-                        data-action="open"
-                        data-slug={slug}
-                        aria-label="Open admin page — opens in new tab"
-                      >
+                      <Button size="sm" onClick={() => openLink(links.admin, "admin")}>
                         <ExternalLink className="h-4 w-4 mr-1" />
                         Open
                       </Button>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Manage queue, promotions, and customers here
+                    Manage queue, promotions, and customers here. Keep this link private.
                   </p>
                 </div>
               </div>
 
-              {/* Quick Actions */}
               <div className="flex gap-3 mt-6 flex-wrap">
-                <Button
-                  variant="hero"
-                  onClick={() => openLink(links.home, 'customer')}
-                  data-track="setup_primary_cta"
-                >
+                <Button variant="hero" onClick={() => openLink(links.home, "customer")}>
                   <Play className="h-4 w-4 mr-2" />
                   Try Live Preview
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={downloadQR}
-                  data-track="download_qr"
-                  data-slug={slug}
-                >
+                <Button variant="outline" onClick={downloadQR}>
                   <Download className="h-4 w-4 mr-2" />
                   Download QR (PNG)
                 </Button>
               </div>
             </div>
 
-            {/* Tutorial Checklist */}
+            {/* Checklist */}
             <div className="bg-card p-6 rounded-2xl shadow-lg border border-border">
               <h2 className="text-lg font-bold mb-4">Quick Setup Checklist</h2>
               <p className="text-sm text-muted-foreground mb-4">
-                Complete these steps to go live (under 3 minutes total)
+                Complete these to go live (under 3 minutes total).
               </p>
-              
+
               <div className="space-y-3">
-                <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${checklist.openCustomer ? 'bg-green-500/10' : 'bg-muted/30'}`}>
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checklist.openCustomer ? 'bg-green-500 text-white' : 'bg-primary/20 text-primary'}`}>
-                    {checklist.openCustomer ? '✓' : '1'}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">Open Customer page — Test Join Queue</p>
-                    <p className="text-xs text-muted-foreground">~1 minute</p>
-                  </div>
-                  <Button size="sm" variant="ghost" onClick={() => openLink(links.home, 'customer')}>
-                    Do it
-                  </Button>
-                </div>
-
-                <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${checklist.openCounter ? 'bg-green-500/10' : 'bg-muted/30'}`}>
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checklist.openCounter ? 'bg-green-500 text-white' : 'bg-primary/20 text-primary'}`}>
-                    {checklist.openCounter ? '✓' : '2'}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">Open Counter page — Press Start</p>
-                    <p className="text-xs text-muted-foreground">~1 minute</p>
-                  </div>
-                  <Button size="sm" variant="ghost" onClick={() => openLink(links.counter, 'counter')}>
-                    Do it
-                  </Button>
-                </div>
-
-                <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${checklist.openAdmin ? 'bg-green-500/10' : 'bg-muted/30'}`}>
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checklist.openAdmin ? 'bg-green-500 text-white' : 'bg-primary/20 text-primary'}`}>
-                    {checklist.openAdmin ? '✓' : '3'}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">Open Admin — Confirm business name & slug</p>
-                    <p className="text-xs text-muted-foreground">~30 seconds</p>
-                  </div>
-                  <Button size="sm" variant="ghost" onClick={() => openLink(links.admin, 'admin')}>
-                    Do it
-                  </Button>
-                </div>
-
-                <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${checklist.downloadQr ? 'bg-green-500/10' : 'bg-muted/30'}`}>
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checklist.downloadQr ? 'bg-green-500 text-white' : 'bg-primary/20 text-primary'}`}>
-                    {checklist.downloadQr ? '✓' : '4'}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">Download QR — Print or display</p>
-                    <p className="text-xs text-muted-foreground">~30 seconds</p>
-                  </div>
-                  <Button size="sm" variant="ghost" onClick={downloadQR}>
-                    Do it
-                  </Button>
-                </div>
-              </div>
-
-              {/* Payment method note */}
-              <div className="mt-6 p-4 bg-accent/10 rounded-lg">
-                <p className="text-sm font-medium">💳 Stripe Payment</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Instant activation. Recurring subscription supported. Your system is ready now!
-                </p>
+                {[
+                  { key: "openCustomer", label: "Open Customer page — test Join Queue", time: "~1 min", action: () => openLink(links.home, "customer") },
+                  { key: "openCounter", label: "Open Counter page — press Start", time: "~1 min", action: () => openLink(links.counter, "counter") },
+                  { key: "openAdmin", label: "Open Admin — confirm business name & slug", time: "~30 sec", action: () => openLink(links.admin, "admin") },
+                  { key: "downloadQr", label: "Download QR — print or display", time: "~30 sec", action: downloadQR },
+                ].map((item, i) => {
+                  const done = (checklist as any)[item.key];
+                  return (
+                    <div key={item.key} className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${done ? "bg-green-500/10" : "bg-muted/30"}`}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${done ? "bg-green-500 text-white" : "bg-primary/20 text-primary"}`}>
+                        {done ? "✓" : i + 1}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{item.label}</p>
+                        <p className="text-xs text-muted-foreground">{item.time}</p>
+                      </div>
+                      <Button size="sm" variant="ghost" onClick={item.action}>
+                        Do it
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Support */}
             <div className="text-center text-sm text-muted-foreground">
               <p>
-                Need help? Contact{' '}
+                Need help? Contact{" "}
                 <a href="mailto:hello.queuejoy@gmail.com" className="text-primary hover:underline">
                   hello.queuejoy@gmail.com
-                </a>
-                {' '}or WhatsApp{' '}
+                </a>{" "}
+                or WhatsApp{" "}
                 <a href="https://wa.me/60195055266" className="text-primary hover:underline">
                   019-505-5266
                 </a>
@@ -519,36 +505,33 @@ const StripeSuccess = () => {
         )}
 
         {/* Error State */}
-        {status === 'error' && (
+        {status === "error" && (
           <div className="bg-card p-8 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border-2 border-destructive/30 text-center">
             <XCircle className="w-16 h-16 mx-auto mb-6 text-destructive" />
-            <h1 className="text-2xl font-bold mb-4 text-destructive">Setup Failed</h1>
+            <h1 className="text-2xl font-bold mb-4 text-destructive">Setup Couldn't Finish</h1>
             <p className="text-muted-foreground mb-4">
-              {errorMessage || 'An error occurred while setting up your system.'}
+              {errorMessage || "An error occurred while setting up your system."}
             </p>
-            <p className="text-sm text-muted-foreground mb-6">
-              Your payment was successful. Please contact support with your order details.
+            <p className="text-sm text-muted-foreground mb-2">
+              Your payment is safe. You can retry below or contact support and we'll finish setup for you.
             </p>
+            {sessionId && (
+              <p className="text-xs text-muted-foreground mb-6 font-mono break-all">
+                Reference: {sessionId.slice(0, 16)}…
+              </p>
+            )}
             <div className="space-y-3">
-              <Button
-                variant="hero"
-                onClick={() => setStatus('form')}
-                className="w-full"
-              >
+              <Button variant="hero" onClick={handleRetry} className="w-full">
                 Try Again
               </Button>
               <Button
                 variant="outline"
-                onClick={() => window.location.href = 'mailto:hello.queuejoy@gmail.com'}
+                onClick={() => (window.location.href = "mailto:hello.queuejoy@gmail.com")}
                 className="w-full"
               >
                 Contact Support
               </Button>
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/')}
-                className="w-full"
-              >
+              <Button variant="ghost" onClick={() => navigate("/")} className="w-full">
                 Return to Home
               </Button>
             </div>
