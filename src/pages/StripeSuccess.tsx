@@ -276,10 +276,7 @@ const StripeSuccess = () => {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-base">
-                  {t("success.form.email")}{" "}
-                  <span className="text-muted-foreground text-sm">{t("success.form.emailOptional")}</span>
-                </Label>
+                <Label htmlFor="email" className="text-base">{t("success.form.email")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -287,9 +284,26 @@ const StripeSuccess = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("success.form.emailPlaceholder")}
                   className="mt-2"
+                  required
                   maxLength={120}
                 />
                 <p className="text-sm text-muted-foreground mt-1">{t("success.form.emailHelp")}</p>
+              </div>
+
+              <div>
+                <Label htmlFor="password" className="text-base">{t("success.form.password")}</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={t("success.form.passwordPlaceholder")}
+                  className="mt-2"
+                  required
+                  minLength={6}
+                  maxLength={120}
+                />
+                <p className="text-sm text-muted-foreground mt-1">{t("success.form.passwordHelp")}</p>
               </div>
 
               <div>
@@ -315,7 +329,7 @@ const StripeSuccess = () => {
                 </div>
               )}
 
-              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={!slug || !businessName}>
+              <Button type="submit" variant="hero" size="lg" className="w-full" disabled={!slug || !businessName || !email || !password}>
                 {t("success.form.submit")}
               </Button>
             </form>
