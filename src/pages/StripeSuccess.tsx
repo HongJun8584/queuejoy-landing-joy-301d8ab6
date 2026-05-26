@@ -132,7 +132,8 @@ const StripeSuccess = () => {
         },
         body: JSON.stringify({
           businessName,
-          email: email || undefined,
+          email,
+          password,
           desiredSlug: cleanSlug,
           plan: "monthly_myr_25",
           purchaseInfo: { stripeSessionId: sessionId, idempotencyKey },
