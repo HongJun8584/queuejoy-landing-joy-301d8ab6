@@ -55,10 +55,11 @@ const StripeSuccess = () => {
   const { t } = useLanguage();
   const sessionId = searchParams.get("session_id");
 
-  const [status, setStatus] = useState<"form" | "submitting" | "success" | "error">("form");
+  const [status, setStatus] = useState<"form" | "submitting" | "tutorial" | "success" | "error">("form");
   const [slug, setSlug] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [links, setLinks] = useState<TenantLinks | null>(null);
 
