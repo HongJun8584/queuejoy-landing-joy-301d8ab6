@@ -175,7 +175,7 @@ const StripeSuccess = () => {
       };
 
       setLinks(resolvedLinks);
-      setStatus("success");
+      setStatus("tutorial");
 
       try {
         sessionStorage.setItem(
