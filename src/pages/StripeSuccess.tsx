@@ -354,6 +354,35 @@ const StripeSuccess = () => {
           </div>
         )}
 
+        {status === "tutorial" && links && (
+          <div className="bg-card p-6 sm:p-8 rounded-2xl shadow-card border border-border">
+            <div className="text-center mb-6">
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t("success.tutorial.title")}</h1>
+              <p className="text-muted-foreground">{t("success.tutorial.subtitle")}</p>
+            </div>
+            <div className="relative w-full overflow-hidden rounded-xl border border-border bg-black aspect-video mb-6">
+              <video
+                src="/client_tutorial.mp4"
+                poster="/client_tutorial.avif"
+                controls
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 w-full h-full object-cover"
+                onEnded={() => {/* gentle hint only */}}
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button variant="hero" size="lg" className="w-full" onClick={() => setStatus("success")}>
+                {t("success.tutorial.continue")}
+              </Button>
+              <Button variant="outline" size="lg" className="w-full" onClick={() => setStatus("success")}>
+                {t("success.tutorial.skip")}
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground text-center mt-4">{t("success.tutorial.note")}</p>
+          </div>
+        )}
+
         {status === "success" && links && (
           <div className="space-y-6">
             <div className="bg-card p-6 sm:p-8 rounded-2xl shadow-card border border-green-500/30 text-center">
