@@ -99,8 +99,13 @@ const StripeSuccess = () => {
       return;
     }
 
-    if (!slug || !businessName) {
+    if (!slug || !businessName || !email || !password) {
       setErrorMessage(t("success.error.required"));
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage(t("success.error.password"));
       return;
     }
 
