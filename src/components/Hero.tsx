@@ -1,12 +1,17 @@
+import { useRef } from "react";
 import { StripeCheckoutButton } from "./StripeCheckoutButton";
 import { Button } from "./ui/button";
 import { Play, Shield, Zap, MessageCircle } from "lucide-react";
 import heroPhoneMockup from "@/assets/hero-phone-mockup.png";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Hero = () => {
   const { t } = useLanguage();
-  
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(heroRef, { threshold: 0.3, once: true });
+
   const scrollToDemo = () => {
     const demoSection = document.getElementById("demo");
     if (demoSection) {
@@ -18,11 +23,11 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-accent/10 pt-20">
+    <section id="hero" ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-accent/10 pt-20 reveal" data-revealed="false">
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           {/* Left: Copy + CTAs */}
-          <div className="text-center lg:text-left space-y-8 animate-fade-up">
+          <div className="text-center lg:text-left space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
                 <span className="text-gradient">{t("hero.headline")}</span>
