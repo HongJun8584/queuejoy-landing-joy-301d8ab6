@@ -13,10 +13,20 @@ interface VideoModalProps {
   isOpen: boolean;
   onClose: () => void;
   videoSrc: string;
+  title?: string;
+  autoPlay?: boolean;
+  showCta?: boolean;
 }
 
-export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
-  const [showCta, setShowCta] = useState(false);
+export const VideoModal = ({
+  isOpen,
+  onClose,
+  videoSrc,
+  title = "Watch How QueueJoy Works",
+  autoPlay = false,
+  showCta: initialShowCta = false,
+}: VideoModalProps) => {
+  const [showCta, setShowCta] = useState(initialShowCta);
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -72,16 +82,17 @@ export const VideoModal = ({ isOpen, onClose, videoSrc }: VideoModalProps) => {
       <DialogContent className="sm:max-w-5xl p-0 bg-gradient-to-br from-background via-background to-primary/5">
         <DialogHeader className="p-6 pb-2 bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border/50">
           <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Watch How QueueJoy Works
+            {title}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="relative p-4">
           <video
             ref={setVideoElement}
             className="w-full rounded-lg shadow-2xl border-2 border-primary/20"
             controls
             playsInline
+            autoPlay={autoPlay}
             preload="metadata"
             poster="/demo/queuejoy-poster.jpg"
           >
